@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f2f4f8; text-align: center; padding: 50px; }
+        h1 { color: #004d99; margin-bottom: 20px; }
+        a { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #0077cc; color: white; border-radius: 5px; text-decoration: none; }
+        a:hover { background: #005fa3; }
+    </style>
+</head>
+<body>
+    <h1>Bienvenido, {{ name }}!</h1>
+    <p>Accede a la agenda de conferencias:</p>
+    <a href="{{ url_for('agenda') }}">Ver Agenda</a>
+    <a href="{{ url_for('logout') }}" style="background:#dc3545;">Cerrar sesión</a>
+</body>
+</html>

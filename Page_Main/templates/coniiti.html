@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Información CONIITI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<div class="card">
+    <h2>📚 Info del Congreso CONIITI</h2>
+
+    <a href="{{ url_for('actualizar_coniiti') }}">
+        <button>🔄 Actualizar Información</button>
+    </a>
+
+    <hr>
+
+    {% for item in info %}
+        <h3>{{ item.titulo }}</h3>
+        <p>{{ item.descripcion }}</p>
+        <hr>
+    {% endfor %}
+
+    <a href="{{ url_for('dashboard') }}">
+        <button>⬅️ Volver</button>
+    </a>
+</div>
+
+</body>
+</html>

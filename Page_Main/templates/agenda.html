@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Agenda de la Conferencia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f4f8;
+            margin: 30px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #004d99;
+        }
+        .calendario {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .evento {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform 0.2s ease;
+        }
+        .evento:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+        .hora {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        .tipo {
+            background-color: #0077cc;
+            color: white;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            width: fit-content;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .titulo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #222;
+            min-height: 50px;
+        }
+        .ponente {
+            font-style: italic;
+            color: #555;
+        }
+        .nacionalidad {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: auto;
+        }
+        .nacionalidad img {
+            width: 35px;
+            height: 23px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            object-fit: cover;
+        }
+        .nacionalidad span {
+            font-weight: 600;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <h1>Agenda de la Conferencia</h1>
+    <div class="calendario">
+        {% for evento in calendario %}
+        <div class="evento">
+            <div class="hora">{{ evento.hora }}</div>
+            <div class="tipo">{{ evento.tipo }}</div>
+            <div class="titulo">{{ evento.titulo if evento.titulo else "Sin título" }}</div>
+            <div class="ponente">Ponente: {{ evento.ponente }}</div>
+            <div class="nacionalidad">
+                {% if evento.bandera %}
+                <img src="{{ evento.bandera }}" alt="Bandera de {{ evento.pais }}">
+                {% endif %}
+                <span>{{ evento.pais }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

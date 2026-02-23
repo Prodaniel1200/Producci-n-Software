@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Ponentes CONIITI</title>
+</head>
+<body>
+    <h1>Ponentes CONIITI (nacionales + internacionales)</h1>
+    <a href="{{ url_for('actualizar_ponentes') }}">Actualizar Ponentes</a>
+    <ul>
+    {% for ponente in ponentes %}
+        <li>{{ ponente.nombre }}</li>
+    {% endfor %}
+    </ul>
+    <a href="{{ url_for('dashboard') }}">Volver al Dashboard</a>
+</body>
+</html>
