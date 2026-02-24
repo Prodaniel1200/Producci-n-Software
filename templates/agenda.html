@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block title %}Agenda{% endblock %} {% block content %}
+<h2 class="mb-4">Agenda de Eventos</h2>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Hora</th>
+            <th>Tipo</th>
+            <th>Título</th>
+            <th>Ponente</th>
+            <th>País</th>
+            <th>Bandera</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for evento in calendario %}
+        <tr>
+            <td>{{ evento.hora }}</td>
+            <td>{{ evento.tipo }}</td>
+            <td>{{ evento.titulo }}</td>
+            <td>{{ evento.ponente }}</td>
+            <td>{{ evento.pais }}</td>
+            <td><img src="{{ evento.bandera }}" alt="{{ evento.pais }}" width="40"></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
