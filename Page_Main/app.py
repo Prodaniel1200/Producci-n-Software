@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, session, url_for, redirect, request, jsonify
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import random
 
@@ -103,6 +103,7 @@ def agenda():
         eventos.append(evento)
 
     return render_template("agenda.html", calendario=eventos)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

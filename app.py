@@ -1,9 +1,11 @@
-from flask import Flask, render_template, redirect, url_for, request, jsonify
+from flask import Flask, render_template, redirect, url_for, request, jsonify, session
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 import csv
 import requests
 from bs4 import BeautifulSoup
 import math
+import msal
+
 
 app = Flask(__name__)
 app.secret_key = "secretkey123"
@@ -261,6 +263,60 @@ def agenda():
         page=page,
         total_pages=total_pages
     )
+
+#automatizacion del calendario
+# CONFIGURACIÓN AZURE
+CLIENT_ID = 'TU_CLIENT_ID'
+CLIENT_SECRET = 'TU_SECRET_VALOR'
+TENANT_ID = 'TU_TENANT_ID'
+AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
+SCOPE = ["Calendars.ReadWrite", "User.Read"]
+
+def get_msal_app():
+    return msal.ConfidentialClientApplication(CLIENT_ID, authority=AUTHORITY, client_credential=CLIENT_SECRET)
+
+@app.route("/login-outlook")
+def login_outlook():
+    auth_url = get_msal_app().get_authorization_url(SCOPE, redirect_uri=url_for("callback", _external=True))
+    return redirect(auth_url)
+
+@app.route("/callback")
+def callback():
+    code = request.args.get('code')
+    result = get_msal_app().acquire_token_by_authorization_code(code, SCOPE, redirect_uri=url_for("callback", _external=True))
+    session["ms_token"] = result.get("access_token")
+    return redirect(url_for("dashboard"))
+
+@app.route("/crear-evento", methods=["POST"])
+def crear_evento():
+    token = session.get("ms_token")
+    if not token:
+        return jsonify({"error": "No autenticado en Outlook"}), 401
+    
+    data = request.json
+    
+    # Estructura del evento para Microsoft Graph
+    nuevo_evento = {
+        "subject": data['titulo'],
+        "body": {
+            "contentType": "HTML",
+            "content": f"<b>Ponente:</b> {data['ponente']}<br><b>Lugar:</b> {data['lugar']}<br><b>Detalles:</b> Ponencia programada desde el sistema de agenda."
+        },
+        "start": {"dateTime": data['inicio'], "timeZone": "SA Pacific Standard Time"},
+        "end": {"dateTime": data['fin'], "timeZone": "SA Pacific Standard Time"},
+        "location": {"displayName": data['lugar']},
+        "isReminderOn": True,
+        "reminderMinutesBeforeStart": 15
+    }
+
+    headers = {'Authorization': f'Bearer {token}', 'Content-Type': 'application/json'}
+    response = requests.post('https://graph.microsoft.com/v1.0/me/events', json=nuevo_evento, headers=headers)
+    
+    if response.status_code == 201:
+        return jsonify({"status": "success", "message": "Evento reservado en Outlook"})
+    return jsonify({"status": "error", "message": response.text}), 400
+#------------------------------------------------------------------------------------------------------------
+
 
 # -------------------- MAIN --------------------
 
