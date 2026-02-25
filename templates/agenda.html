@@ -1,27 +1,125 @@
-{% extends "base.html" %} {% block title %}Agenda{% endblock %} {% block content %}
-<h2 class="mb-4">Agenda de Eventos</h2>
-<table class="table table-striped table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>Hora</th>
-            <th>Tipo</th>
-            <th>Título</th>
-            <th>Ponente</th>
-            <th>País</th>
-            <th>Bandera</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for evento in calendario %}
-        <tr>
-            <td>{{ evento.hora }}</td>
-            <td>{{ evento.tipo }}</td>
-            <td>{{ evento.titulo }}</td>
-            <td>{{ evento.ponente }}</td>
-            <td>{{ evento.pais }}</td>
-            <td><img src="{{ evento.bandera }}" alt="{{ evento.pais }}" width="40"></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% extends "base.html" %}
+
+{% block title %}Agenda{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4 text-center"> Agenda Oficial del Evento</h2>
+
+<!-- ================= EVENTOS ================= -->
+
+{% for evento in eventos %}
+
+<div class="card mb-4 shadow-sm">
+
+    <div class="card-header d-flex justify-content-between align-items-center">
+
+        <div>
+            <strong>{{ evento.fecha }}</strong> |  {{ evento.hora }}
+        </div>
+
+        {% if evento.modalidad == "Presencial" %}
+            <span class="badge bg-primary">Presencial</span>
+        {% else %}
+            <span class="badge bg-success">Virtual</span>
+        {% endif %}
+
+    </div>
+
+    <div class="card-body">
+
+        <h5 class="card-title">{{ evento.tipo }} - {{ evento.titulo }}</h5>
+
+        <div class="d-flex align-items-center mt-3">
+            <img src="{{ url_for('static', filename=evento.ponente.bandera) }}" 
+                 alt="{{ evento.ponente.pais }}" 
+                 width="40" 
+                 class="me-3">
+
+            <div>
+                <strong>{{ evento.ponente.nombre }}</strong><br>
+                <small>{{ evento.ponente.pais }}</small>
+            </div>
+        </div>
+
+        {% if evento.modalidad == "Presencial" %}
+            <hr>
+            <p class="mb-1"><strong> Sede:</strong> {{ evento.sede }}</p>
+            <p class="mb-0"><strong> Salón:</strong> {{ evento.salon }}</p>
+        {% else %}
+            <hr>
+            <p class="text-success mb-0">
+                 Evento Virtual - Enlace enviado al correo registrado
+            </p>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+
+<!-- ================= PONENTES ================= -->
+
+<h3 class="mt-5 mb-4 text-center"> Ponentes</h3>
+
+<div class="row">
+
+{% for ponente in ponentes %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm text-center p-3">
+
+            <img src="{{ url_for('static', filename=ponente.bandera) }}" 
+                 alt="{{ ponente.pais }}" 
+                 width="60" 
+                 class="mx-auto mb-3">
+
+            <h5>{{ ponente.nombre }}</h5>
+            <p class="text-muted mb-0">{{ ponente.pais }}</p>
+
+        </div>
+    </div>
+{% endfor %}
+
+</div>
+
+
+<!-- ================= PAGINACIÓN ================= -->
+
+<nav aria-label="Paginación de ponentes">
+    <ul class="pagination justify-content-center mt-4">
+
+        <!-- Botón Anterior -->
+        {% if page > 1 %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('agenda', page=page-1) }}">⬅ Anterior</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">⬅ Anterior</span>
+        </li>
+        {% endif %}
+
+        <!-- Página Actual -->
+        <li class="page-item active">
+            <span class="page-link">
+                Página {{ page }} de {{ total_pages }}
+            </span>
+        </li>
+
+        <!-- Botón Siguiente -->
+        {% if page < total_pages %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('agenda', page=page+1) }}">Siguiente ➡</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">Siguiente ➡</span>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+
 {% endblock %}

@@ -1,30 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Información CONIITI</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
 
-<div class="card">
-    <h2>📚 Info del Congreso CONIITI</h2>
+{% block title %}CONIITI{% endblock %}
 
-    <a href="{{ url_for('actualizar_coniiti') }}">
-        <button>🔄 Actualizar Información</button>
-    </a>
+{% block content %}
 
-    <hr>
+<div class="container mt-4">
+    <h2 class="mb-4">Información oficial de CONIITI</h2>
 
-    {% for item in info %}
-        <h3>{{ item.titulo }}</h3>
-        <p>{{ item.descripcion }}</p>
-        <hr>
-    {% endfor %}
+    {% if datos.status == "ok" %}
 
-    <a href="{{ url_for('dashboard') }}">
-        <button>⬅️ Volver</button>
-    </a>
+        <h4>Títulos principales</h4>
+        <ul class="list-group mb-4">
+            {% for titulo in datos.titulos %}
+                <li class="list-group-item">{{ titulo }}</li>
+            {% endfor %}
+        </ul>
+
+        <h4>Descripción</h4>
+        {% for parrafo in datos.parrafos %}
+            <p>{{ parrafo }}</p>
+        {% endfor %}
+
+    {% else %}
+        <div class="alert alert-danger">
+            No se pudo cargar la información.
+        </div>
+    {% endif %}
+
 </div>
 
-</body>
-</html>
+{% endblock %}

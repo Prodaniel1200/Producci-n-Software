@@ -1,17 +1,65 @@
-from flask import Flask, render_template, redirect, url_for, request
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask import Flask, render_template, redirect, url_for, request, jsonify
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 import csv
-import random
+import requests
+from bs4 import BeautifulSoup
+import math
 
 app = Flask(__name__)
 app.secret_key = "secretkey123"
 
-# Flask-Login
+# -------------------- FLASK LOGIN --------------------
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-# Función para cargar usuarios desde CSV
+# -------------------- FUNCION SCRAPING CONIITI --------------------
+
+def obtener_datos_coniiti():
+    url = "https://coniiti.com/"
+
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "Accept-Language": "es-ES,es;q=0.9",
+    }
+
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        titulos = [h.get_text(strip=True) for h in soup.find_all(["h1", "h2"]) if h.get_text(strip=True)]
+        parrafos = [p.get_text(strip=True) for p in soup.find_all("p") if p.get_text(strip=True)]
+
+        return {
+            "titulos": titulos[:5],
+            "parrafos": parrafos[:5],
+            "status": "ok"
+        }
+
+    except requests.exceptions.RequestException as e:
+        return {
+            "error": "No se pudo conectar con el sitio",
+            "detalle": str(e)
+        }
+
+# -------------------- API ENDPOINT --------------------
+
+@app.route("/api/coniiti")
+@login_required
+def api_coniiti():
+    return jsonify(obtener_datos_coniiti())
+
+@app.route("/coniiti")
+@login_required
+def ver_coniiti():
+    datos = obtener_datos_coniiti()
+    return render_template("coniiti.html", datos=datos)
+
+# -------------------- CARGA USUARIOS --------------------
+
 def load_users():
     users = []
     try:
@@ -36,7 +84,7 @@ def load_user(user_id):
             return User(user_id)
     return None
 
-# -------------------- Rutas de login/logout/register --------------------
+# -------------------- LOGIN / LOGOUT / REGISTER --------------------
 
 @app.route("/")
 def index():
@@ -48,12 +96,14 @@ def login():
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
+
         for row in user_list:
             if row["email"] == email and row["password"] == password:
-                user = User(email)
-                login_user(user)
+                login_user(User(email))
                 return redirect(url_for("inicio"))
+
         error = "Correo o contraseña incorrectos"
+
     return render_template("login.html", error=error)
 
 @app.route("/logout")
@@ -65,25 +115,31 @@ def logout():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     error = None
+
     if request.method == "POST":
         name = request.form["name"]
         email = request.form["email"]
         password = request.form["password"]
+
         if any(u["email"] == email for u in user_list):
             error = "El correo ya está registrado"
         else:
             user_list.append({"email": email, "password": password, "name": name})
-            # Guardar en CSV
+
             with open('users.csv', 'a', newline='', encoding='utf-8') as csvfile:
                 fieldnames = ['email', 'password', 'name']
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
                 if csvfile.tell() == 0:
                     writer.writeheader()
+
                 writer.writerow({"email": email, "password": password, "name": name})
+
             return redirect(url_for("login"))
+
     return render_template("register.html", error=error)
 
-# -------------------- Rutas principales --------------------
+# -------------------- RUTAS PRINCIPALES --------------------
 
 @app.route("/inicio")
 @login_required
@@ -118,39 +174,95 @@ def acerca():
 def contacto():
     return render_template("contacto.html")
 
-# -------------------- Ruta Agenda --------------------
+# -------------------- AGENDA CON PAGINACIÓN --------------------
 
 @app.route("/agenda")
 @login_required
 def agenda():
-    ponentes = [
-        {"nombre": "Dra. Martínez", "pais": "México", "bandera": "https://s1.significados.com/foto/bandera-mexico.jpg?class=article"},
-        {"nombre": "Ing. Pérez", "pais": "Colombia", "bandera": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Colombia.svg/960px-Flag_of_Colombia.svg.png"},
-        {"nombre": "Dr. López", "pais": "Argentina", "bandera": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Flag_of_Argentina.svg/960px-Flag_of_Argentina.svg.png"},
-        {"nombre": "Dra. González", "pais": "España", "bandera": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Flag_of_Spain.svg/960px-Flag_of_Spain.svg.png"},
-        {"nombre": "Dr. Fernández", "pais": "Chile", "bandera": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Flag_of_Chile.svg/960px-Flag_of_Chile.svg.png"},
-        {"nombre": "Ing. Martínez", "pais": "Perú", "bandera": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Flag_of_Peru_%28state%29.svg/960px-Flag_of_Peru_%28state%29.svg.png"},
+
+    # -------- LISTA DE PONENTES --------
+    PONENTES = [
+        {"nombre": "Dra. Martínez", "pais": "México", "bandera": "banderas/mexico.png"},
+        {"nombre": "Ing. Pérez", "pais": "Colombia", "bandera": "banderas/colombia.png"},
+        {"nombre": "Dr. López", "pais": "Argentina", "bandera": "banderas/argentina.png"},
+        {"nombre": "Dr. Hans Müller", "pais": "Alemania", "bandera": "banderas/alemania.png"},
+        {"nombre": "Dr. Jean Dupont", "pais": "Francia", "bandera": "banderas/francia.png"},
+        {"nombre": "Ing. Carlos Silva", "pais": "Brasil", "bandera": "banderas/brasil.png"},
+        {"nombre": "Dra. Sofía Rodríguez", "pais": "Panamá", "bandera": "banderas/panama.png"},
+        {"nombre": "Dr. Ana Torres", "pais": "México", "bandera": "banderas/mexico.png"},
+        {"nombre": "Dr. Felipe Gómez", "pais": "Colombia", "bandera": "banderas/colombia.png"},
+        {"nombre": "Dr. Laura Sánchez", "pais": "Argentina", "bandera": "banderas/argentina.png"},
+        {"nombre": "Dr. Klaus Weber", "pais": "Alemania", "bandera": "banderas/alemania.png"},
+        {"nombre": "Dr. Marie Dubois", "pais": "Francia", "bandera": "banderas/francia.png"},
+        {"nombre": "Dr. Pedro Almeida", "pais": "Brasil", "bandera": "banderas/brasil.png"},
+        {"nombre": "Dr. Ricardo Castillo", "pais": "Panamá", "bandera": "banderas/panama.png"},
     ]
 
-    tipos_eventos = ["Conferencia", "Ponencia", "Taller"]
-    titulos_eventos = ["Innovación tecnológica", "Nuevas tendencias en IA", "Salud digital", 
-                       "Programación Python", "Blockchain en educación", "Ciberseguridad"]
-    horas = ["09:00 - 09:45", "10:00 - 10:30", "10:45 - 11:15", "11:30 - 12:15", "12:30 - 13:15", "14:00 - 14:45"]
+    # -------- PAGINACIÓN --------
+    page = request.args.get("page", 1, type=int)
+    per_page = 5
 
-    eventos = []
-    for i in range(len(horas)):
-        ponente = random.choice(ponentes)
-        evento = {
-            "hora": horas[i],
-            "tipo": random.choice(tipos_eventos),
-            "titulo": random.choice(titulos_eventos),
-            "ponente": ponente["nombre"],
-            "pais": ponente["pais"],
-            "bandera": ponente["bandera"]
+    total = len(PONENTES)
+    total_pages = math.ceil(total / per_page)
+
+    start = (page - 1) * per_page
+    end = start + per_page
+
+    ponentes_paginados = PONENTES[start:end]
+
+    # -------- EVENTOS --------
+    eventos = [
+        {
+            "fecha": "2026-05-10",
+            "hora": "09:00",
+            "tipo": "Conferencia",
+            "titulo": "Innovación tecnológica",
+            "ponente": PONENTES[0],
+            "modalidad": "Presencial",
+            "sede": "Claustro",
+            "salon": "Auditorio Principal"
+        },
+        {
+            "fecha": "2026-05-10",
+            "hora": "11:00",
+            "tipo": "Ponencia",
+            "titulo": "Nuevas tendencias en IA",
+            "ponente": PONENTES[3],
+            "modalidad": "Virtual",
+            "sede": None,
+            "salon": None
+        },
+        {
+            "fecha": "2026-05-11",
+            "hora": "08:30",
+            "tipo": "Taller",
+            "titulo": "Salud digital",
+            "ponente": PONENTES[2],
+            "modalidad": "Presencial",
+            "sede": "Sede 4",
+            "salon": "Salón 204"
+        },
+        {
+            "fecha": "2026-05-11",
+            "hora": "10:30",
+            "tipo": "Conferencia",
+            "titulo": "Transformación digital empresarial",
+            "ponente": PONENTES[4],
+            "modalidad": "Virtual",
+            "sede": None,
+            "salon": None
         }
-        eventos.append(evento)
+    ]
 
-    return render_template("agenda.html", calendario=eventos)
+    return render_template(
+        "agenda.html",
+        eventos=eventos,
+        ponentes=ponentes_paginados,
+        page=page,
+        total_pages=total_pages
+    )
+
+# -------------------- MAIN --------------------
 
 if __name__ == "__main__":
     app.run(debug=True)

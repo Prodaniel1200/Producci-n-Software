@@ -1,4 +1,29 @@
-{% extends "base.html" %} {% block title %}Inicio - Mi App{% endblock %} {% block content %}
-<h1>Bienvenido a la página de Inicio</h1>
-<p>Contenido principal de la página de inicio.</p>
+{% extends "base.html" %}
+
+{% block title %}Inicio - Mi App{% endblock %}
+
+{% block content %}
+
+<div class="inicio-fullscreen d-flex align-items-center">
+    <div class="container inicio-content">
+        <div class="row align-items-center">
+            
+            <!-- TEXTO Y BOTON LADO IZQUIERDO -->
+            <div class="col-md-6">
+                <h1>Bienvenido a CONIITI 2026</h1>
+                <p>Aquí puedes consultar toda la información del evento, agenda y ponentes.</p>
+                <a href="{{ url_for('agenda') }}" class="btn btn-primary btn-lg mt-3">Ver Agenda</a>
+            </div>
+
+            <!-- IMAGEN LADO DERECHO -->
+            <div class="col-md-6 text-center">
+                <img src="{{ url_for('static', filename='logos/ucat-coniiti.png') }}" 
+                     alt="UCAT - CONIITI" 
+                     class="img-fluid inicio-img">
+            </div>
+
+        </div>
+    </div>
+</div>
+
 {% endblock %}

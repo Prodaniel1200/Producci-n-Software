@@ -1,173 +1,184 @@
 /* =======================
-   COLORES PRINCIPALES
+   COLORES INSTITUCIONALES
    ======================= */
-
- :root {
+   :root {
     --uc-blue: #002147;
-    /* Azul oscuro Universidad Católica */
     --uc-yellow: #FFCC00;
-    /* Amarillo Universidad Católica */
+    --soft-bg: #eef2f7;
+    --card-bg: #ffffff;
+    --virtual-color: #28a745;
+    --presencial-color: #0d6efd;
 }
-
 
 /* =======================
-   BODY
+   BODY GENERAL
    ======================= */
-
 body {
-    background-color: #f8f9fa;
-    /* Gris claro de fondo */
+    background-color: var(--soft-bg);
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
+/* =======================
+   FONDO COMPLETO INICIO
+   ======================= */
+.inicio-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+
+    background: linear-gradient(135deg, var(--presencial-color), #ffffff);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: -1;
+}
+
+.inicio-content {
+    color: white;
+    text-align: left;
+    padding: 40px;
+}
 
 /* =======================
    NAVBAR
    ======================= */
-
-.navbar {
-    background-color: var(--uc-blue) !important;
-    /* Fondo azul oscuro */
+.custom-navbar {
+    background-color: var(--uc-yellow);
+    padding: 8px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.navbar .navbar-brand,
-.navbar .btn-outline-light {
-    color: var(--uc-yellow) !important;
-    /* Texto amarillo */
-    transition: color 0.3s ease;
+.navbar-logo, .navbar-title {
+    max-height: 45px !important;
+    width: auto !important;
+    margin-right: 10px;
 }
 
-.navbar .navbar-brand:hover,
-.navbar .btn-outline-light:hover {
+.navbar-brand img {
+    max-height: 45px !important;
+    width: auto !important;
+}
+
+/* Links */
+.nav-link {
+    color: var(--uc-blue) !important;
+    font-weight: 600;
+    margin-left: 20px;
+}
+
+.nav-link:hover {
     color: white !important;
-    /* Hover blanco */
 }
 
+/* Botones */
+.btn-outline-dark {
+    border-color: var(--uc-blue);
+    color: var(--uc-blue);
+}
+
+.btn-outline-dark:hover {
+    background-color: var(--uc-blue);
+    color: white;
+}
 
 /* =======================
-   CARD HEADER
+   AGENDA - BURBUJAS
    ======================= */
+.card {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    border: none;
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
 
 .card-header {
-    background-color: var(--uc-yellow) !important;
-    /* Fondo azul oscuro */
-    color: var(--uc-blue) !important;
-    /* Texto amarillo */
+    background-color: #f8f9fa;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Badges personalizados */
+.badge.bg-primary {
+    background-color: var(--presencial-color) !important;
+}
+
+.badge.bg-success {
+    background-color: var(--virtual-color) !important;
+}
+
+/* Texto sede */
+.card-body p strong {
+    color: var(--uc-blue);
+}
+
+/* =======================
+   LOGIN
+   ======================= */
+.login-body {
+    background: linear-gradient(135deg, var(--uc-blue), #001733);
+}
+
+.login-card {
+    width: 350px;
+    border-radius: 12px;
+}
+
+.login-header {
+    background-color: var(--uc-yellow);
+    color: var(--uc-blue);
     font-weight: bold;
 }
 
-
-/* =======================
-   BOTONES
-   ======================= */
-
-.btn-primary {
+.login-btn {
     background-color: var(--uc-blue);
-    /* Fondo azul */
-    border-color: var(--uc-blue);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    color: white;
+    border: none;
 }
 
-.btn-primary:hover {
+.login-btn:hover {
     background-color: var(--uc-yellow);
-    /* Hover amarillo */
     color: var(--uc-blue);
-    border-color: var(--uc-blue);
 }
-
-.btn-success {
-    background-color: var(--uc-yellow);
-    /* Fondo amarillo */
-    color: var(--uc-blue);
-    border-color: var(--uc-blue);
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.btn-success:hover {
-    background-color: var(--uc-blue);
-    /* Hover azul */
-    color: var(--uc-yellow);
-    border-color: var(--uc-yellow);
-}
-
-
-/* =======================
-   TABLAS
-   ======================= */
-
-.table-dark {
-    background-color: var(--uc-blue);
-    /* Fondo azul */
-    color: var(--uc-yellow);
-    /* Texto amarillo */
-}
-
-.table-striped>tbody>tr:nth-of-type(odd) {
-    background-color: rgba(0, 33, 71, 0.05);
-    /* Filas alternadas claras */
-}
-
-.table-hover>tbody>tr:hover {
-    background-color: rgba(255, 204, 0, 0.2);
-    /* Hover amarillo suave */
-}
-
 
 /* =======================
    TITULOS
    ======================= */
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3 {
     color: var(--uc-blue);
-    /* Azul oscuro */
 }
-
 
 /* =======================
-   ENLACES
+   IMAGEN INICIO (Dashboard)
    ======================= */
-
-a {
-    color: var(--uc-blue);
-    /* Azul oscuro */
-    transition: color 0.3s ease;
+.inicio-img {
+    max-width: 100%;
+    max-height: 50000px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-a:hover {
-    color: var(--uc-yellow);
-    /* Hover amarillo */
-    text-decoration: none;
-}
-
-
-/* =======================
-   CAMPOS DE FORMULARIO
-   ======================= */
-
-.form-control:focus {
-    border-color: var(--uc-blue);
-    /* Borde azul al enfocar */
-    box-shadow: 0 0 0 0.2rem rgba(0, 33, 71, 0.25);
-}
-
-
-/* =======================
-   SELECCION DE TEXTO
-   ======================= */
-
-::selection {
-    background-color: var(--uc-yellow);
-    /* Fondo amarillo al seleccionar */
-    color: var(--uc-blue);
-    /* Texto azul */
-}
-
-::-moz-selection {
-    background-color: var(--uc-yellow);
-    color: var(--uc-blue);
+/* Ajuste para que el texto y botón estén a la izquierda y no se centren */
+@media (min-width: 768px) {
+    .inicio-content .row {
+        align-items: center;
+    }
+    .inicio-content .col-md-6:first-child {
+        text-align: left;
+    }
+    .inicio-content .col-md-6:last-child {
+        text-align: center;
+    }
 }
