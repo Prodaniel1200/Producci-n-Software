@@ -1,0 +1,184 @@
+/* =======================
+   COLORES INSTITUCIONALES
+   ======================= */
+   :root {
+    --uc-blue: #002147;
+    --uc-yellow: #FFCC00;
+    --soft-bg: #eef2f7;
+    --card-bg: #ffffff;
+    --virtual-color: #28a745;
+    --presencial-color: #0d6efd;
+}
+
+/* =======================
+   BODY GENERAL
+   ======================= */
+body {
+    background-color: var(--soft-bg);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* =======================
+   FONDO COMPLETO INICIO
+   ======================= */
+.inicio-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+
+    background: linear-gradient(135deg, var(--presencial-color), #ffffff);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: -1;
+}
+
+.inicio-content {
+    color: white;
+    text-align: left;
+    padding: 40px;
+}
+
+/* =======================
+   NAVBAR
+   ======================= */
+.custom-navbar {
+    background-color: var(--uc-yellow);
+    padding: 8px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar-logo, .navbar-title {
+    max-height: 45px !important;
+    width: auto !important;
+    margin-right: 10px;
+}
+
+.navbar-brand img {
+    max-height: 45px !important;
+    width: auto !important;
+}
+
+/* Links */
+.nav-link {
+    color: var(--uc-blue) !important;
+    font-weight: 600;
+    margin-left: 20px;
+}
+
+.nav-link:hover {
+    color: white !important;
+}
+
+/* Botones */
+.btn-outline-dark {
+    border-color: var(--uc-blue);
+    color: var(--uc-blue);
+}
+
+.btn-outline-dark:hover {
+    background-color: var(--uc-blue);
+    color: white;
+}
+
+/* =======================
+   AGENDA - BURBUJAS
+   ======================= */
+.card {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    border: none;
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Badges personalizados */
+.badge.bg-primary {
+    background-color: var(--presencial-color) !important;
+}
+
+.badge.bg-success {
+    background-color: var(--virtual-color) !important;
+}
+
+/* Texto sede */
+.card-body p strong {
+    color: var(--uc-blue);
+}
+
+/* =======================
+   LOGIN
+   ======================= */
+.login-body {
+    background: linear-gradient(135deg, var(--uc-blue), #001733);
+}
+
+.login-card {
+    width: 350px;
+    border-radius: 12px;
+}
+
+.login-header {
+    background-color: var(--uc-yellow);
+    color: var(--uc-blue);
+    font-weight: bold;
+}
+
+.login-btn {
+    background-color: var(--uc-blue);
+    color: white;
+    border: none;
+}
+
+.login-btn:hover {
+    background-color: var(--uc-yellow);
+    color: var(--uc-blue);
+}
+
+/* =======================
+   TITULOS
+   ======================= */
+h1, h2, h3 {
+    color: var(--uc-blue);
+}
+
+/* =======================
+   IMAGEN INICIO (Dashboard)
+   ======================= */
+.inicio-img {
+    max-width: 100%;
+    max-height: 50000px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Ajuste para que el texto y botón estén a la izquierda y no se centren */
+@media (min-width: 768px) {
+    .inicio-content .row {
+        align-items: center;
+    }
+    .inicio-content .col-md-6:first-child {
+        text-align: left;
+    }
+    .inicio-content .col-md-6:last-child {
+        text-align: center;
+    }
+}
