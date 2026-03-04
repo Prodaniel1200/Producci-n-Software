@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Contacto{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+    <div class="row">
+
+        <!-- INFORMACIÓN DE CONTACTO -->
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-dark">
+                    <h4>Información de Contacto</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>Universidad Católica de Colombia</strong></p>
+                    <p>Teléfono:</p>
+                    <p><strong>(601) 4433700</strong></p>
+                    <p>Extensiones: 3130 / 60 / 90</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORMULARIO -->
+        <div class="col-md-7">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-dark">
+                    <h4>Envíanos un Mensaje</h4>
+                </div>
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+                            <label>Nombre:</label>
+                            <input type="text" name="nombre" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Correo:</label>
+                            <input type="email" name="correo" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Asunto:</label>
+                            <input type="text" name="asunto" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Mensaje (opcional):</label>
+                            <textarea name="mensaje" class="form-control" rows="4"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Enviar
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,11 +1,11 @@
-from flask import Flask, render_template, redirect, url_for, request, jsonify, session
+from flask import Flask, render_template, redirect, url_for, request, jsonify, session, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 import csv
 import requests
 from bs4 import BeautifulSoup
 import math
 import msal
-
+import os
 
 app = Flask(__name__)
 app.secret_key = "secretkey123"
@@ -20,7 +20,6 @@ login_manager.login_view = "login"
 
 def obtener_datos_coniiti():
     url = "https://coniiti.com/"
-
     headers = {
         "User-Agent": "Mozilla/5.0",
         "Accept-Language": "es-ES,es;q=0.9",
@@ -90,7 +89,7 @@ def load_user(user_id):
 
 @app.route("/")
 def index():
-    return redirect(url_for("inicio"))
+    return render_template("inicio.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -112,7 +111,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("login"))
+    return redirect(url_for("inicio"))
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -144,7 +143,6 @@ def register():
 # -------------------- RUTAS PRINCIPALES --------------------
 
 @app.route("/inicio")
-@login_required
 def inicio():
     return render_template("inicio.html")
 
@@ -172,17 +170,38 @@ def memoria2():
 def acerca():
     return render_template("acerca.html")
 
-@app.route("/contacto")
+# -------------------- CONTACTO (GUARDA EN CSV) --------------------
+
+@app.route("/contacto", methods=["GET", "POST"])
 def contacto():
+
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        correo = request.form["correo"]
+        asunto = request.form["asunto"]
+        mensaje = request.form.get("mensaje", "")
+
+        archivo = "infopagweb.csv"
+        existe = os.path.isfile(archivo)
+
+        with open(archivo, mode="a", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+
+            if not existe:
+                writer.writerow(["Nombre", "Correo", "Asunto", "Mensaje"])
+
+            writer.writerow([nombre, correo, asunto, mensaje])
+
+        flash("Mensaje enviado correctamente ✅")
+        return redirect(url_for("contacto"))
+
     return render_template("contacto.html")
 
 # -------------------- AGENDA CON PAGINACIÓN --------------------
 
 @app.route("/agenda")
-@login_required
 def agenda():
 
-    # -------- LISTA DE PONENTES --------
     PONENTES = [
         {"nombre": "Dra. Martínez", "pais": "México", "bandera": "banderas/mexico.png"},
         {"nombre": "Ing. Pérez", "pais": "Colombia", "bandera": "banderas/colombia.png"},
@@ -200,7 +219,6 @@ def agenda():
         {"nombre": "Dr. Ricardo Castillo", "pais": "Panamá", "bandera": "banderas/panama.png"},
     ]
 
-    # -------- PAGINACIÓN --------
     page = request.args.get("page", 1, type=int)
     per_page = 5
 
@@ -212,49 +230,18 @@ def agenda():
 
     ponentes_paginados = PONENTES[start:end]
 
-    # -------- EVENTOS --------
-    eventos = [
-        {
+    eventos = []
+    for i, ponente in enumerate(ponentes_paginados):
+        eventos.append({
             "fecha": "2026-05-10",
-            "hora": "09:00",
+            "hora": f"{9 + i}:00",
             "tipo": "Conferencia",
             "titulo": "Innovación tecnológica",
-            "ponente": PONENTES[0],
+            "ponente": ponente,
             "modalidad": "Presencial",
             "sede": "Claustro",
-            "salon": "Auditorio Principal"
-        },
-        {
-            "fecha": "2026-05-10",
-            "hora": "11:00",
-            "tipo": "Ponencia",
-            "titulo": "Nuevas tendencias en IA",
-            "ponente": PONENTES[3],
-            "modalidad": "Virtual",
-            "sede": None,
-            "salon": None
-        },
-        {
-            "fecha": "2026-05-11",
-            "hora": "08:30",
-            "tipo": "Taller",
-            "titulo": "Salud digital",
-            "ponente": PONENTES[2],
-            "modalidad": "Presencial",
-            "sede": "Sede 4",
-            "salon": "Salón 204"
-        },
-        {
-            "fecha": "2026-05-11",
-            "hora": "10:30",
-            "tipo": "Conferencia",
-            "titulo": "Transformación digital empresarial",
-            "ponente": PONENTES[4],
-            "modalidad": "Virtual",
-            "sede": None,
-            "salon": None
-        }
-    ]
+            "salon": f"Auditorio {i+1}"
+        })
 
     return render_template(
         "agenda.html",
@@ -264,8 +251,8 @@ def agenda():
         total_pages=total_pages
     )
 
-#automatizacion del calendario
-# CONFIGURACIÓN AZURE
+# -------------------- OUTLOOK --------------------
+
 CLIENT_ID = 'TU_CLIENT_ID'
 CLIENT_SECRET = 'TU_SECRET_VALOR'
 TENANT_ID = 'TU_TENANT_ID'
@@ -273,50 +260,30 @@ AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
 SCOPE = ["Calendars.ReadWrite", "User.Read"]
 
 def get_msal_app():
-    return msal.ConfidentialClientApplication(CLIENT_ID, authority=AUTHORITY, client_credential=CLIENT_SECRET)
+    return msal.ConfidentialClientApplication(
+        CLIENT_ID,
+        authority=AUTHORITY,
+        client_credential=CLIENT_SECRET
+    )
 
 @app.route("/login-outlook")
 def login_outlook():
-    auth_url = get_msal_app().get_authorization_url(SCOPE, redirect_uri=url_for("callback", _external=True))
+    auth_url = get_msal_app().get_authorization_url(
+        SCOPE,
+        redirect_uri=url_for("callback", _external=True)
+    )
     return redirect(auth_url)
 
 @app.route("/callback")
 def callback():
     code = request.args.get('code')
-    result = get_msal_app().acquire_token_by_authorization_code(code, SCOPE, redirect_uri=url_for("callback", _external=True))
+    result = get_msal_app().acquire_token_by_authorization_code(
+        code,
+        SCOPE,
+        redirect_uri=url_for("callback", _external=True)
+    )
     session["ms_token"] = result.get("access_token")
-    return redirect(url_for("dashboard"))
-
-@app.route("/crear-evento", methods=["POST"])
-def crear_evento():
-    token = session.get("ms_token")
-    if not token:
-        return jsonify({"error": "No autenticado en Outlook"}), 401
-    
-    data = request.json
-    
-    # Estructura del evento para Microsoft Graph
-    nuevo_evento = {
-        "subject": data['titulo'],
-        "body": {
-            "contentType": "HTML",
-            "content": f"<b>Ponente:</b> {data['ponente']}<br><b>Lugar:</b> {data['lugar']}<br><b>Detalles:</b> Ponencia programada desde el sistema de agenda."
-        },
-        "start": {"dateTime": data['inicio'], "timeZone": "SA Pacific Standard Time"},
-        "end": {"dateTime": data['fin'], "timeZone": "SA Pacific Standard Time"},
-        "location": {"displayName": data['lugar']},
-        "isReminderOn": True,
-        "reminderMinutesBeforeStart": 15
-    }
-
-    headers = {'Authorization': f'Bearer {token}', 'Content-Type': 'application/json'}
-    response = requests.post('https://graph.microsoft.com/v1.0/me/events', json=nuevo_evento, headers=headers)
-    
-    if response.status_code == 201:
-        return jsonify({"status": "success", "message": "Evento reservado en Outlook"})
-    return jsonify({"status": "error", "message": response.text}), 400
-#------------------------------------------------------------------------------------------------------------
-
+    return redirect(url_for("inicio"))
 
 # -------------------- MAIN --------------------
 

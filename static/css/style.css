@@ -8,6 +8,7 @@
     --card-bg: #ffffff;
     --virtual-color: #28a745;
     --presencial-color: #0d6efd;
+    --backgroun-color: #71a7f8;
 }
 
 /* =======================
@@ -21,28 +22,32 @@ body {
 }
 
 /* =======================
-   FONDO COMPLETO INICIO
+   INICIO - COLOR COMPLETO
    ======================= */
+body.inicio-body {
+    background-color: var(--uc-blue);
+}
+
 .inicio-fullscreen {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100vh;
-
-    background: linear-gradient(135deg, var(--presencial-color), #ffffff);
-
+    min-height: 100vh;
+    background-color: var(--uc-blue);
     display: flex;
-    justify-content: center;
     align-items: center;
-
-    z-index: -1;
 }
 
 .inicio-content {
     color: white;
-    text-align: left;
-    padding: 40px;
+    padding: 60px 0;
+}
+
+/* Imagen inicio */
+.inicio-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* =======================
@@ -54,7 +59,8 @@ body {
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.navbar-logo, .navbar-title {
+.navbar-logo,
+.navbar-title {
     max-height: 45px !important;
     width: auto !important;
     margin-right: 10px;
@@ -65,7 +71,6 @@ body {
     width: auto !important;
 }
 
-/* Links */
 .nav-link {
     color: var(--uc-blue) !important;
     font-weight: 600;
@@ -76,7 +81,6 @@ body {
     color: white !important;
 }
 
-/* Botones */
 .btn-outline-dark {
     border-color: var(--uc-blue);
     color: var(--uc-blue);
@@ -88,8 +92,12 @@ body {
 }
 
 /* =======================
-   AGENDA - BURBUJAS
+   AGENDA - TARJETAS
    ======================= */
+body.agenda-body {
+    background: linear-gradient(135deg, var(--uc-blue));
+}
+
 .card {
     background-color: var(--card-bg);
     border-radius: 15px;
@@ -108,7 +116,6 @@ body {
     border-bottom: 1px solid #ddd;
 }
 
-/* Badges personalizados */
 .badge.bg-primary {
     background-color: var(--presencial-color) !important;
 }
@@ -117,7 +124,6 @@ body {
     background-color: var(--virtual-color) !important;
 }
 
-/* Texto sede */
 .card-body p strong {
     color: var(--uc-blue);
 }
@@ -142,7 +148,7 @@ body {
 
 .login-btn {
     background-color: var(--uc-blue);
-    color: white;
+    color: var(--uc-yellow);
     border: none;
 }
 
@@ -152,32 +158,75 @@ body {
 }
 
 /* =======================
-   TITULOS
+   ACERCA DE
    ======================= */
-h1, h2, h3 {
-    color: var(--uc-blue);
+body.acerca-body {
+    background-color: var(--uc-blue);
+}
+
+body.acerca-body p {
+    color: white;
+}
+
+.acerca-title {
+    font-size: 2.8rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.acerca-subtitle {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--soft-bg);
+}
+
+.acerca-section {
+    margin-bottom: 50px;
+}
+
+.acerca-card {
+    border-radius: 15px;
+    transition: 0.3s ease;
+}
+
+.acerca-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+body.acerca-body .acerca-card {
+    background-color: var(--uc-yellow);
+}
+
+.acerca-organiza {
+    background-color: var(--backgroun-color);
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-top: 40px;
 }
 
 /* =======================
-   IMAGEN INICIO (Dashboard)
+   TITULOS
    ======================= */
-.inicio-img {
-    max-width: 100%;
-    max-height: 50000px;
-    height: auto;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+h1, h2, h3 {
+    color: var(--uc-yellow);
 }
 
-/* Ajuste para que el texto y botón estén a la izquierda y no se centren */
+/* =======================
+   RESPONSIVE
+   ======================= */
 @media (min-width: 768px) {
     .inicio-content .row {
         align-items: center;
     }
+
     .inicio-content .col-md-6:first-child {
         text-align: left;
     }
+
     .inicio-content .col-md-6:last-child {
         text-align: center;
     }
