@@ -1,29 +1,56 @@
 {% extends "base.html" %}
 
-{% block title %}Inicio - Mi App{% endblock %}
+{% block title %}Inicio - CONIITI 2026{% endblock %}
+
+{% block body_class %}
+inicio-body
+{% endblock %}
 
 {% block content %}
 
-<div class="inicio-fullscreen d-flex align-items-center">
+<div class="inicio-fullscreen">
     <div class="container inicio-content">
         <div class="row align-items-center">
             
-            <!-- TEXTO Y BOTON LADO IZQUIERDO -->
+            <!-- TEXTO -->
             <div class="col-md-6">
-                <h1>Bienvenido a CONIITI 2026</h1>
-                <p>Aquí puedes consultar toda la información del evento, agenda y ponentes.</p>
-                <a href="{{ url_for('agenda') }}" class="btn btn-primary btn-lg mt-3">Ver Agenda</a>
+                <h1 class="display-4 fw-bold">CONIITI 2026</h1>
+
+                <p class="lead mt-3">
+                    Congreso Internacional de Innovación y Tendencias en Ingeniería
+                </p>
+
+                <p>
+                    CONIITI es un espacio académico y científico que reúne
+                    investigadores, docentes, estudiantes y profesionales del sector
+                    productivo para compartir avances, resultados de investigación
+                    y experiencias en innovación tecnológica.
+                </p>
+
+                <p>
+                    El congreso promueve el intercambio de conocimiento en áreas
+                    estratégicas de la ingeniería, fortaleciendo la transformación
+                    digital, el desarrollo sostenible y la competitividad empresarial.
+                </p>
+
+                <div class="mt-4">
+                    <a href="{{ url_for('agenda') }}" class="btn btn-warning btn-lg me-3">
+                        Ver Agenda
+                    </a>
+
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">
+                        Inscribirme
+                    </a>
+                </div>
             </div>
 
-            <!-- IMAGEN LADO DERECHO -->
+            <!-- IMAGEN -->
             <div class="col-md-6 text-center">
-                <img src="{{ url_for('static', filename='logos/ucat-coniiti.png') }}" 
-                     alt="UCAT - CONIITI" 
+                <img src="{{ url_for('static', filename='logos/logo_new.png') }}" 
+                     alt="CONIITI 2026"
                      class="img-fluid inicio-img">
             </div>
 
         </div>
-    </div>
-</div>
 
 {% endblock %}

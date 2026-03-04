@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Acerca de{% endblock %}
+
+{% block body_class %}
+acerca-body
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- TÍTULO -->
+    <div class="text-center">
+        <h1 class="acerca-title">CONIITI 2025</h1>
+        <p class="acerca-subtitle">
+            Congreso Internacional de Innovación y Tendencias en Ingeniería
+        </p>
+    </div>
+
+    <!-- DESCRIPCIÓN GENERAL -->
+    <div class="acerca-section">
+        <p>
+            El CONIITI es un espacio académico organizado por la Facultad de Ingeniería
+            de la Universidad Católica de Colombia, orientado a promover la innovación,
+            el desarrollo tecnológico y el intercambio de conocimiento científico.
+        </p>
+
+        <p>
+            Este congreso reúne estudiantes, docentes, investigadores y profesionales
+            interesados en compartir experiencias, resultados de investigación y
+            tendencias actuales en ingeniería y tecnología.
+        </p>
+    </div>
+
+    <!-- OBJETIVOS -->
+    <div class="acerca-section">
+        <h3>Objetivos del Congreso</h3>
+
+        <ul class="list-group acerca-list">
+            <li class="list-group-item">Promover la investigación científica en ingeniería.</li>
+            <li class="list-group-item">Fomentar el uso de tecnologías emergentes.</li>
+            <li class="list-group-item">Fortalecer redes de colaboración académica.</li>
+            <li class="list-group-item">Impulsar la innovación con impacto social.</li>
+        </ul>
+    </div>
+
+    <!-- INFORMACIÓN GENERAL -->
+    <div class="row mt-4">
+
+        <div class="col-md-4 mb-4">
+            <div class="card acerca-card shadow-sm p-3 text-center">
+                <h5> Fecha</h5>
+                <p>Octubre 2025</p>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card acerca-card shadow-sm p-3 text-center">
+                <h5> Lugar</h5>
+                <p>Universidad Católica de Colombia</p>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card acerca-card shadow-sm p-3 text-center">
+                <h5> Modalidad</h5>
+                <p>Híbrida (Presencial y Virtual)</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ORGANIZADOR -->
+    <div class="acerca-organiza text-center">
+        <h4>Organiza</h4>
+        <p>
+            Facultad de Ingeniería — Universidad Católica de Colombia.
+            Un espacio diseñado para fortalecer la innovación y el desarrollo
+            tecnológico a nivel nacional e internacional.
+        </p>
+    </div>
+
+</div>
+
+{% endblock %}
