@@ -47,6 +47,7 @@ Este sistema fue desarrollado como proyecto académico en la **Universidad Cató
 
 ## 🗂️ Estructura del Proyecto
 
+```text
 Produccion-Software/
 │
 ├── main/                          # Núcleo backend de la aplicación Flask
@@ -76,8 +77,6 @@ Produccion-Software/
 │
 ├── requirements.txt               # Dependencias del proyecto
 └── README.md                      # Documentación general
-
----
 
 ## ✅ Requisitos Previos
 
