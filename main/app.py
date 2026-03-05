@@ -24,7 +24,6 @@ def obtener_datos_coniiti():
         "User-Agent": "Mozilla/5.0",
         "Accept-Language": "es-ES,es;q=0.9",
     }
-
     try:
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
@@ -58,6 +57,14 @@ def api_coniiti():
 def ver_coniiti():
     datos = obtener_datos_coniiti()
     return render_template("coniiti.html", datos=datos)
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/cookies')
+def cookies_analysis():
+    return render_template('cookies.html')
 
 # -------------------- CARGA USUARIOS --------------------
 
