@@ -47,50 +47,36 @@ Este sistema fue desarrollado como proyecto académico en la **Universidad Cató
 
 ## 🗂️ Estructura del Proyecto
 
-```
+```text
 Produccion-Software/
 │
-├── app.py                        # Punto de entrada — rutas y lógica principal
-├── scraper.py                    # Módulo de scraping del sitio oficial CONIITI
-├── requirements.txt              # Dependencias del proyecto
-├── README.md                     # Documentación del proyecto
+├── main/                          # Núcleo backend de la aplicación Flask
+│   ├── app.py                     # Punto de entrada — rutas y lógica principal
+│   └── scraper.py                 # Módulo de scraping del sitio oficial CONIITI
 │
-├── templates/                    # Vistas HTML (Jinja2)
-│   ├── base.html                 # Plantilla base con navbar
-│   ├── login.html                # Formulario de inicio de sesión
-│   ├── register.html             # Formulario de registro
-│   ├── inicio.html               # Página de bienvenida
-│   ├── agenda.html               # Agenda de eventos y ponentes
-│   ├── coniiti.html              # Información scrapeada del sitio oficial
-│   ├── dashboard.html            # Panel de usuario
-│   ├── pagina1.html              # Página de contenido adicional
-│   ├── acerca.html               # Página "Acerca de"
-│   └── contacto.html             # Página de contacto
+├── templates/                     # Vistas HTML (Jinja2)
+│   ├── base.html
+│   ├── login.html
+│   ├── register.html
+│   ├── inicio.html
+│   ├── agenda.html
+│   ├── coniiti.html
+│   ├── dashboard.html
+│   ├── acerca.html
+│   └── contacto.html
 │
-├── static/                       # Recursos estáticos
+├── static/                        # Recursos estáticos
 │   ├── css/
-│   │   ├── style.css             # Estilos principales (Bootstrap + institucional)
-│   │   └── login.css             # Estilos específicos del login
-│   ├── js/
-│   │   └── scripts.js            # Lógica frontend (reserva Outlook, modal)
+│   │   ├── style.css
+│   │   └── login.css
 │   ├── logos/
-│   │   ├── ucat.png              # Escudo Universidad Católica
-│   │   ├── coniiti.png           # Logo CONIITI
-│   │   └── ucat-coniiti.png      # Imagen combinada para inicio
-│   └── banderas/                 # Imágenes de banderas por país
-│       ├── colombia.png
-│       ├── mexico.png
-│       ├── argentina.png
-│       ├── alemania.png
-│       ├── francia.png
-│       ├── brasil.png
-│       └── panama.png
+│   └── banderas/
 │
-├── data/                         # Persistencia local de datos
-│   ├── users.csv                 # Registro de usuarios (email, nombre, contraseña)
-│   └── usuarios.json             # Versión JSON del registro de usuarios
+├── data/                          # Persistencia local de datos
+│   └── users.csv
 │
-└── instance/                     # Configuración de entorno (variables locales/sensibles)
+├── requirements.txt               # Dependencias del proyecto
+└── README.md                      # Documentación general
 ```
 
 ---
