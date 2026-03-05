@@ -84,7 +84,7 @@ Produccion-Software/
 - **pip**
 - Cuenta de **Microsoft Azure** (solo si se desea activar la integración con Outlook)
 - Conexión a internet (para el scraping de CONIITI y las banderas)
-
+```
 ---
 
 ## 🚀 Instalación
