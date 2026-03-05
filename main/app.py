@@ -58,13 +58,14 @@ def ver_coniiti():
     datos = obtener_datos_coniiti()
     return render_template("coniiti.html", datos=datos)
 
-@app.route('/')
-def home():
-    return render_template('index.html')
 
-@app.route('/cookies')
-def cookies_analysis():
-    return render_template('cookies.html')
+# @app.route('/')
+# def home():
+#    return render_template('index.html')
+
+#@app.route('/cookies')
+#def cookies_analysis():
+#    return render_template('cookies.html')
 
 # -------------------- CARGA USUARIOS --------------------
 
