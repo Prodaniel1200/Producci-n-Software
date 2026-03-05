@@ -120,7 +120,7 @@ pip install -r requirements.txt
 **4. Ejecutar la aplicación**
 
 ```bash
-python app.py
+python main/app.py
 ```
 
 La aplicación estará disponible en `http://127.0.0.1:5000`.
