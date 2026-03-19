@@ -1,0 +1,18 @@
+name: Pipeline CONIITI 
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  construir-y-probar:
+    runs_on: ubuntu-latest
+
+    steps: 
+      -name: 1. Clonar el codigo
+       uses: actions/checkout@v4
+      -name: 2. Instalar dependencias
+      run: npm install
+      -name: 3. Hcer el build
+      run: npm run build
+      
