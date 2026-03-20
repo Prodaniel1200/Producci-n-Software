@@ -22,15 +22,7 @@ inicio-body
 
                 <p>
                     CONIITI es un espacio académico y científico que reúne
-                    investigadores, docentes, estudiantes y profesionales del sector
-                    productivo para compartir avances, resultados de investigación
-                    y experiencias en innovación tecnológica.
-                </p>
-
-                <p>
-                    El congreso promueve el intercambio de conocimiento en áreas
-                    estratégicas de la ingeniería, fortaleciendo la transformación
-                    digital, el desarrollo sostenible y la competitividad empresarial.
+                    investigadores, docentes, estudiantes y profesionales.
                 </p>
 
                 <div class="mt-4">
@@ -38,8 +30,11 @@ inicio-body
                         Ver Agenda
                     </a>
 
-                    <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">
-                        Inscribirme
+                    <!-- 👇 AGREGA ID PARA TEST -->
+                    <a href="{{ url_for('login') }}" 
+                       class="btn btn-outline-light btn-lg"
+                       id="btn-registro">
+                       Inscribirme
                     </a>
                 </div>
             </div>
@@ -52,5 +47,7 @@ inicio-body
             </div>
 
         </div>
+    </div>
+</div>
 
 {% endblock %}
