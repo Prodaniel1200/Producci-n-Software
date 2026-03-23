@@ -1,5 +1,5 @@
 import pytest
-import app as app_module
+import main.app as app_module
 from requests.exceptions import RequestException
 
 
