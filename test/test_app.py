@@ -1,6 +1,5 @@
 import pytest
 import main.app as app_module
-
 from requests.exceptions import RequestException
 
 
