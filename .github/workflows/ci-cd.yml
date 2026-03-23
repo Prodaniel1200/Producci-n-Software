@@ -32,7 +32,7 @@ jobs:
         run: ruff format --check .
 
       - name: 6. Ejecutar pruebas unitarias
-        run: pytest -v --maxfail=1 --disable-warnings
+        run: pytest test/ -v --maxfail=1 --disable-warnings
 
       - name: 7. Verificar que la app inicia correctamente
         run: |
