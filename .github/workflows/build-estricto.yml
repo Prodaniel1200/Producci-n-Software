@@ -1,0 +1,33 @@
+name: Build estricto CONIITI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - desarrollo-rediseño
+
+jobs:
+  build-calidad:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Revisar imágenes pesadas
+        run: python scripts/audit_images.py
+
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar Stylelint
+        run: npm install -D stylelint stylelint-config-standard
+
+      - name: Revisar CSS (warnings fallan)
+        run: npx stylelint "static/**/*.css" --max-warnings 0
