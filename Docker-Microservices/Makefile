@@ -1,16 +1,15 @@
-.PHONY: install-dev test test-unit smoke up down logs
+.PHONY: install-dev test test-cov up down logs ps bootstrap start restart clean
 
 install-dev:
-	python -m pip install --upgrade pip
 	pip install -r requirements-dev.txt
 
 test:
-	pytest
+	pytest -v
 
-test-unit:
-	pytest tests/unit
+test-cov:
+	pytest --cov=services --cov-report=term-missing -v
 
-smoke:
+up:
 	docker compose up --build -d
 
 down:
@@ -18,3 +17,19 @@ down:
 
 logs:
 	docker compose logs -f
+
+ps:
+	docker compose ps
+
+bootstrap:
+	bash ./bootstrap.sh
+
+start:
+	bash ./start.sh
+
+restart:
+	docker compose down
+	docker compose up --build -d
+
+clean:
+	docker compose down -v
