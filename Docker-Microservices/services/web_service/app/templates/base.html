@@ -71,11 +71,11 @@
     </nav>
 
     <!-- MENSAJES FLASH -->
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <div class="container mt-3">
-                {% for message in messages %}
-                    <div class="alert alert-success text-center shadow-sm">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'success' if category == 'message' else category }} text-center shadow-sm">
                         {{ message }}
                     </div>
                 {% endfor %}

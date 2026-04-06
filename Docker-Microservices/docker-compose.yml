@@ -33,6 +33,11 @@ services:
 
   agenda_service:
     build: ./services/agenda_service
+    environment:
+      NOTIFICATIONS_SERVICE_URL: ${NOTIFICATIONS_SERVICE_URL:-http://notifications_service:5000}
+      REQUEST_TIMEOUT: ${AGENDA_REQUEST_TIMEOUT:-5}
+    depends_on:
+      - notifications_service
 
   contact_service:
     build: ./services/contact_service
@@ -47,3 +52,6 @@ services:
       MS_CLIENT_ID: ${MS_CLIENT_ID:-}
       MS_CLIENT_SECRET: ${MS_CLIENT_SECRET:-}
       MS_TENANT_ID: ${MS_TENANT_ID:-}
+
+  notifications_service:
+    build: ./services/notifications_service
