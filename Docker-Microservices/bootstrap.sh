@@ -5,7 +5,6 @@ echo "==> Verificando herramientas necesarias..."
 
 command -v docker >/dev/null 2>&1 || { echo "ERROR: Docker no está instalado"; exit 1; }
 command -v python3 >/dev/null 2>&1 || { echo "ERROR: Python3 no está instalado"; exit 1; }
-command -v pip >/dev/null 2>&1 || { echo "ERROR: pip no está instalado"; exit 1; }
 
 if ! docker compose version >/dev/null 2>&1; then
   echo "ERROR: Docker Compose no está disponible"
@@ -19,19 +18,25 @@ if [ ! -f ".env" ]; then
     echo "==> Creando .env desde .env.example"
     cp .env.example .env
   else
-    echo "==> No existe .env.example; creando .env básico"
+    echo "==> Creando .env base"
     cat > .env <<EOF
 SECRET_KEY=dev-secret-key
-CLIENT_ID=TU_CLIENT_ID
-CLIENT_SECRET=TU_CLIENT_SECRET
-TENANT_ID=TU_TENANT_ID
-DATA_PATH=./data
+AUTH_SERVICE_URL=http://auth-service:5000
+AGENDA_SERVICE_URL=http://agenda-service:5000
+CONTACT_SERVICE_URL=http://contact-service:5000
+INTEGRATIONS_SERVICE_URL=http://integrations-service:5000
+NOTIFICATIONS_SERVICE_URL=http://notifications-service:5000
+WEB_REQUEST_TIMEOUT=10
+AGENDA_REQUEST_TIMEOUT=5
+MS_CLIENT_ID=
+MS_CLIENT_SECRET=
+MS_TENANT_ID=
 EOF
   fi
 fi
 
 echo "==> Instalando dependencias de desarrollo"
-pip install -r requirements-dev.txt
+python3 -m pip install -r requirements-dev.txt
 
 echo "==> Ejecutando pruebas"
 pytest -v

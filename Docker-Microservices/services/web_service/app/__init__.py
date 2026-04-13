@@ -1,4 +1,6 @@
 from flask import Flask
+from werkzeug.middleware.proxy_fix import ProxyFix
+
 from .config import Config
 from .extensions import login_manager
 from .modules.auth.routes import auth_bp, User
@@ -12,6 +14,7 @@ from .modules.admin.routes import admin_bp
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_port=1)
     login_manager.init_app(app)
 
     @login_manager.user_loader

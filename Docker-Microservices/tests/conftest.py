@@ -69,7 +69,7 @@ def contact_client(contact_app):
 
 @pytest.fixture
 def agenda_app(monkeypatch):
-    monkeypatch.setenv("NOTIFICATIONS_SERVICE_URL", "http://notifications_service:5000")
+    monkeypatch.setenv("NOTIFICATIONS_SERVICE_URL", "http://notifications-service:5000")
     monkeypatch.setenv("REQUEST_TIMEOUT", "1")
     module = load_run_module("agenda_service")
     module.app.config.update(TESTING=True)
@@ -111,10 +111,10 @@ def notifications_client(notifications_app):
 @pytest.fixture
 def web_app(monkeypatch):
     monkeypatch.setenv("SECRET_KEY", "test-secret")
-    monkeypatch.setenv("AUTH_SERVICE_URL", "http://auth_service:5000")
-    monkeypatch.setenv("AGENDA_SERVICE_URL", "http://agenda_service:5000")
-    monkeypatch.setenv("CONTACT_SERVICE_URL", "http://contact_service:5000")
-    monkeypatch.setenv("INTEGRATIONS_SERVICE_URL", "http://integrations_service:5000")
+    monkeypatch.setenv("AUTH_SERVICE_URL", "http://auth-service:5000")
+    monkeypatch.setenv("AGENDA_SERVICE_URL", "http://agenda-service:5000")
+    monkeypatch.setenv("CONTACT_SERVICE_URL", "http://contact-service:5000")
+    monkeypatch.setenv("INTEGRATIONS_SERVICE_URL", "http://integrations-service:5000")
     module = load_run_module("web_service")
     module.app.config.update(TESTING=True, SECRET_KEY="test-secret")
     return module.app

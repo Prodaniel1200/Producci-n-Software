@@ -49,13 +49,13 @@ def test_coniiti_provider_handles_request_exception(monkeypatch):
 
 @pytest.mark.unit
 def test_outlook_login_url_requires_configuration(integrations_client):
-    response = integrations_client.get("/api/outlook/login-url")
+    response = integrations_client.get("/api/integrations/outlook/login-url")
     assert response.status_code == 400
     assert response.get_json()["ok"] is False
 
 
 @pytest.mark.unit
 def test_outlook_exchange_requires_code_and_redirect(integrations_client):
-    response = integrations_client.post("/api/outlook/exchange-code", json={})
+    response = integrations_client.post("/api/integrations/outlook/exchange-code", json={})
     assert response.status_code == 400
     assert response.get_json()["ok"] is False

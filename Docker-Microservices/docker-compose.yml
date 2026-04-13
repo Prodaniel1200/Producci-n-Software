@@ -1,57 +1,170 @@
-version: "3.9"
-
 services:
   gateway:
     build: ./gateway
     ports:
       - "8000:80"
+    restart: unless-stopped
     depends_on:
-      - web_service
+      web-service:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+      agenda-service:
+        condition: service_healthy
+      contact-service:
+        condition: service_healthy
+      integrations-service:
+        condition: service_healthy
+      notifications-service:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - wget -q -O - http://127.0.0.1/gateway-health >/dev/null 2>&1 || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - platform-network
 
-  web_service:
+  web-service:
     build: ./services/web_service
+    restart: unless-stopped
     environment:
       SECRET_KEY: ${SECRET_KEY:-super-secret-dev-key}
-      AUTH_SERVICE_URL: ${AUTH_SERVICE_URL:-http://auth_service:5000}
-      AGENDA_SERVICE_URL: ${AGENDA_SERVICE_URL:-http://agenda_service:5000}
-      CONTACT_SERVICE_URL: ${CONTACT_SERVICE_URL:-http://contact_service:5000}
-      INTEGRATIONS_SERVICE_URL: ${INTEGRATIONS_SERVICE_URL:-http://integrations_service:5000}
-    volumes:
-      - ./data:/app/data
+      AUTH_SERVICE_URL: ${AUTH_SERVICE_URL:-http://auth-service:5000}
+      AGENDA_SERVICE_URL: ${AGENDA_SERVICE_URL:-http://agenda-service:5000}
+      CONTACT_SERVICE_URL: ${CONTACT_SERVICE_URL:-http://contact-service:5000}
+      INTEGRATIONS_SERVICE_URL: ${INTEGRATIONS_SERVICE_URL:-http://integrations-service:5000}
+      REQUEST_TIMEOUT: ${WEB_REQUEST_TIMEOUT:-10}
+      GUNICORN_WORKERS: ${WEB_GUNICORN_WORKERS:-2}
+      GUNICORN_THREADS: ${WEB_GUNICORN_THREADS:-4}
+      GUNICORN_TIMEOUT: ${WEB_GUNICORN_TIMEOUT:-60}
     depends_on:
-      - auth_service
-      - agenda_service
-      - contact_service
-      - integrations_service
+      auth-service:
+        condition: service_healthy
+      agenda-service:
+        condition: service_healthy
+      contact-service:
+        condition: service_healthy
+      integrations-service:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python -c 'from urllib.request import urlopen; urlopen("http://127.0.0.1:5000/health").read()'
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - platform-network
 
-  auth_service:
+  auth-service:
     build: ./services/auth_service
+    restart: unless-stopped
     environment:
       USERS_CSV_PATH: /app/data/users.csv
+      GUNICORN_WORKERS: ${AUTH_GUNICORN_WORKERS:-2}
+      GUNICORN_THREADS: ${AUTH_GUNICORN_THREADS:-4}
+      GUNICORN_TIMEOUT: ${AUTH_GUNICORN_TIMEOUT:-60}
     volumes:
       - ./data:/app/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python -c 'from urllib.request import urlopen; urlopen("http://127.0.0.1:5000/health").read()'
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - platform-network
 
-  agenda_service:
+  agenda-service:
     build: ./services/agenda_service
+    restart: unless-stopped
     environment:
-      NOTIFICATIONS_SERVICE_URL: ${NOTIFICATIONS_SERVICE_URL:-http://notifications_service:5000}
+      NOTIFICATIONS_SERVICE_URL: ${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:5000}
       REQUEST_TIMEOUT: ${AGENDA_REQUEST_TIMEOUT:-5}
+      GUNICORN_WORKERS: ${AGENDA_GUNICORN_WORKERS:-2}
+      GUNICORN_THREADS: ${AGENDA_GUNICORN_THREADS:-4}
+      GUNICORN_TIMEOUT: ${AGENDA_GUNICORN_TIMEOUT:-60}
     depends_on:
-      - notifications_service
+      notifications-service:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python -c 'from urllib.request import urlopen; urlopen("http://127.0.0.1:5000/health").read()'
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - platform-network
 
-  contact_service:
+  contact-service:
     build: ./services/contact_service
+    restart: unless-stopped
     environment:
       CONTACT_CSV_PATH: /app/data/contact_messages.csv
+      GUNICORN_WORKERS: ${CONTACT_GUNICORN_WORKERS:-2}
+      GUNICORN_THREADS: ${CONTACT_GUNICORN_THREADS:-4}
+      GUNICORN_TIMEOUT: ${CONTACT_GUNICORN_TIMEOUT:-60}
     volumes:
       - ./data:/app/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python -c 'from urllib.request import urlopen; urlopen("http://127.0.0.1:5000/health").read()'
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - platform-network
 
-  integrations_service:
+  integrations-service:
     build: ./services/integrations_service
+    restart: unless-stopped
     environment:
       MS_CLIENT_ID: ${MS_CLIENT_ID:-}
       MS_CLIENT_SECRET: ${MS_CLIENT_SECRET:-}
       MS_TENANT_ID: ${MS_TENANT_ID:-}
+      GUNICORN_WORKERS: ${INTEGRATIONS_GUNICORN_WORKERS:-2}
+      GUNICORN_THREADS: ${INTEGRATIONS_GUNICORN_THREADS:-4}
+      GUNICORN_TIMEOUT: ${INTEGRATIONS_GUNICORN_TIMEOUT:-60}
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python -c 'from urllib.request import urlopen; urlopen("http://127.0.0.1:5000/health").read()'
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - platform-network
 
-  notifications_service:
+  notifications-service:
     build: ./services/notifications_service
+    restart: unless-stopped
+    environment:
+      GUNICORN_WORKERS: ${NOTIFICATIONS_GUNICORN_WORKERS:-2}
+      GUNICORN_THREADS: ${NOTIFICATIONS_GUNICORN_THREADS:-4}
+      GUNICORN_TIMEOUT: ${NOTIFICATIONS_GUNICORN_TIMEOUT:-60}
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python -c 'from urllib.request import urlopen; urlopen("http://127.0.0.1:5000/health").read()'
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - platform-network
+
+networks:
+  platform-network:
+    driver: bridge
