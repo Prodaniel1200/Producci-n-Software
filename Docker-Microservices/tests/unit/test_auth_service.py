@@ -1,9 +1,7 @@
-from pathlib import Path
-
 import pytest
 from werkzeug.security import check_password_hash
 
-from tests.conftest import ROOT, service_import_path
+from tests.conftest import  service_import_path
 
 
 @pytest.mark.unit
