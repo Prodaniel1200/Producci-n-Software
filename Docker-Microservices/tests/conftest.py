@@ -1,5 +1,4 @@
 import importlib.util
-import os
 import sys
 from contextlib import contextmanager
 from pathlib import Path
