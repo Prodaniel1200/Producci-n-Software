@@ -12,7 +12,7 @@ def create_app():
     app.auth_service = AuthService(repository)
     app.register_blueprint(auth_bp)
 
-    @app.get('/health')
+    @app.get("/health")
     def health():
         return {"status": "ok", "service": "auth_service"}
 

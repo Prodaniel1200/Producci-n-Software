@@ -1,5 +1,6 @@
 import os
 
+
 class Config:
     MS_CLIENT_ID = os.getenv("MS_CLIENT_ID", "")
     MS_CLIENT_SECRET = os.getenv("MS_CLIENT_SECRET", "")

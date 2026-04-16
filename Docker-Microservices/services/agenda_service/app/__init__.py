@@ -8,7 +8,7 @@ def create_app():
     app.config.from_object(Config)
     app.register_blueprint(agenda_bp)
 
-    @app.get('/health')
+    @app.get("/health")
     def health():
         return {"status": "ok", "service": "agenda_service"}
 

@@ -35,22 +35,38 @@ def referencias():
 @public_bp.route("/pagina1")
 @login_required
 def pagina1():
-    return render_template("pagina1.html", titulo="Página 1", mensaje="Espacio listo para crecer como módulo independiente.")
+    return render_template(
+        "pagina1.html",
+        titulo="Página 1",
+        mensaje="Espacio listo para crecer como módulo independiente.",
+    )
 
 
 @public_bp.route("/pagina2")
 @login_required
 def pagina2():
-    return render_template("pagina2.html", titulo="Página 2", mensaje="Espacio listo para crecer como módulo independiente.")
+    return render_template(
+        "pagina2.html",
+        titulo="Página 2",
+        mensaje="Espacio listo para crecer como módulo independiente.",
+    )
 
 
 @public_bp.route("/memoria1")
 @login_required
 def memoria1():
-    return render_template("memoria1.html", titulo="Memoria 1", mensaje="Espacio listo para crecer como módulo independiente.")
+    return render_template(
+        "memoria1.html",
+        titulo="Memoria 1",
+        mensaje="Espacio listo para crecer como módulo independiente.",
+    )
 
 
 @public_bp.route("/memoria2")
 @login_required
 def memoria2():
-    return render_template("memoria2.html", titulo="Memoria 2", mensaje="Espacio listo para crecer como módulo independiente.")
+    return render_template(
+        "memoria2.html",
+        titulo="Memoria 2",
+        mensaje="Espacio listo para crecer como módulo independiente.",
+    )

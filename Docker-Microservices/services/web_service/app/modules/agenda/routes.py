@@ -13,10 +13,18 @@ def view_agenda():
     page = request.args.get("page", 1, type=int)
     try:
         data = agenda_client.get_agenda(page=page)
-        return render_template("agenda.html", eventos=data["eventos"], ponentes=data["ponentes"], page=data["page"], total_pages=data["total_pages"])
+        return render_template(
+            "agenda.html",
+            eventos=data["eventos"],
+            ponentes=data["ponentes"],
+            page=data["page"],
+            total_pages=data["total_pages"],
+        )
     except RequestException:
         flash("Servicio de agenda no disponible", "danger")
-        return render_template("agenda.html", eventos=[], ponentes=[], page=1, total_pages=1)
+        return render_template(
+            "agenda.html", eventos=[], ponentes=[], page=1, total_pages=1
+        )
 
 
 @agenda_bp.route("/ponentes/nueva", methods=["GET", "POST"])
@@ -39,7 +47,13 @@ def create_ponencia_view():
             result = agenda_client.create_ponencia(payload)
             if result.get("ok"):
                 if result.get("notification_status") == "degraded":
-                    flash(result.get("warning", "La ponencia fue creada, pero el servicio de notificaciones no respondio"), "warning")
+                    flash(
+                        result.get(
+                            "warning",
+                            "La ponencia fue creada, pero el servicio de notificaciones no respondio",
+                        ),
+                        "warning",
+                    )
                 else:
                     flash("Ponencia creada correctamente ✅", "success")
                 return redirect(url_for("agenda.view_agenda"))

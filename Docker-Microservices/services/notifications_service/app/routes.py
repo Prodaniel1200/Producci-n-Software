@@ -11,13 +11,15 @@ def notify_ponencia_created():
     required = ["titulo", "ponente_nombre"]
     missing = [field for field in required if not payload.get(field)]
     if missing:
-        return jsonify({"ok": False, "error": f"Campos faltantes: {', '.join(missing)}"}), 400
+        return jsonify(
+            {"ok": False, "error": f"Campos faltantes: {', '.join(missing)}"}
+        ), 400
 
     return jsonify(
         {
             "ok": True,
             "event": "ponencia_created",
             "processed_at": datetime.now(UTC).isoformat(),
-            "message": f"Notificacion procesada para {payload['ponente_nombre']}"
+            "message": f"Notificacion procesada para {payload['ponente_nombre']}",
         }
     ), 202

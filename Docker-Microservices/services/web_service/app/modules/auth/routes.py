@@ -30,7 +30,9 @@ def login():
         try:
             result = auth_client.login(request.form["email"], request.form["password"])
             if result.get("ok"):
-                user = User(email=result["user"]["email"], name=result["user"].get("name"))
+                user = User(
+                    email=result["user"]["email"], name=result["user"].get("name")
+                )
                 session["user_name"] = user.name
                 login_user(user)
                 return redirect(url_for("public.inicio"))
@@ -54,7 +56,9 @@ def register():
     error = None
     if request.method == "POST":
         try:
-            result = auth_client.register(request.form["name"], request.form["email"], request.form["password"])
+            result = auth_client.register(
+                request.form["name"], request.form["email"], request.form["password"]
+            )
             if result.get("ok"):
                 flash("Usuario registrado correctamente ✅")
                 return redirect(url_for("auth.login"))

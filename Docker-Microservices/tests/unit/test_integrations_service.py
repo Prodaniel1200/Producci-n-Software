@@ -25,7 +25,9 @@ def test_coniiti_provider_extracts_titles_and_paragraphs(monkeypatch):
     with service_import_path("integrations_service"):
         from app.providers import coniiti_provider
 
-        monkeypatch.setattr(coniiti_provider.requests, "get", lambda *a, **k: DummyResponse(html))
+        monkeypatch.setattr(
+            coniiti_provider.requests, "get", lambda *a, **k: DummyResponse(html)
+        )
         result = coniiti_provider.obtener_datos_coniiti()
 
     assert result["status"] == "ok"
@@ -56,6 +58,8 @@ def test_outlook_login_url_requires_configuration(integrations_client):
 
 @pytest.mark.unit
 def test_outlook_exchange_requires_code_and_redirect(integrations_client):
-    response = integrations_client.post("/api/integrations/outlook/exchange-code", json={})
+    response = integrations_client.post(
+        "/api/integrations/outlook/exchange-code", json={}
+    )
     assert response.status_code == 400
     assert response.get_json()["ok"] is False

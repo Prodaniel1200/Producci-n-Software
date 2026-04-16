@@ -42,12 +42,16 @@ def test_register_rejects_duplicate_email(tmp_path):
 @pytest.mark.unit
 def test_login_accepts_legacy_plaintext_password(tmp_path):
     users_csv = tmp_path / "users.csv"
-    users_csv.write_text("email,password,name\nlegacy@example.com,1234,Legacy\n", encoding="utf-8")
+    users_csv.write_text(
+        "email,password,name\nlegacy@example.com,1234,Legacy\n", encoding="utf-8"
+    )
     with service_import_path("auth_service"):
         from app.repository import UserRepository
         from app.service import AuthService
 
-        result = AuthService(UserRepository(str(users_csv))).login("legacy@example.com", "1234")
+        result = AuthService(UserRepository(str(users_csv))).login(
+            "legacy@example.com", "1234"
+        )
 
     assert result["ok"] is True
     assert result["user"]["email"] == "legacy@example.com"
@@ -87,6 +91,8 @@ def test_auth_routes_register_and_login(auth_client):
 
 @pytest.mark.unit
 def test_auth_route_returns_401_for_bad_credentials(auth_client):
-    response = auth_client.post("/api/auth/login", json={"email": "x@example.com", "password": "bad"})
+    response = auth_client.post(
+        "/api/auth/login", json={"email": "x@example.com", "password": "bad"}
+    )
     assert response.status_code == 401
     assert response.get_json()["ok"] is False

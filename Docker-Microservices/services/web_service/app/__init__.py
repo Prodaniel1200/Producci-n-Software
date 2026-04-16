@@ -28,7 +28,7 @@ def create_app():
     app.register_blueprint(integrations_bp)
     app.register_blueprint(admin_bp)
 
-    @app.get('/health')
+    @app.get("/health")
     def health():
         return {"status": "ok", "service": "web_service"}
 

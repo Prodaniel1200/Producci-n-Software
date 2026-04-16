@@ -3,13 +3,90 @@ from copy import deepcopy
 from typing import Any, Callable
 
 PONENTES = [
-    {"nombre": "Dra. Martinez", "pais": "Mexico", "bandera": "banderas/mexico.png", "titulo": "Innovacion tecnologica", "tipo": "Conferencia", "fecha": "2026-05-10", "hora": "09:00", "modalidad": "Presencial", "sede": "Claustro", "salon": "Auditorio 1"},
-    {"nombre": "Ing. Perez", "pais": "Colombia", "bandera": "banderas/colombia.png", "titulo": "Innovacion tecnologica", "tipo": "Conferencia", "fecha": "2026-05-10", "hora": "10:00", "modalidad": "Presencial", "sede": "Claustro", "salon": "Auditorio 2"},
-    {"nombre": "Dr. Lopez", "pais": "Argentina", "bandera": "banderas/argentina.png", "titulo": "Innovacion tecnologica", "tipo": "Conferencia", "fecha": "2026-05-10", "hora": "11:00", "modalidad": "Presencial", "sede": "Claustro", "salon": "Auditorio 3"},
-    {"nombre": "Dr. Hans Muller", "pais": "Alemania", "bandera": "banderas/alemania.png", "titulo": "Innovacion tecnologica", "tipo": "Conferencia", "fecha": "2026-05-10", "hora": "12:00", "modalidad": "Presencial", "sede": "Claustro", "salon": "Auditorio 4"},
-    {"nombre": "Dr. Jean Dupont", "pais": "Francia", "bandera": "banderas/francia.png", "titulo": "Innovacion tecnologica", "tipo": "Conferencia", "fecha": "2026-05-10", "hora": "13:00", "modalidad": "Presencial", "sede": "Claustro", "salon": "Auditorio 5"},
-    {"nombre": "Ing. Carlos Silva", "pais": "Brasil", "bandera": "banderas/brasil.png", "titulo": "Innovacion tecnologica", "tipo": "Conferencia", "fecha": "2026-05-10", "hora": "14:00", "modalidad": "Presencial", "sede": "Claustro", "salon": "Auditorio 6"},
-    {"nombre": "Dra. Sofia Rodriguez", "pais": "Panama", "bandera": "banderas/panama.png", "titulo": "Innovacion tecnologica", "tipo": "Conferencia", "fecha": "2026-05-10", "hora": "15:00", "modalidad": "Presencial", "sede": "Claustro", "salon": "Auditorio 7"},
+    {
+        "nombre": "Dra. Martinez",
+        "pais": "Mexico",
+        "bandera": "banderas/mexico.png",
+        "titulo": "Innovacion tecnologica",
+        "tipo": "Conferencia",
+        "fecha": "2026-05-10",
+        "hora": "09:00",
+        "modalidad": "Presencial",
+        "sede": "Claustro",
+        "salon": "Auditorio 1",
+    },
+    {
+        "nombre": "Ing. Perez",
+        "pais": "Colombia",
+        "bandera": "banderas/colombia.png",
+        "titulo": "Innovacion tecnologica",
+        "tipo": "Conferencia",
+        "fecha": "2026-05-10",
+        "hora": "10:00",
+        "modalidad": "Presencial",
+        "sede": "Claustro",
+        "salon": "Auditorio 2",
+    },
+    {
+        "nombre": "Dr. Lopez",
+        "pais": "Argentina",
+        "bandera": "banderas/argentina.png",
+        "titulo": "Innovacion tecnologica",
+        "tipo": "Conferencia",
+        "fecha": "2026-05-10",
+        "hora": "11:00",
+        "modalidad": "Presencial",
+        "sede": "Claustro",
+        "salon": "Auditorio 3",
+    },
+    {
+        "nombre": "Dr. Hans Muller",
+        "pais": "Alemania",
+        "bandera": "banderas/alemania.png",
+        "titulo": "Innovacion tecnologica",
+        "tipo": "Conferencia",
+        "fecha": "2026-05-10",
+        "hora": "12:00",
+        "modalidad": "Presencial",
+        "sede": "Claustro",
+        "salon": "Auditorio 4",
+    },
+    {
+        "nombre": "Dr. Jean Dupont",
+        "pais": "Francia",
+        "bandera": "banderas/francia.png",
+        "titulo": "Innovacion tecnologica",
+        "tipo": "Conferencia",
+        "fecha": "2026-05-10",
+        "hora": "13:00",
+        "modalidad": "Presencial",
+        "sede": "Claustro",
+        "salon": "Auditorio 5",
+    },
+    {
+        "nombre": "Ing. Carlos Silva",
+        "pais": "Brasil",
+        "bandera": "banderas/brasil.png",
+        "titulo": "Innovacion tecnologica",
+        "tipo": "Conferencia",
+        "fecha": "2026-05-10",
+        "hora": "14:00",
+        "modalidad": "Presencial",
+        "sede": "Claustro",
+        "salon": "Auditorio 6",
+    },
+    {
+        "nombre": "Dra. Sofia Rodriguez",
+        "pais": "Panama",
+        "bandera": "banderas/panama.png",
+        "titulo": "Innovacion tecnologica",
+        "tipo": "Conferencia",
+        "fecha": "2026-05-10",
+        "hora": "15:00",
+        "modalidad": "Presencial",
+        "sede": "Claustro",
+        "salon": "Auditorio 7",
+    },
 ]
 
 
@@ -41,18 +118,30 @@ def get_agenda(page: int = 1, per_page: int = 5):
         {"nombre": p["nombre"], "pais": p["pais"], "bandera": p["bandera"]}
         for p in ponentes
     ]
-    return {"page": safe_page, "per_page": per_page, "total_pages": total_pages, "ponentes": ponentes_ui, "eventos": eventos}
+    return {
+        "page": safe_page,
+        "per_page": per_page,
+        "total_pages": total_pages,
+        "ponentes": ponentes_ui,
+        "eventos": eventos,
+    }
 
 
 def validate_ponencia_payload(payload: dict[str, Any]):
     required = ["nombre", "pais", "titulo", "fecha", "hora"]
     missing = [field for field in required if not str(payload.get(field, "")).strip()]
     if missing:
-        return {"ok": False, "error": f"Campos obligatorios faltantes: {', '.join(missing)}"}
+        return {
+            "ok": False,
+            "error": f"Campos obligatorios faltantes: {', '.join(missing)}",
+        }
     return {"ok": True}
 
 
-def create_ponencia(payload: dict[str, Any], notifier: Callable[[dict[str, Any]], dict[str, Any]] | None = None):
+def create_ponencia(
+    payload: dict[str, Any],
+    notifier: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
+):
     validation = validate_ponencia_payload(payload)
     if not validation["ok"]:
         return validation
@@ -60,7 +149,8 @@ def create_ponencia(payload: dict[str, Any], notifier: Callable[[dict[str, Any]]
     ponencia = {
         "nombre": payload["nombre"].strip(),
         "pais": payload["pais"].strip(),
-        "bandera": payload.get("bandera", "banderas/mexico.png") or "banderas/mexico.png",
+        "bandera": payload.get("bandera", "banderas/mexico.png")
+        or "banderas/mexico.png",
         "titulo": payload["titulo"].strip(),
         "tipo": payload.get("tipo", "Ponencia").strip() or "Ponencia",
         "fecha": payload["fecha"].strip(),
@@ -80,19 +170,25 @@ def create_ponencia(payload: dict[str, Any], notifier: Callable[[dict[str, Any]]
 
     if notifier:
         try:
-            notify_result = notifier({
-                "titulo": ponencia["titulo"],
-                "ponente_nombre": ponencia["nombre"],
-                "fecha": ponencia["fecha"],
-                "hora": ponencia["hora"],
-            })
+            notify_result = notifier(
+                {
+                    "titulo": ponencia["titulo"],
+                    "ponente_nombre": ponencia["nombre"],
+                    "fecha": ponencia["fecha"],
+                    "hora": ponencia["hora"],
+                }
+            )
             if notify_result.get("ok"):
                 response["notification_status"] = "sent"
             else:
                 response["notification_status"] = "degraded"
-                response["warning"] = notify_result.get("error", "La notificacion no pudo procesarse")
+                response["warning"] = notify_result.get(
+                    "error", "La notificacion no pudo procesarse"
+                )
         except Exception:
             response["notification_status"] = "degraded"
-            response["warning"] = "La ponencia fue creada, pero el servicio de notificaciones no esta disponible"
+            response["warning"] = (
+                "La ponencia fue creada, pero el servicio de notificaciones no esta disponible"
+            )
 
     return response

@@ -10,6 +10,7 @@ from tests.conftest import service_import_path
 def agenda_service_module():
     with service_import_path("agenda_service"):
         from app import service as service_module
+
         yield service_module
 
 
@@ -31,7 +32,15 @@ def test_get_agenda_returns_paginated_data(reset_ponentes):
 
 @pytest.mark.unit
 def test_create_ponencia_validates_required_fields(reset_ponentes):
-    result = reset_ponentes.create_ponencia({"nombre": "", "pais": "Colombia", "titulo": "X", "fecha": "2026-05-10", "hora": "10:00"})
+    result = reset_ponentes.create_ponencia(
+        {
+            "nombre": "",
+            "pais": "Colombia",
+            "titulo": "X",
+            "fecha": "2026-05-10",
+            "hora": "10:00",
+        }
+    )
     assert result["ok"] is False
     assert "faltantes" in result["error"]
 
@@ -39,7 +48,13 @@ def test_create_ponencia_validates_required_fields(reset_ponentes):
 @pytest.mark.unit
 def test_create_ponencia_succeeds_and_marks_notification_sent(reset_ponentes):
     result = reset_ponentes.create_ponencia(
-        {"nombre": "Ana", "pais": "Colombia", "titulo": "IA Responsable", "fecha": "2026-05-10", "hora": "10:00"},
+        {
+            "nombre": "Ana",
+            "pais": "Colombia",
+            "titulo": "IA Responsable",
+            "fecha": "2026-05-10",
+            "hora": "10:00",
+        },
         notifier=lambda payload: {"ok": True, "message": payload["titulo"]},
     )
     assert result["ok"] is True
@@ -53,7 +68,13 @@ def test_create_ponencia_keeps_system_alive_when_notifications_fail(reset_ponent
         raise RequestException("service down")
 
     result = reset_ponentes.create_ponencia(
-        {"nombre": "Ana", "pais": "Colombia", "titulo": "IA Responsable", "fecha": "2026-05-10", "hora": "10:00"},
+        {
+            "nombre": "Ana",
+            "pais": "Colombia",
+            "titulo": "IA Responsable",
+            "fecha": "2026-05-10",
+            "hora": "10:00",
+        },
         notifier=failing_notifier,
     )
     assert result["ok"] is True
@@ -71,7 +92,9 @@ def test_agenda_route_returns_json(agenda_client):
 
 
 @pytest.mark.unit
-def test_create_ponente_route_still_returns_201_when_notification_service_is_down(agenda_client, monkeypatch):
+def test_create_ponente_route_still_returns_201_when_notification_service_is_down(
+    agenda_client, monkeypatch
+):
     with service_import_path("agenda_service"):
         import app.routes as routes_module
 
@@ -81,7 +104,13 @@ def test_create_ponente_route_still_returns_201_when_notification_service_is_dow
         monkeypatch.setattr(routes_module.requests, "post", boom)
         response = agenda_client.post(
             "/api/ponentes",
-            json={"nombre": "Ana", "pais": "Colombia", "titulo": "IA Responsable", "fecha": "2026-05-10", "hora": "10:00"},
+            json={
+                "nombre": "Ana",
+                "pais": "Colombia",
+                "titulo": "IA Responsable",
+                "fecha": "2026-05-10",
+                "hora": "10:00",
+            },
         )
 
     assert response.status_code == 201

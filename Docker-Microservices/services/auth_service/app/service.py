@@ -8,7 +8,9 @@ class AuthService:
     def register(self, name: str, email: str, password: str):
         if self.repository.get_by_email(email):
             return {"ok": False, "error": "El correo ya está registrado"}
-        self.repository.create({"name": name, "email": email, "password": generate_password_hash(password)})
+        self.repository.create(
+            {"name": name, "email": email, "password": generate_password_hash(password)}
+        )
         return {"ok": True}
 
     def login(self, email: str, password: str):

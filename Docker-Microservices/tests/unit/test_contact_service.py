@@ -36,7 +36,12 @@ def test_contact_repository_writes_header_and_row(tmp_path):
 def test_contact_route_returns_201_when_message_is_valid(contact_client):
     response = contact_client.post(
         "/api/contact",
-        json={"nombre": "Ana", "correo": "ana@example.com", "asunto": "Consulta", "mensaje": "Hola"},
+        json={
+            "nombre": "Ana",
+            "correo": "ana@example.com",
+            "asunto": "Consulta",
+            "mensaje": "Hola",
+        },
     )
     assert response.status_code == 201
     assert response.get_json()["ok"] is True
@@ -46,7 +51,12 @@ def test_contact_route_returns_201_when_message_is_valid(contact_client):
 def test_contact_route_returns_400_when_required_fields_are_missing(contact_client):
     response = contact_client.post(
         "/api/contact",
-        json={"nombre": "", "correo": "ana@example.com", "asunto": "Consulta", "mensaje": "Hola"},
+        json={
+            "nombre": "",
+            "correo": "ana@example.com",
+            "asunto": "Consulta",
+            "mensaje": "Hola",
+        },
     )
     assert response.status_code == 400
     assert response.get_json()["ok"] is False

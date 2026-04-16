@@ -11,7 +11,12 @@ contact_bp = Blueprint("contact", __name__)
 def contacto():
     if request.method == "POST":
         try:
-            result = contact_client.send_contact_message(request.form["nombre"], request.form["correo"], request.form["asunto"], request.form.get("mensaje", ""))
+            result = contact_client.send_contact_message(
+                request.form["nombre"],
+                request.form["correo"],
+                request.form["asunto"],
+                request.form.get("mensaje", ""),
+            )
             if result.get("ok"):
                 flash("Mensaje enviado correctamente ✅")
                 return redirect(url_for("contact.contacto"))

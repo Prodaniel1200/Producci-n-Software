@@ -12,7 +12,9 @@ ROOT = Path(__file__).resolve().parents[1]
 def service_import_path(service_name: str):
     service_dir = ROOT / "services" / service_name
     original = list(sys.path)
-    to_clear_before = [name for name in sys.modules if name == "app" or name.startswith("app.")]
+    to_clear_before = [
+        name for name in sys.modules if name == "app" or name.startswith("app.")
+    ]
     for name in to_clear_before:
         sys.modules.pop(name, None)
     sys.path.insert(0, str(service_dir))
@@ -20,7 +22,9 @@ def service_import_path(service_name: str):
         yield service_dir
     finally:
         sys.path[:] = original
-        to_clear_after = [name for name in sys.modules if name == "app" or name.startswith("app.")]
+        to_clear_after = [
+            name for name in sys.modules if name == "app" or name.startswith("app.")
+        ]
         for name in to_clear_after:
             sys.modules.pop(name, None)
 

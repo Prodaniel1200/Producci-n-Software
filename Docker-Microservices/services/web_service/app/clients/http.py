@@ -11,7 +11,9 @@ def _safe_json(response):
 
 
 def get_json(url, params=None):
-    response = requests.get(url, params=params, timeout=current_app.config["REQUEST_TIMEOUT"])
+    response = requests.get(
+        url, params=params, timeout=current_app.config["REQUEST_TIMEOUT"]
+    )
     if response.status_code >= 500:
         response.raise_for_status()
     data = _safe_json(response)
@@ -21,7 +23,9 @@ def get_json(url, params=None):
 
 
 def post_json(url, payload):
-    response = requests.post(url, json=payload, timeout=current_app.config["REQUEST_TIMEOUT"])
+    response = requests.post(
+        url, json=payload, timeout=current_app.config["REQUEST_TIMEOUT"]
+    )
     if response.status_code >= 500:
         response.raise_for_status()
     data = _safe_json(response)
