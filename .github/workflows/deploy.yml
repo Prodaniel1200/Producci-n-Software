@@ -10,40 +10,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Descargar repo
+      # 1. Clonar repo
       - name: Checkout
         uses: actions/checkout@v3
 
-      # 2. Configurar Python
+      # 2. Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
-      # 3. Instalar dependencias (FIX requests incluido)
+      # 3. Instalar dependencias (PRO + DEV)
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest requests
-          if [ -f Docker-Microservices/requirements.txt ]; then pip install -r Docker-Microservices/requirements.txt; fi
+          pip install -r Docker-Microservices/requirements.txt
+          pip install pytest requests werkzeug
 
-      # 4. Ejecutar tests
+      # 4. Tests
       - name: Run tests
         run: |
           export PYTHONPATH=$PYTHONPATH:$(pwd)/Docker-Microservices
           pytest -v --maxfail=1 --disable-warnings
 
-      # 5. Login en Azure
+      # 5. Login Azure
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # 6. Login en ACR
+      # 6. Login ACR
       - name: Login ACR
         run: az acr login --name PracticaProduccion
 
-      # 7. Build Docker (IMPORTANTE: carpeta auth)
+      # 7. Build Docker (IMPORTANTE ruta /auth)
       - name: Build image
         run: docker build -t practicaproduccion.azurecr.io/auth-service:v1 ./auth
 
