@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Descargar código
+      # 1. Checkout
       - name: Checkout
         uses: actions/checkout@v3
 
-      # 2. Configurar Python
+      # 2. Setup Python
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
@@ -24,28 +24,28 @@ jobs:
       # AUTH SERVICE
       # =========================
       - name: Instalar dependencias auth
-       run: pip install -r Docker-Microservices/services/auth_service/requirements.txt
+        run: pip install -r Docker-Microservices/services/auth_service/requirements.txt
 
       - name: Test auth
-        run: pytest auth
+        run: pytest Docker-Microservices/services/auth_service
 
       # =========================
       # AGENDA SERVICE
       # =========================
       - name: Instalar dependencias agenda
-        run: pip install -r /Docker-Microservices/services/agenda_service/requirements.txt
+        run: pip install -r Docker-Microservices/services/agenda_service/requirements.txt
 
       - name: Test agenda
-        run: pytest agenda
+        run: pytest Docker-Microservices/services/agenda_service
 
       # =========================
       # CONTACT SERVICE
       # =========================
       - name: Instalar dependencias contact
-        run: pip install -r /Docker-Microservices/services/contact_service/requirements.txt
+        run: pip install -r Docker-Microservices/services/contact_service/requirements.txt
 
       - name: Test contact
-        run: pytest contact
+        run: pytest Docker-Microservices/services/contact_service
 
       # =========================
       # LOGIN AZURE
@@ -62,7 +62,7 @@ jobs:
       # BUILD Y PUSH AUTH
       # =========================
       - name: Build auth
-        run: docker build -t practicaproduccion.azurecr.io/auth-service:v1 ./Docker-Microservices/services/auth_service
+        run: docker build -t practicaproduccion.azurecr.io/auth-service:v1 Docker-Microservices/services/auth_service
 
       - name: Push auth
         run: docker push practicaproduccion.azurecr.io/auth-service:v1
@@ -71,7 +71,7 @@ jobs:
       # BUILD Y PUSH AGENDA
       # =========================
       - name: Build agenda
-        run: docker build -t practicaproduccion.azurecr.io/agenda-service:v1 ./agenda
+        run: docker build -t practicaproduccion.azurecr.io/agenda-service:v1 Docker-Microservices/services/agenda_service
 
       - name: Push agenda
         run: docker push practicaproduccion.azurecr.io/agenda-service:v1
@@ -80,7 +80,7 @@ jobs:
       # BUILD Y PUSH CONTACT
       # =========================
       - name: Build contact
-        run: docker build -t practicaproduccion.azurecr.io/contact-service:v1 ./contact
+        run: docker build -t practicaproduccion.azurecr.io/contact-service:v1 Docker-Microservices/services/contact_service
 
       - name: Push contact
         run: docker push practicaproduccion.azurecr.io/contact-service:v1
