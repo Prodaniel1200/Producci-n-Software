@@ -27,7 +27,7 @@ jobs:
       # =========================
       # AUTH SERVICE
       # =========================
-      - name: Instalar dependencias auth
+      - name: Install auth dependencies
         run: pip install -r Docker-Microservices/services/auth_service/requirements.txt
 
       - name: Test auth
@@ -36,7 +36,7 @@ jobs:
       # =========================
       # AGENDA SERVICE
       # =========================
-      - name: Instalar dependencias agenda
+      - name: Install agenda dependencies
         run: pip install -r Docker-Microservices/services/agenda_service/requirements.txt
 
       - name: Test agenda
@@ -45,34 +45,30 @@ jobs:
       # =========================
       # CONTACT SERVICE
       # =========================
-      - name: Instalar dependencias contact
+      - name: Install contact dependencies
         run: pip install -r Docker-Microservices/services/contact_service/requirements.txt
 
       - name: Test contact
         run: pytest Docker-Microservices/services/contact_service || true
 
       # =========================
-      # LOGIN AZURE
+      # LOGIN AZURE (CORREGIDO)
       # =========================
       - name: Login Azure
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # =========================
-      # LOGIN ACR (CORRECTO)
+      # LOGIN ACR
       # =========================
-      - name: Login Azure
-        uses: azure/login@v1
-        with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       - name: Login ACR
         run: |
           echo ${{ secrets.ACR_PASSWORD }} | docker login practicaproduccion.azurecr.io \
           --username ${{ secrets.ACR_USERNAME }} \
           --password-stdin
-      
+
+      # =========================
       # BUILD Y PUSH AUTH
       # =========================
       - name: Build auth
