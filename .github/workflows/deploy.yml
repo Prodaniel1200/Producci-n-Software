@@ -10,49 +10,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout
+      # =========================
+      # 1. CHECKOUT
+      # =========================
       - name: Checkout
         uses: actions/checkout@v3
 
-      # 2. Setup Python
+      # =========================
+      # 2. PYTHON SETUP
+      # =========================
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-
-      # 3. Instalar pytest
-      - name: Install pytest
-        run: pip install pytest
+          python-version: "3.11"
 
       # =========================
-      # AUTH SERVICE
+      # 3. DEPENDENCIAS TEST
       # =========================
-      - name: Install auth dependencies
-        run: pip install -r Docker-Microservices/services/auth_service/requirements.txt
-
-      - name: Test auth
-        run: pytest Docker-Microservices/services/auth_service || true
-
-      # =========================
-      # AGENDA SERVICE
-      # =========================
-      - name: Install agenda dependencies
-        run: pip install -r Docker-Microservices/services/agenda_service/requirements.txt
-
-      - name: Test agenda
-        run: pytest Docker-Microservices/services/agenda_service || true
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest requests werkzeug flask gunicorn
 
       # =========================
-      # CONTACT SERVICE
+      # 4. TESTS
       # =========================
-      - name: Install contact dependencies
-        run: pip install -r Docker-Microservices/services/contact_service/requirements.txt
-
-      - name: Test contact
-        run: pytest Docker-Microservices/services/contact_service || true
+      - name: Run tests
+        run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/Docker-Microservices
+          pytest -v --maxfail=1 --disable-warnings
 
       # =========================
-      # LOGIN AZURE (CORREGIDO)
+      # 5. LOGIN AZURE
       # =========================
       - name: Login Azure
         uses: azure/login@v2
@@ -60,37 +49,61 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # =========================
-      # LOGIN ACR
+      # 6. LOGIN ACR (SIN ERRORES TTY)
       # =========================
       - name: Login ACR
-        run: |
-          echo ${{ secrets.ACR_PASSWORD }} | docker login practicaproduccion.azurecr.io \
-          --username ${{ secrets.ACR_USERNAME }} \
-          --password-stdin
+        run: az acr login --name PracticaProduccion
 
       # =========================
-      # BUILD Y PUSH AUTH
+      # 7. AUTH SERVICE
       # =========================
-      - name: Build auth
-        run: docker build -t practicaproduccion.azurecr.io/auth-service:v1 Docker-Microservices/services/auth_service
+      - name: Build auth service
+        run: docker build -t practicaproduccion.azurecr.io/auth-service:v1 ./Docker-Microservices/services/auth_service
 
-      - name: Push auth
+      - name: Push auth service
         run: docker push practicaproduccion.azurecr.io/auth-service:v1
 
       # =========================
-      # BUILD Y PUSH AGENDA
+      # 8. AGENDA SERVICE
       # =========================
-      - name: Build agenda
-        run: docker build -t practicaproduccion.azurecr.io/agenda-service:v1 Docker-Microservices/services/agenda_service
+      - name: Build agenda service
+        run: docker build -t practicaproduccion.azurecr.io/agenda-service:v1 ./Docker-Microservices/services/agenda_service
 
-      - name: Push agenda
+      - name: Push agenda service
         run: docker push practicaproduccion.azurecr.io/agenda-service:v1
 
       # =========================
-      # BUILD Y PUSH CONTACT
+      # 9. CONTACT SERVICE
       # =========================
-      - name: Build contact
-        run: docker build -t practicaproduccion.azurecr.io/contact-service:v1 Docker-Microservices/services/contact_service
+      - name: Build contact service
+        run: docker build -t practicaproduccion.azurecr.io/contact-service:v1 ./Docker-Microservices/services/contact_service
 
-      - name: Push contact
+      - name: Push contact service
         run: docker push practicaproduccion.azurecr.io/contact-service:v1
+
+      # =========================
+      # 10. INTEGRATIONS SERVICE
+      # =========================
+      - name: Build integrations service
+        run: docker build -t practicaproduccion.azurecr.io/integrations-service:v1 ./Docker-Microservices/services/integrations_service
+
+      - name: Push integrations service
+        run: docker push practicaproduccion.azurecr.io/integrations-service:v1
+
+      # =========================
+      # 11. NOTIFICATIONS SERVICE
+      # =========================
+      - name: Build notifications service
+        run: docker build -t practicaproduccion.azurecr.io/notifications-service:v1 ./Docker-Microservices/services/notifications_service
+
+      - name: Push notifications service
+        run: docker push practicaproduccion.azurecr.io/notifications-service:v1
+
+      # =========================
+      # 12. WEB SERVICE
+      # =========================
+      - name: Build web service
+        run: docker build -t practicaproduccion.azurecr.io/web-service:v1 ./Docker-Microservices/services/web_service
+
+      - name: Push web service
+        run: docker push practicaproduccion.azurecr.io/web-service:v1
