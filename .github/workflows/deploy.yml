@@ -1,4 +1,4 @@
-name: CI-CD Microservices
+name: Deploy All Microservices
 
 on:
   push:
@@ -6,84 +6,81 @@ on:
       - main
 
 jobs:
-  build-test-deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Clonar repo
+      # 1. Descargar código
       - name: Checkout
         uses: actions/checkout@v3
 
-      # 2. Python
-      - name: Set up Python
+      # 2. Configurar Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
-      # 3. Instalar dependencias globales de tests
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest requests werkzeug flask gunicorn
+      # =========================
+      # AUTH SERVICE
+      # =========================
+      - name: Instalar dependencias auth
+        run: pip install -r auth/requirements.txt
 
-      # 4. Tests generales
-      - name: Run tests
-        run: |
-          export PYTHONPATH=$PYTHONPATH:$(pwd)/Docker-Microservices
-          pytest -v --maxfail=1 --disable-warnings
+      - name: Test auth
+        run: pytest auth
 
-      # 5. Azure Login
-      - name: Azure Login
-        uses: azure/login@v2
+      # =========================
+      # AGENDA SERVICE
+      # =========================
+      - name: Instalar dependencias agenda
+        run: pip install -r agenda/requirements.txt
+
+      - name: Test agenda
+        run: pytest agenda
+
+      # =========================
+      # CONTACT SERVICE
+      # =========================
+      - name: Instalar dependencias contact
+        run: pip install -r contact/requirements.txt
+
+      - name: Test contact
+        run: pytest contact
+
+      # =========================
+      # LOGIN AZURE
+      # =========================
+      - name: Login Azure
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # 6. Login ACR
       - name: Login ACR
         run: az acr login --name PracticaProduccion
 
       # =========================
-      # BUILD + PUSH MICROSERVICES
+      # BUILD Y PUSH AUTH
       # =========================
+      - name: Build auth
+        run: docker build -t practicaproduccion.azurecr.io/auth-service:v1 ./auth
 
-      # AUTH SERVICE
-      - name: Build auth-service
-        run: docker build -t practicaproduccion.azurecr.io/auth-service:v1 ./Docker-Microservices/services/auth_service
-
-      - name: Push auth-service
+      - name: Push auth
         run: docker push practicaproduccion.azurecr.io/auth-service:v1
 
-      # AGENDA SERVICE
-      - name: Build agenda-service
-        run: docker build -t practicaproduccion.azurecr.io/agenda-service:v1 ./Docker-Microservices/services/agenda_service
+      # =========================
+      # BUILD Y PUSH AGENDA
+      # =========================
+      - name: Build agenda
+        run: docker build -t practicaproduccion.azurecr.io/agenda-service:v1 ./agenda
 
-      - name: Push agenda-service
+      - name: Push agenda
         run: docker push practicaproduccion.azurecr.io/agenda-service:v1
 
-      # CONTACT SERVICE
-      - name: Build contact-service
-        run: docker build -t practicaproduccion.azurecr.io/contact-service:v1 ./Docker-Microservices/services/contact_service
+      # =========================
+      # BUILD Y PUSH CONTACT
+      # =========================
+      - name: Build contact
+        run: docker build -t practicaproduccion.azurecr.io/contact-service:v1 ./contact
 
-      - name: Push contact-service
+      - name: Push contact
         run: docker push practicaproduccion.azurecr.io/contact-service:v1
-
-      # INTEGRATIONS SERVICE
-      - name: Build integrations-service
-        run: docker build -t practicaproduccion.azurecr.io/integrations-service:v1 ./Docker-Microservices/services/integrations_service
-
-      - name: Push integrations-service
-        run: docker push practicaproduccion.azurecr.io/integrations-service:v1
-
-      # NOTIFICATIONS SERVICE
-      - name: Build notifications-service
-        run: docker build -t practicaproduccion.azurecr.io/notifications-service:v1 ./Docker-Microservices/services/notifications_service
-
-      - name: Push notifications-service
-        run: docker push practicaproduccion.azurecr.io/notifications-service:v1
-
-      # WEB SERVICE
-      - name: Build web-service
-        run: docker build -t practicaproduccion.azurecr.io/web-service:v1 ./Docker-Microservices/services/web_service
-
-      - name: Push web-service
-        run: docker push practicaproduccion.azurecr.io/web-service:v1
