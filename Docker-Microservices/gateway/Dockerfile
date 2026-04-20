@@ -1,7 +1,11 @@
-FROM devopsfaith/krakend:2.6
+FROM python:3.11-slim
 
-COPY krakend.json /etc/krakend/krakend.json
+WORKDIR /app
+
+COPY . .
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 80
 
-CMD ["run", "-c", "/etc/krakend/krakend.json"]
+CMD ["gunicorn", "-b", "0.0.0.0:80", "app:app"]

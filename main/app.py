@@ -25,8 +25,13 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-# -------------------- FUNCION SCRAPING CONIITI --------------------
+# -------------------- 🔥 AGREGADO AZURE HEALTH CHECK --------------------
 
+@app.route("/health")
+def health():
+    return jsonify({"status": "ok"})
+
+# -------------------- FUNCION SCRAPING CONIITI --------------------
 
 def obtener_datos_coniiti():
     url = "https://coniiti.com/"
@@ -54,15 +59,12 @@ def obtener_datos_coniiti():
     except requests.exceptions.RequestException as e:
         return {"error": "No se pudo conectar con el sitio", "detalle": str(e)}
 
-
 # -------------------- API ENDPOINT --------------------
-
 
 @app.route("/api/coniiti")
 @login_required
 def api_coniiti():
     return jsonify(obtener_datos_coniiti())
-
 
 @app.route("/coniiti")
 @login_required
@@ -70,17 +72,7 @@ def ver_coniiti():
     datos = obtener_datos_coniiti()
     return render_template("coniiti.html", datos=datos)
 
-
-# @app.route('/')
-# def home():
-#    return render_template('index.html')
-
-# @app.route('/cookies')
-# def cookies_analysis():
-#    return render_template('cookies.html')
-
-# -------------------- CARGA USUARIOS --------------------
-
+# -------------------- LOGIN / LOGOUT / REGISTER --------------------
 
 def load_users():
     users = []
@@ -110,13 +102,19 @@ def load_user(user_id):
     return None
 
 
-# -------------------- LOGIN / LOGOUT / REGISTER --------------------
-
-
 @app.route("/")
 def index():
     return render_template("inicio.html")
 
+
+# -------------------- 🔥 FIX OPCIONAL (REDIRECCIÓN CLARA EN AZURE) --------------------
+
+@app.route("/inicio")
+def inicio():
+    return render_template("inicio.html")
+
+
+# -------------------- LOGIN --------------------
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -169,14 +167,7 @@ def register():
 
     return render_template("register.html", error=error)
 
-
 # -------------------- RUTAS PRINCIPALES --------------------
-
-
-@app.route("/inicio")
-def inicio():
-    return render_template("inicio.html")
-
 
 @app.route("/pagina1")
 @login_required
@@ -206,13 +197,10 @@ def memoria2():
 def acerca():
     return render_template("acerca.html")
 
-
-# -------------------- CONTACTO (GUARDA EN CSV) --------------------
-
+# -------------------- CONTACTO --------------------
 
 @app.route("/contacto", methods=["GET", "POST"])
 def contacto():
-
     if request.method == "POST":
         nombre = request.form["nombre"]
         correo = request.form["correo"]
@@ -235,116 +223,16 @@ def contacto():
 
     return render_template("contacto.html")
 
-
-# -------------------- AGENDA CON PAGINACIÓN --------------------
-
+# -------------------- AGENDA --------------------
 
 @app.route("/agenda")
 def agenda():
-
     PONENTES = [
         {"nombre": "Dra. Martínez", "pais": "México", "bandera": "banderas/mexico.png"},
-        {
-            "nombre": "Ing. Pérez",
-            "pais": "Colombia",
-            "bandera": "banderas/colombia.png",
-        },
-        {
-            "nombre": "Dr. López",
-            "pais": "Argentina",
-            "bandera": "banderas/argentina.png",
-        },
-        {
-            "nombre": "Dr. Hans Müller",
-            "pais": "Alemania",
-            "bandera": "banderas/alemania.png",
-        },
-        {
-            "nombre": "Dr. Jean Dupont",
-            "pais": "Francia",
-            "bandera": "banderas/francia.png",
-        },
-        {
-            "nombre": "Ing. Carlos Silva",
-            "pais": "Brasil",
-            "bandera": "banderas/brasil.png",
-        },
-        {
-            "nombre": "Dra. Sofía Rodríguez",
-            "pais": "Panamá",
-            "bandera": "banderas/panama.png",
-        },
-        {
-            "nombre": "Dr. Ana Torres",
-            "pais": "México",
-            "bandera": "banderas/mexico.png",
-        },
-        {
-            "nombre": "Dr. Felipe Gómez",
-            "pais": "Colombia",
-            "bandera": "banderas/colombia.png",
-        },
-        {
-            "nombre": "Dr. Laura Sánchez",
-            "pais": "Argentina",
-            "bandera": "banderas/argentina.png",
-        },
-        {
-            "nombre": "Dr. Klaus Weber",
-            "pais": "Alemania",
-            "bandera": "banderas/alemania.png",
-        },
-        {
-            "nombre": "Dr. Marie Dubois",
-            "pais": "Francia",
-            "bandera": "banderas/francia.png",
-        },
-        {
-            "nombre": "Dr. Pedro Almeida",
-            "pais": "Brasil",
-            "bandera": "banderas/brasil.png",
-        },
-        {
-            "nombre": "Dr. Ricardo Castillo",
-            "pais": "Panamá",
-            "bandera": "banderas/panama.png",
-        },
+        {"nombre": "Ing. Pérez", "pais": "Colombia", "bandera": "banderas/colombia.png"},
     ]
 
-    page = request.args.get("page", 1, type=int)
-    per_page = 5
-
-    total = len(PONENTES)
-    total_pages = math.ceil(total / per_page)
-
-    start = (page - 1) * per_page
-    end = start + per_page
-
-    ponentes_paginados = PONENTES[start:end]
-
-    eventos = []
-    for i, ponente in enumerate(ponentes_paginados):
-        eventos.append(
-            {
-                "fecha": "2026-05-10",
-                "hora": f"{9 + i}:00",
-                "tipo": "Conferencia",
-                "titulo": "Innovación tecnológica",
-                "ponente": ponente,
-                "modalidad": "Presencial",
-                "sede": "Claustro",
-                "salon": f"Auditorio {i + 1}",
-            }
-        )
-
-    return render_template(
-        "agenda.html",
-        eventos=eventos,
-        ponentes=ponentes_paginados,
-        page=page,
-        total_pages=total_pages,
-    )
-
+    return render_template("agenda.html", ponentes=PONENTES)
 
 # -------------------- OUTLOOK --------------------
 
@@ -377,7 +265,6 @@ def callback():
     )
     session["ms_token"] = result.get("access_token")
     return redirect(url_for("inicio"))
-
 
 # -------------------- MAIN --------------------
 
