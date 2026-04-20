@@ -1,4 +1,4 @@
-name: Deploy auth-service
+name: CI-CD auth-service
 
 on:
   push:
@@ -6,23 +6,47 @@ on:
       - main
 
 jobs:
-  build:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Descargar código
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Login Azure
+      # 2. Instalar Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      # 3. Instalar dependencias
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r Docker-Microservices/requirements.txt || true
+          pip install pytest
+
+      # 4. Tests (calidad)
+      - name: Run tests
+        run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/Docker-Microservices
+          pytest -v --maxfail=1 --disable-warnings
+
+      # 5. Login en Azure
+      - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      # 6. Login en ACR
       - name: Login ACR
         run: az acr login --name PracticaProduccion
 
+      # 7. Build Docker
       - name: Build image
-        run: docker build -t practicaproduccion.azurecr.io/auth-service:v1 .
+        run: docker build -t practicaproduccion.azurecr.io/auth-service:v1 ./auth
 
+      # 8. Push Docker
       - name: Push image
         run: docker push practicaproduccion.azurecr.io/auth-service:v1
