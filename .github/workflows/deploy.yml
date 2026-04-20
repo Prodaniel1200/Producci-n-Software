@@ -10,24 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Descargar código
+      # 1. Descargar repo
       - name: Checkout
         uses: actions/checkout@v3
 
-      # 2. Instalar Python
+      # 2. Configurar Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
-      # 3. Instalar dependencias
+      # 3. Instalar dependencias (FIX requests incluido)
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r Docker-Microservices/requirements.txt || true
-          pip install pytest
+          pip install pytest requests
+          if [ -f Docker-Microservices/requirements.txt ]; then pip install -r Docker-Microservices/requirements.txt; fi
 
-      # 4. Tests (calidad)
+      # 4. Ejecutar tests
       - name: Run tests
         run: |
           export PYTHONPATH=$PYTHONPATH:$(pwd)/Docker-Microservices
@@ -43,7 +43,7 @@ jobs:
       - name: Login ACR
         run: az acr login --name PracticaProduccion
 
-      # 7. Build Docker
+      # 7. Build Docker (IMPORTANTE: carpeta auth)
       - name: Build image
         run: docker build -t practicaproduccion.azurecr.io/auth-service:v1 ./auth
 
