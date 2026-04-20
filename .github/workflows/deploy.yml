@@ -25,12 +25,19 @@ jobs:
           python-version: "3.11"
 
       # =========================
-      # 3. DEPENDENCIAS COMPLETAS (FIX FINAL)
+      # 3. DEPENDENCIAS COMPLETAS (FIX FINAL REAL)
       # =========================
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest requests werkzeug flask gunicorn flask-login
+          pip install \
+            pytest \
+            requests \
+            werkzeug \
+            flask \
+            gunicorn \
+            flask-login \
+            beautifulsoup4
 
       # =========================
       # 4. TESTS
@@ -41,7 +48,7 @@ jobs:
           pytest -v --maxfail=1 --disable-warnings
 
       # =========================
-      # 5. LOGIN AZURE (CORRECTO)
+      # 5. LOGIN AZURE
       # =========================
       - name: Login Azure
         uses: azure/login@v2
