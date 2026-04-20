@@ -72,7 +72,7 @@ jobs:
           echo ${{ secrets.ACR_PASSWORD }} | docker login practicaproduccion.azurecr.io \
           --username ${{ secrets.ACR_USERNAME }} \
           --password-stdin
-      # =========================
+      
       # BUILD Y PUSH AUTH
       # =========================
       - name: Build auth
