@@ -2,16 +2,12 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copiar dependencias primero (mejor cache)
-COPY requirements.txt .
+COPY . .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar el resto del proyecto
-COPY . .
+ENV PORT=80
 
-# Puerto que usa Azure App Service
 EXPOSE 80
 
-# IMPORTANTE: asegúrate que tu archivo principal es app.py y tiene "app = Flask(__name__)"
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "app:app"]
+CMD ["sh", "-c", "gunicorn -b 0.0.0.0:${PORT} app:app"]

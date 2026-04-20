@@ -17,6 +17,8 @@ import msal
 import os
 
 app = Flask(__name__)
+
+# 🔐 FIX: SECRET KEY segura para Azure
 app.secret_key = os.environ.get("SECRET_KEY", "secretkey123")
 
 # -------------------- FLASK LOGIN --------------------
@@ -25,7 +27,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-# -------------------- HEALTH CHECK (AZURE) --------------------
+# -------------------- 🔥 HEALTH CHECK (OBLIGATORIO AZURE) --------------------
 
 @app.route("/health")
 def health():
@@ -49,7 +51,7 @@ def obtener_datos_coniiti():
     except Exception as e:
         return {"error": str(e)}
 
-# -------------------- LOGIN --------------------
+# -------------------- USUARIOS --------------------
 
 def load_users():
     users = []
@@ -60,7 +62,6 @@ def load_users():
     except:
         pass
     return users
-
 
 user_list = load_users()
 
@@ -118,8 +119,10 @@ def register():
 
         with open("users.csv", "a", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=["email", "password", "name"])
+
             if f.tell() == 0:
                 writer.writeheader()
+
             writer.writerow({"email": email, "password": password, "name": name})
 
         return redirect(url_for("login"))
@@ -147,7 +150,7 @@ def contacto():
 
     return render_template("contacto.html")
 
-# -------------------- OUTLOOK (FIX CRÍTICO) --------------------
+# -------------------- OUTLOOK (FIX MSAL) --------------------
 
 CLIENT_ID = "TU_CLIENT_ID"
 CLIENT_SECRET = "TU_SECRET_VALOR"
@@ -184,7 +187,7 @@ def callback():
     session["ms_token"] = result.get("access_token")
     return redirect(url_for("inicio"))
 
-# -------------------- MAIN --------------------
+# -------------------- APLICACIÓN (FIX AZURE CRÍTICO) --------------------
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 80))
