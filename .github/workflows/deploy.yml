@@ -62,13 +62,16 @@ jobs:
       # =========================
       # LOGIN ACR (CORRECTO)
       # =========================
+      - name: Login Azure
+        uses: azure/login@v1
+        with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Login ACR
         run: |
-          az acr login --name PracticaProduccion
-          docker login practicaproduccion.azurecr.io \
-            -u ${{ secrets.ACR_USERNAME }} \
-            -p ${{ secrets.ACR_PASSWORD }}
-
+        echo ${{ secrets.ACR_PASSWORD }} | docker login practicaproduccion.azurecr.io \
+        --username ${{ secrets.ACR_USERNAME }} \
+        --password-stdin
       # =========================
       # BUILD Y PUSH AUTH
       # =========================
