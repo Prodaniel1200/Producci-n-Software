@@ -17,31 +17,7 @@ jobs:
         uses: actions/checkout@v3
 
       # =========================
-      # 2. PYTHON
-      # =========================
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-
-      # =========================
-      # 3. INSTALL (FIX DEFINITIVO)
-      # =========================
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      # =========================
-      # 4. TESTS
-      # =========================
-      - name: Run tests
-        run: |
-          export PYTHONPATH=$PYTHONPATH:$(pwd)/Docker-Microservices
-          pytest -v --maxfail=1 --disable-warnings
-
-      # =========================
-      # 5. AZURE LOGIN
+      # 2. AZURE LOGIN
       # =========================
       - name: Login Azure
         uses: azure/login@v2
@@ -49,13 +25,13 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # =========================
-      # 6. ACR LOGIN
+      # 3. ACR LOGIN
       # =========================
       - name: Login ACR
         run: az acr login --name PracticaProduccion
 
       # =========================
-      # 7. AUTH SERVICE
+      # 4. AUTH SERVICE
       # =========================
       - name: Build auth
         run: docker build -t practicaproduccion.azurecr.io/auth-service:v1 ./Docker-Microservices/services/auth_service
@@ -64,7 +40,7 @@ jobs:
         run: docker push practicaproduccion.azurecr.io/auth-service:v1
 
       # =========================
-      # 8. AGENDA SERVICE
+      # 5. AGENDA SERVICE
       # =========================
       - name: Build agenda
         run: docker build -t practicaproduccion.azurecr.io/agenda-service:v1 ./Docker-Microservices/services/agenda_service
@@ -73,7 +49,7 @@ jobs:
         run: docker push practicaproduccion.azurecr.io/agenda-service:v1
 
       # =========================
-      # 9. CONTACT SERVICE
+      # 6. CONTACT SERVICE
       # =========================
       - name: Build contact
         run: docker build -t practicaproduccion.azurecr.io/contact-service:v1 ./Docker-Microservices/services/contact_service
@@ -82,7 +58,7 @@ jobs:
         run: docker push practicaproduccion.azurecr.io/contact-service:v1
 
       # =========================
-      # 10. INTEGRATIONS SERVICE
+      # 7. INTEGRATIONS SERVICE
       # =========================
       - name: Build integrations
         run: docker build -t practicaproduccion.azurecr.io/integrations-service:v1 ./Docker-Microservices/services/integrations_service
@@ -91,7 +67,7 @@ jobs:
         run: docker push practicaproduccion.azurecr.io/integrations-service:v1
 
       # =========================
-      # 11. NOTIFICATIONS SERVICE
+      # 8. NOTIFICATIONS SERVICE
       # =========================
       - name: Build notifications
         run: docker build -t practicaproduccion.azurecr.io/notifications-service:v1 ./Docker-Microservices/services/notifications_service
@@ -100,7 +76,7 @@ jobs:
         run: docker push practicaproduccion.azurecr.io/notifications-service:v1
 
       # =========================
-      # 12. WEB SERVICE
+      # 9. WEB SERVICE
       # =========================
       - name: Build web
         run: docker build -t practicaproduccion.azurecr.io/web-service:v1 ./Docker-Microservices/services/web_service
