@@ -106,6 +106,14 @@ def contacto():
         return redirect(url_for("contacto"))
 
     return render_template("contacto.html")
+#-------------------------------------------
+    @app.route("/")
+def root():
+    return "OK - SERVICE RUNNING"
+#----------------------------------------
+@app.route("/health")
+def health():
+    return jsonify({"status": "ok"}), 200
 
 # ---------------- MAIN ----------------
 if __name__ == "__main__":
