@@ -11,13 +11,13 @@ jobs:
 
     steps:
       # =========================
-      # 1. CHECKOUT
+      # 1. CODE
       # =========================
       - name: Checkout
         uses: actions/checkout@v3
 
       # =========================
-      # 2. PYTHON SETUP
+      # 2. PYTHON
       # =========================
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -25,19 +25,12 @@ jobs:
           python-version: "3.11"
 
       # =========================
-      # 3. DEPENDENCIAS COMPLETAS (FIX FINAL REAL)
+      # 3. INSTALL (FIX DEFINITIVO)
       # =========================
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install \
-            pytest \
-            requests \
-            werkzeug \
-            flask \
-            gunicorn \
-            flask-login \
-            beautifulsoup4
+          pip install -r requirements.txt
 
       # =========================
       # 4. TESTS
@@ -48,7 +41,7 @@ jobs:
           pytest -v --maxfail=1 --disable-warnings
 
       # =========================
-      # 5. LOGIN AZURE
+      # 5. AZURE LOGIN
       # =========================
       - name: Login Azure
         uses: azure/login@v2
@@ -56,7 +49,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # =========================
-      # 6. LOGIN ACR (SIN ERRORES TTY)
+      # 6. ACR LOGIN
       # =========================
       - name: Login ACR
         run: az acr login --name PracticaProduccion
@@ -64,53 +57,53 @@ jobs:
       # =========================
       # 7. AUTH SERVICE
       # =========================
-      - name: Build auth service
+      - name: Build auth
         run: docker build -t practicaproduccion.azurecr.io/auth-service:v1 ./Docker-Microservices/services/auth_service
 
-      - name: Push auth service
+      - name: Push auth
         run: docker push practicaproduccion.azurecr.io/auth-service:v1
 
       # =========================
       # 8. AGENDA SERVICE
       # =========================
-      - name: Build agenda service
+      - name: Build agenda
         run: docker build -t practicaproduccion.azurecr.io/agenda-service:v1 ./Docker-Microservices/services/agenda_service
 
-      - name: Push agenda service
+      - name: Push agenda
         run: docker push practicaproduccion.azurecr.io/agenda-service:v1
 
       # =========================
       # 9. CONTACT SERVICE
       # =========================
-      - name: Build contact service
+      - name: Build contact
         run: docker build -t practicaproduccion.azurecr.io/contact-service:v1 ./Docker-Microservices/services/contact_service
 
-      - name: Push contact service
+      - name: Push contact
         run: docker push practicaproduccion.azurecr.io/contact-service:v1
 
       # =========================
       # 10. INTEGRATIONS SERVICE
       # =========================
-      - name: Build integrations service
+      - name: Build integrations
         run: docker build -t practicaproduccion.azurecr.io/integrations-service:v1 ./Docker-Microservices/services/integrations_service
 
-      - name: Push integrations service
+      - name: Push integrations
         run: docker push practicaproduccion.azurecr.io/integrations-service:v1
 
       # =========================
       # 11. NOTIFICATIONS SERVICE
       # =========================
-      - name: Build notifications service
+      - name: Build notifications
         run: docker build -t practicaproduccion.azurecr.io/notifications-service:v1 ./Docker-Microservices/services/notifications_service
 
-      - name: Push notifications service
+      - name: Push notifications
         run: docker push practicaproduccion.azurecr.io/notifications-service:v1
 
       # =========================
       # 12. WEB SERVICE
       # =========================
-      - name: Build web service
+      - name: Build web
         run: docker build -t practicaproduccion.azurecr.io/web-service:v1 ./Docker-Microservices/services/web_service
 
-      - name: Push web service
+      - name: Push web
         run: docker push practicaproduccion.azurecr.io/web-service:v1

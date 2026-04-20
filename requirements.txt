@@ -1,0 +1,8 @@
+pytest
+requests
+werkzeug
+flask
+gunicorn
+flask-login
+beautifulsoup4
+msal
