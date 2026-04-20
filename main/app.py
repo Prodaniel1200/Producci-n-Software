@@ -25,11 +25,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-# -------------------- 🔥 AGREGADO AZURE HEALTH CHECK --------------------
+# -------------------- 🔥 FIX AZURE / RUNTIME HEALTH --------------------
 
 @app.route("/health")
 def health():
-    return jsonify({"status": "ok"})
+    return jsonify({"status": "ok"}), 200
 
 # -------------------- FUNCION SCRAPING CONIITI --------------------
 
@@ -72,7 +72,7 @@ def ver_coniiti():
     datos = obtener_datos_coniiti()
     return render_template("coniiti.html", datos=datos)
 
-# -------------------- LOGIN / LOGOUT / REGISTER --------------------
+# -------------------- USUARIOS --------------------
 
 def load_users():
     users = []
@@ -101,20 +101,17 @@ def load_user(user_id):
             return User(user_id)
     return None
 
+# -------------------- ROUTES --------------------
 
 @app.route("/")
 def index():
     return render_template("inicio.html")
 
 
-# -------------------- 🔥 FIX OPCIONAL (REDIRECCIÓN CLARA EN AZURE) --------------------
-
 @app.route("/inicio")
 def inicio():
     return render_template("inicio.html")
 
-
-# -------------------- LOGIN --------------------
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -167,7 +164,7 @@ def register():
 
     return render_template("register.html", error=error)
 
-# -------------------- RUTAS PRINCIPALES --------------------
+# -------------------- OTRAS RUTAS --------------------
 
 @app.route("/pagina1")
 @login_required
@@ -228,8 +225,8 @@ def contacto():
 @app.route("/agenda")
 def agenda():
     PONENTES = [
-        {"nombre": "Dra. Martínez", "pais": "México", "bandera": "banderas/mexico.png"},
-        {"nombre": "Ing. Pérez", "pais": "Colombia", "bandera": "banderas/colombia.png"},
+        {"nombre": "Dra. Martínez", "pais": "México"},
+        {"nombre": "Ing. Pérez", "pais": "Colombia"},
     ]
 
     return render_template("agenda.html", ponentes=PONENTES)
@@ -266,7 +263,8 @@ def callback():
     session["ms_token"] = result.get("access_token")
     return redirect(url_for("inicio"))
 
-# -------------------- MAIN --------------------
+# -------------------- MAIN (FIX AZURE IMPORTANTE) --------------------
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 80))
+    app.run(host="0.0.0.0", port=port, debug=False)
