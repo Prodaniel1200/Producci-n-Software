@@ -12,13 +12,12 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 import csv
 import requests
 from bs4 import BeautifulSoup
-import math
 import msal
 import os
 
 app = Flask(__name__)
 
-# 🔐 FIX: SECRET KEY segura para Azure
+# 🔐 FIX Azure (clave dinámica)
 app.secret_key = os.environ.get("SECRET_KEY", "secretkey123")
 
 # -------------------- FLASK LOGIN --------------------
@@ -27,7 +26,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-# -------------------- 🔥 HEALTH CHECK (OBLIGATORIO AZURE) --------------------
+# -------------------- HEALTH CHECK (IMPORTANTE AZURE) --------------------
 
 @app.route("/health")
 def health():
@@ -56,11 +55,13 @@ def obtener_datos_coniiti():
 def load_users():
     users = []
     try:
-        with open("users.csv", newline="", encoding="utf-8") as f:
-            reader = csv.DictReader(f)
-            users = list(reader)
-    except:
-        pass
+        if os.path.exists("users.csv"):
+            with open("users.csv", newline="", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                users = list(reader)
+    except Exception as e:
+        print("Error cargando usuarios:", e)
+
     return users
 
 user_list = load_users()
@@ -80,77 +81,91 @@ def load_user(user_id):
 
 @app.route("/")
 def index():
-    return render_template("inicio.html")
+    try:
+        return render_template("inicio.html")
+    except Exception as e:
+        return f"Error cargando inicio.html: {e}", 500
+
 
 @app.route("/inicio")
 def inicio():
-    return render_template("inicio.html")
+    return redirect(url_for("index"))
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     error = None
+
     if request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
+        email = request.form.get("email")
+        password = request.form.get("password")
 
         for u in user_list:
             if u["email"] == email and u["password"] == password:
                 login_user(User(email))
-                return redirect(url_for("inicio"))
+                return redirect(url_for("index"))
 
         error = "Credenciales incorrectas"
 
     return render_template("login.html", error=error)
 
+
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("inicio"))
+    return redirect(url_for("index"))
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        name = request.form["name"]
-        email = request.form["email"]
-        password = request.form["password"]
+        name = request.form.get("name")
+        email = request.form.get("email")
+        password = request.form.get("password")
 
         user_list.append({"email": email, "password": password, "name": name})
 
-        with open("users.csv", "a", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=["email", "password", "name"])
+        try:
+            with open("users.csv", "a", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(f, fieldnames=["email", "password", "name"])
 
-            if f.tell() == 0:
-                writer.writeheader()
+                if f.tell() == 0:
+                    writer.writeheader()
 
-            writer.writerow({"email": email, "password": password, "name": name})
+                writer.writerow({"email": email, "password": password, "name": name})
+        except Exception as e:
+            return f"Error guardando usuario: {e}", 500
 
         return redirect(url_for("login"))
 
     return render_template("register.html")
+
 
 # -------------------- CONTACTO --------------------
 
 @app.route("/contacto", methods=["GET", "POST"])
 def contacto():
     if request.method == "POST":
-        archivo = "infopagweb.csv"
-
-        with open(archivo, "a", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-            writer.writerow([
-                request.form["nombre"],
-                request.form["correo"],
-                request.form["asunto"],
-                request.form.get("mensaje", "")
-            ])
+        try:
+            with open("infopagweb.csv", "a", newline="", encoding="utf-8") as f:
+                writer = csv.writer(f)
+                writer.writerow([
+                    request.form.get("nombre"),
+                    request.form.get("correo"),
+                    request.form.get("asunto"),
+                    request.form.get("mensaje", "")
+                ])
+        except Exception as e:
+            return f"Error guardando contacto: {e}", 500
 
         flash("Mensaje enviado")
         return redirect(url_for("contacto"))
 
     return render_template("contacto.html")
 
-# -------------------- OUTLOOK (FIX MSAL) --------------------
+
+# -------------------- OUTLOOK --------------------
 
 CLIENT_ID = "TU_CLIENT_ID"
 CLIENT_SECRET = "TU_SECRET_VALOR"
@@ -185,9 +200,9 @@ def callback():
     )
 
     session["ms_token"] = result.get("access_token")
-    return redirect(url_for("inicio"))
+    return redirect(url_for("index"))
 
-# -------------------- APLICACIÓN (FIX AZURE CRÍTICO) --------------------
+# -------------------- MAIN (CRÍTICO AZURE) --------------------
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 80))
