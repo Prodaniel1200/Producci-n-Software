@@ -12,11 +12,17 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 import csv
 import requests
 from bs4 import BeautifulSoup
-import math
-import msal
 import os
 
-app = Flask(__name__)
+# 🔥 IMPORTANTE: asegurar rutas correctas (para pytest y Codespaces)
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, "../templates"),
+    static_folder=os.path.join(BASE_DIR, "../static")
+)
+
 app.secret_key = "secretkey123"
 
 # -------------------- FLASK LOGIN --------------------
@@ -116,8 +122,8 @@ def login():
     error = None
 
     if request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
+        email = request.form.get("email")
+        password = request.form.get("password")
 
         for u in user_list:
             if u["email"] == email and u["password"] == password:
@@ -139,9 +145,14 @@ def logout():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        name = request.form["name"]
-        email = request.form["email"]
-        password = request.form["password"]
+        name = request.form.get("name")
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        # 🔥 Validación básica
+        if not name or not email or not password:
+            flash("Todos los campos son obligatorios")
+            return redirect(url_for("register"))
 
         user_list.append({"email": email, "password": password, "name": name})
 
@@ -203,9 +214,9 @@ def acerca():
 @app.route("/contacto", methods=["GET", "POST"])
 def contacto():
     if request.method == "POST":
-        nombre = request.form["nombre"]
-        correo = request.form["correo"]
-        asunto = request.form["asunto"]
+        nombre = request.form.get("nombre")
+        correo = request.form.get("correo")
+        asunto = request.form.get("asunto")
         mensaje = request.form.get("mensaje", "")
 
         archivo = "infopagweb.csv"
@@ -234,6 +245,12 @@ def agenda():
     ]
 
     return render_template("agenda.html", ponentes=PONENTES)
+
+# -------------------- HEALTHCHECK (para tests / deploy) --------------------
+
+@app.route("/health")
+def health():
+    return {"status": "ok"}, 200
 
 # -------------------- MAIN --------------------
 
