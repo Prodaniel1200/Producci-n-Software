@@ -1,33 +1,67 @@
-from flask import Flask, render_template, redirect, url_for, request, jsonify, session, flash
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
-import csv, requests, math, msal, os
-from bs4 import BeautifulSoup
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-app = Flask(
-    __name__,
-    template_folder=os.path.join(BASE_DIR, "templates"),
-    static_folder=os.path.join(BASE_DIR, "static"),
+from flask import (
+    Flask,
+    render_template,
+    redirect,
+    url_for,
+    request,
+    jsonify,
+    session,
+    flash,
 )
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+import csv
+import requests
+from bs4 import BeautifulSoup
+import math
+import msal
+import os
 
+app = Flask(__name__)
+
+# 🔐 FIX: SECRET KEY segura para Azure
 app.secret_key = os.environ.get("SECRET_KEY", "secretkey123")
+
+# -------------------- FLASK LOGIN --------------------
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-# ---------------- HEALTH ----------------
+# -------------------- 🔥 HEALTH CHECK (OBLIGATORIO AZURE) --------------------
+
 @app.route("/health")
 def health():
     return jsonify({"status": "ok"}), 200
 
-# ---------------- USERS ----------------
+# -------------------- SCRAPING --------------------
+
+def obtener_datos_coniiti():
+    url = "https://coniiti.com/"
+    headers = {"User-Agent": "Mozilla/5.0"}
+
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        titulos = [h.get_text(strip=True) for h in soup.find_all(["h1", "h2"])]
+        parrafos = [p.get_text(strip=True) for p in soup.find_all("p")]
+
+        return {"titulos": titulos[:5], "parrafos": parrafos[:5], "status": "ok"}
+
+    except Exception as e:
+        return {"error": str(e)}
+
+# -------------------- USUARIOS --------------------
+
 def load_users():
-    if not os.path.exists("users.csv"):
-        return []
-    with open("users.csv", newline="", encoding="utf-8") as f:
-        return list(csv.DictReader(f))
+    users = []
+    try:
+        with open("users.csv", newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            users = list(reader)
+    except:
+        pass
+    return users
 
 user_list = load_users()
 
@@ -37,9 +71,13 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User(user_id) if any(u["email"] == user_id for u in user_list) else None
+    for u in user_list:
+        if u["email"] == user_id:
+            return User(user_id)
+    return None
 
-# ---------------- ROUTES ----------------
+# -------------------- ROUTES --------------------
+
 @app.route("/")
 def index():
     return render_template("inicio.html")
@@ -50,6 +88,7 @@ def inicio():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    error = None
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
@@ -59,9 +98,9 @@ def login():
                 login_user(User(email))
                 return redirect(url_for("inicio"))
 
-        return render_template("login.html", error="Credenciales incorrectas")
+        error = "Credenciales incorrectas"
 
-    return render_template("login.html")
+    return render_template("login.html", error=error)
 
 @app.route("/logout")
 @login_required
@@ -72,29 +111,32 @@ def logout():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        data = {
-            "email": request.form["email"],
-            "password": request.form["password"],
-            "name": request.form["name"]
-        }
+        name = request.form["name"]
+        email = request.form["email"]
+        password = request.form["password"]
 
-        user_list.append(data)
+        user_list.append({"email": email, "password": password, "name": name})
 
         with open("users.csv", "a", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=data.keys())
+            writer = csv.DictWriter(f, fieldnames=["email", "password", "name"])
+
             if f.tell() == 0:
                 writer.writeheader()
-            writer.writerow(data)
+
+            writer.writerow({"email": email, "password": password, "name": name})
 
         return redirect(url_for("login"))
 
     return render_template("register.html")
 
-# ---------------- CONTACT ----------------
+# -------------------- CONTACTO --------------------
+
 @app.route("/contacto", methods=["GET", "POST"])
 def contacto():
     if request.method == "POST":
-        with open("infopagweb.csv", "a", newline="", encoding="utf-8") as f:
+        archivo = "infopagweb.csv"
+
+        with open(archivo, "a", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
             writer.writerow([
                 request.form["nombre"],
@@ -102,20 +144,51 @@ def contacto():
                 request.form["asunto"],
                 request.form.get("mensaje", "")
             ])
+
         flash("Mensaje enviado")
         return redirect(url_for("contacto"))
 
     return render_template("contacto.html")
-#-------------------------------------------
-    @app.route("/")
-def root():
-    return "OK - SERVICE RUNNING"
-#----------------------------------------
-@app.route("/health")
-def health():
-    return jsonify({"status": "ok"}), 200
 
-# ---------------- MAIN ----------------
+# -------------------- OUTLOOK (FIX MSAL) --------------------
+
+CLIENT_ID = "TU_CLIENT_ID"
+CLIENT_SECRET = "TU_SECRET_VALOR"
+TENANT_ID = "TU_TENANT_ID"
+
+AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
+SCOPE = ["User.Read"]
+
+def get_msal_app():
+    return msal.ConfidentialClientApplication(
+        CLIENT_ID,
+        authority=AUTHORITY,
+        client_credential=CLIENT_SECRET
+    )
+
+@app.route("/login-outlook")
+def login_outlook():
+    auth_url = get_msal_app().get_authorization_request_url(
+        SCOPE,
+        redirect_uri=url_for("callback", _external=True)
+    )
+    return redirect(auth_url)
+
+@app.route("/callback")
+def callback():
+    code = request.args.get("code")
+
+    result = get_msal_app().acquire_token_by_authorization_code(
+        code,
+        scopes=SCOPE,
+        redirect_uri=url_for("callback", _external=True)
+    )
+
+    session["ms_token"] = result.get("access_token")
+    return redirect(url_for("inicio"))
+
+# -------------------- APLICACIÓN (FIX AZURE CRÍTICO) --------------------
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 80))
     app.run(host="0.0.0.0", port=port)
