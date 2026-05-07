@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coniiti-config
+  namespace: coniiti
+data:
+  AUTH_SERVICE_URL: "http://auth-service:5000"
+  AGENDA_SERVICE_URL: "http://agenda-service:5000"
+  NOTIFICATIONS_SERVICE_URL: "http://notifications-service:5000"
+  USERS_CSV_PATH: "/app/data/users.csv"
+  FLASK_ENV: "production"
+  GUNICORN_WORKERS: "2"
+  GUNICORN_THREADS: "4"
+  GUNICORN_TIMEOUT: "120"
+  REQUEST_TIMEOUT: "5"

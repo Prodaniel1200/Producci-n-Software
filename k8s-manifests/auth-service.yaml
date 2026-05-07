@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  namespace: coniiti
+  labels:
+    app: auth-service
+    project: coniiti-2026
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: docker-microservices/auth-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "300m"
+              memory: "256Mi"
+          env:
+            - name: USERS_CSV_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: coniiti-config
+                  key: USERS_CSV_PATH
+            - name: FLASK_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: coniiti-config
+                  key: FLASK_ENV
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: coniiti-secrets
+                  key: SECRET_KEY
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  namespace: coniiti
+spec:
+  type: ClusterIP
+  selector:
+    app: auth-service
+  ports:
+    - port: 5000
+      targetPort: 5000
