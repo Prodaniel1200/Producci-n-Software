@@ -1,0 +1,101 @@
+Name:               minikube
+Roles:              control-plane
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=minikube
+                    kubernetes.io/os=linux
+                    minikube.k8s.io/commit=65318f4cfff9c12cc87ec9eb8f4cdd57b25047f3
+                    minikube.k8s.io/name=minikube
+                    minikube.k8s.io/primary=true
+                    minikube.k8s.io/updated_at=2026_05_05T18_26_28_0700
+                    minikube.k8s.io/version=v1.37.0
+                    node-role.kubernetes.io/control-plane=
+                    node.kubernetes.io/exclude-from-external-load-balancers=
+Annotations:        node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Tue, 05 May 2026 18:26:25 +0000
+Taints:             <none>
+Unschedulable:      false
+Lease:
+  HolderIdentity:  minikube
+  AcquireTime:     <unset>
+  RenewTime:       Tue, 12 May 2026 18:13:18 +0000
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Tue, 12 May 2026 18:11:41 +0000   Tue, 05 May 2026 18:26:22 +0000   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Tue, 12 May 2026 18:11:41 +0000   Tue, 05 May 2026 18:26:22 +0000   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Tue, 12 May 2026 18:11:41 +0000   Tue, 05 May 2026 18:26:22 +0000   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            True    Tue, 12 May 2026 18:11:41 +0000   Tue, 05 May 2026 18:26:25 +0000   KubeletReady                 kubelet is posting ready status
+Addresses:
+  InternalIP:  192.168.49.2
+  Hostname:    minikube
+Capacity:
+  cpu:                2
+  ephemeral-storage:  32847680Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             8135228Ki
+  pods:               110
+Allocatable:
+  cpu:                2
+  ephemeral-storage:  32847680Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             8135228Ki
+  pods:               110
+System Info:
+  Machine ID:                 e9709eb59a2340288bd3eddac149d1de
+  System UUID:                130f2df9-9838-4a06-80fe-65ef0781891f
+  Boot ID:                    f552e391-99e8-411c-ad07-875bb210caf0
+  Kernel Version:             6.8.0-1044-azure
+  OS Image:                   Ubuntu 22.04.5 LTS
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  docker://28.4.0
+  Kubelet Version:            v1.34.0
+  Kube-Proxy Version:         
+PodCIDR:                      10.244.0.0/24
+PodCIDRs:                     10.244.0.0/24
+Non-terminated Pods:          (8 in total)
+  Namespace                   Name                                      CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                                      ------------  ----------  ---------------  -------------  ---
+  kube-system                 coredns-66bc5c9577-xnz8q                  100m (5%)     0 (0%)      70Mi (0%)        170Mi (2%)     6d23h
+  kube-system                 etcd-minikube                             100m (5%)     0 (0%)      100Mi (1%)       0 (0%)         6d23h
+  kube-system                 kube-apiserver-minikube                   250m (12%)    0 (0%)      0 (0%)           0 (0%)         6d23h
+  kube-system                 kube-controller-manager-minikube          200m (10%)    0 (0%)      0 (0%)           0 (0%)         6d23h
+  kube-system                 kube-proxy-t648l                          0 (0%)        0 (0%)      0 (0%)           0 (0%)         6d23h
+  kube-system                 kube-scheduler-minikube                   100m (5%)     0 (0%)      0 (0%)           0 (0%)         6d23h
+  kube-system                 storage-provisioner                       0 (0%)        0 (0%)      0 (0%)           0 (0%)         6d23h
+  web-platform                notifications-service-76bc9cc685-lgtwz    100m (5%)     300m (15%)  128Mi (1%)       256Mi (3%)     107s
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests    Limits
+  --------           --------    ------
+  cpu                850m (42%)  300m (15%)
+  memory             298Mi (3%)  426Mi (5%)
+  ephemeral-storage  0 (0%)      0 (0%)
+  hugepages-1Gi      0 (0%)      0 (0%)
+  hugepages-2Mi      0 (0%)      0 (0%)
+Events:
+  Type     Reason                   Age                From             Message
+  ----     ------                   ----               ----             -------
+  Normal   Starting                 6d23h              kube-proxy       
+  Normal   Starting                 9m50s              kube-proxy       
+  Normal   Starting                 22m                kube-proxy       
+  Normal   NodeAllocatableEnforced  6d23h              kubelet          Updated Node Allocatable limit across pods
+  Normal   Starting                 6d23h              kubelet          Starting kubelet.
+  Normal   NodeHasSufficientMemory  6d23h              kubelet          Node minikube status is now: NodeHasSufficientMemory
+  Normal   NodeHasNoDiskPressure    6d23h              kubelet          Node minikube status is now: NodeHasNoDiskPressure
+  Normal   NodeHasSufficientPID     6d23h              kubelet          Node minikube status is now: NodeHasSufficientPID
+  Normal   RegisteredNode           6d23h              node-controller  Node minikube event: Registered Node minikube in Controller
+  Normal   Starting                 23m                kubelet          Starting kubelet.
+  Normal   NodeHasSufficientMemory  23m (x8 over 23m)  kubelet          Node minikube status is now: NodeHasSufficientMemory
+  Normal   NodeHasNoDiskPressure    23m (x8 over 23m)  kubelet          Node minikube status is now: NodeHasNoDiskPressure
+  Normal   NodeHasSufficientPID     23m (x7 over 23m)  kubelet          Node minikube status is now: NodeHasSufficientPID
+  Normal   NodeAllocatableEnforced  23m                kubelet          Updated Node Allocatable limit across pods
+  Warning  Rebooted                 23m                kubelet          Node minikube has been rebooted, boot id: f552e391-99e8-411c-ad07-875bb210caf0
+  Normal   RegisteredNode           23m                node-controller  Node minikube event: Registered Node minikube in Controller
+  Warning  ContainerGCFailed        10m                kubelet          rpc error: code = Unknown desc = Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+  Normal   RegisteredNode           9m48s              node-controller  Node minikube event: Registered Node minikube in Controller
