@@ -4,43 +4,44 @@ items:
   kind: Pod
   metadata:
     annotations:
-      kubectl.kubernetes.io/restartedAt: "2026-05-12T18:23:18Z"
-    creationTimestamp: "2026-05-12T18:23:19Z"
-    generateName: auth-service-87cd86dd4-
+      kubectl.kubernetes.io/restartedAt: "2026-05-12T18:11:40Z"
+    creationTimestamp: "2026-05-12T18:11:40Z"
+    generateName: notifications-service-76bc9cc685-
+    generation: 1
     labels:
-      app: auth-service
-      pod-template-hash: 87cd86dd4
-    name: auth-service-87cd86dd4-kwtmg
-    namespace: coniiti
+      app: notifications-service
+      pod-template-hash: 76bc9cc685
+    name: notifications-service-76bc9cc685-lgtwz
+    namespace: web-platform
     ownerReferences:
     - apiVersion: apps/v1
       blockOwnerDeletion: true
       controller: true
       kind: ReplicaSet
-      name: auth-service-87cd86dd4
-      uid: 49df8e84-39ed-461c-a914-32c2390fe10d
-    resourceVersion: "3340"
-    uid: f72dbc21-b569-456d-bd80-e196ac6f3fbf
+      name: notifications-service-76bc9cc685
+      uid: 943890e0-7c4a-4fc9-a74b-ff1df98ebd81
+    resourceVersion: "3771"
+    uid: 2764857d-7975-4573-8dfd-4b29a2c70515
   spec:
     containers:
     - env:
-      - name: USERS_CSV_PATH
+      - name: GUNICORN_WORKERS
         valueFrom:
           configMapKeyRef:
-            key: USERS_CSV_PATH
-            name: coniiti-config
-      - name: FLASK_ENV
+            key: GUNICORN_WORKERS
+            name: platform-config
+      - name: GUNICORN_THREADS
         valueFrom:
           configMapKeyRef:
-            key: FLASK_ENV
-            name: coniiti-config
-      - name: SECRET_KEY
+            key: GUNICORN_THREADS
+            name: platform-config
+      - name: GUNICORN_TIMEOUT
         valueFrom:
-          secretKeyRef:
-            key: SECRET_KEY
-            name: coniiti-secrets
-      image: coniiti/auth-service:latest
-      imagePullPolicy: Never
+          configMapKeyRef:
+            key: GUNICORN_TIMEOUT
+            name: platform-config
+      image: docker-microservices/notifications-service:latest
+      imagePullPolicy: IfNotPresent
       livenessProbe:
         failureThreshold: 3
         httpGet:
@@ -51,7 +52,7 @@ items:
         periodSeconds: 20
         successThreshold: 1
         timeoutSeconds: 1
-      name: auth-service
+      name: notifications-service
       ports:
       - containerPort: 5000
         protocol: TCP
@@ -76,11 +77,11 @@ items:
       terminationMessagePolicy: File
       volumeMounts:
       - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-wkn6m
+        name: kube-api-access-d59gw
         readOnly: true
     dnsPolicy: ClusterFirst
     enableServiceLinks: true
-    nodeName: coniiti-control-plane
+    nodeName: minikube
     preemptionPolicy: PreemptLowerPriority
     priority: 0
     restartPolicy: Always
@@ -99,7 +100,7 @@ items:
       operator: Exists
       tolerationSeconds: 300
     volumes:
-    - name: kube-api-access-wkn6m
+    - name: kube-api-access-d59gw
       projected:
         defaultMode: 420
         sources:
@@ -120,111 +121,40 @@ items:
   status:
     conditions:
     - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:23:21Z"
+      lastTransitionTime: "2026-05-12T18:11:41Z"
+      observedGeneration: 1
       status: "True"
       type: PodReadyToStartContainers
     - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:23:20Z"
+      lastTransitionTime: "2026-05-12T18:11:40Z"
+      observedGeneration: 1
       status: "True"
       type: Initialized
     - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:23:30Z"
+      lastTransitionTime: "2026-05-12T18:11:52Z"
+      observedGeneration: 1
       status: "True"
       type: Ready
     - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:23:30Z"
+      lastTransitionTime: "2026-05-12T18:11:52Z"
+      observedGeneration: 1
       status: "True"
       type: ContainersReady
     - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:23:19Z"
+      lastTransitionTime: "2026-05-12T18:11:40Z"
+      observedGeneration: 1
       status: "True"
       type: PodScheduled
     containerStatuses:
-    - containerID: containerd://89db04fcb38b6797ad074673927d2f02e3ebbe5dfec4a3e6f694fa505bbedb53
-      image: docker.io/coniiti/auth-service:latest
-      imageID: docker.io/library/import-2026-05-12@sha256:56b2b57051b79ac5f2987c658b52b4f1d99974ba91ec402bc85671afbbf504af
+    - allocatedResources:
+        cpu: 100m
+        memory: 128Mi
+      containerID: docker://e59a957cb39c57d33c9c2a9fa8e2e7d8e37b88414b50d3e8077d8b9bfe94dcd0
+      image: docker-microservices/notifications-service:latest
+      imageID: docker://sha256:ae11f5b1959cb8d92b0ba9595f210ed0dee6fee29eb21ce9478482b1f1b792f7
       lastState: {}
-      name: auth-service
+      name: notifications-service
       ready: true
-      restartCount: 0
-      started: true
-      state:
-        running:
-          startedAt: "2026-05-12T18:23:21Z"
-    hostIP: 172.18.0.2
-    hostIPs:
-    - ip: 172.18.0.2
-    phase: Running
-    podIP: 10.244.0.12
-    podIPs:
-    - ip: 10.244.0.12
-    qosClass: Burstable
-    startTime: "2026-05-12T18:23:20Z"
-- apiVersion: v1
-  kind: Pod
-  metadata:
-    annotations:
-      kubectl.kubernetes.io/restartedAt: "2026-05-12T18:23:18Z"
-    creationTimestamp: "2026-05-12T18:23:19Z"
-    generateName: auth-service-87cd86dd4-
-    labels:
-      app: auth-service
-      pod-template-hash: 87cd86dd4
-    name: auth-service-87cd86dd4-sdrq6
-    namespace: coniiti
-    ownerReferences:
-    - apiVersion: apps/v1
-      blockOwnerDeletion: true
-      controller: true
-      kind: ReplicaSet
-      name: auth-service-87cd86dd4
-      uid: 49df8e84-39ed-461c-a914-32c2390fe10d
-    resourceVersion: "3322"
-    uid: a473049e-26c9-4dbc-a9fe-42c8030b9208
-  spec:
-    containers:
-    - env:
-      - name: USERS_CSV_PATH
-        valueFrom:
-          configMapKeyRef:
-            key: USERS_CSV_PATH
-            name: coniiti-config
-      - name: FLASK_ENV
-        valueFrom:
-          configMapKeyRef:
-            key: FLASK_ENV
-            name: coniiti-config
-      - name: SECRET_KEY
-        valueFrom:
-          secretKeyRef:
-            key: SECRET_KEY
-            name: coniiti-secrets
-      image: coniiti/auth-service:latest
-      imagePullPolicy: Never
-      livenessProbe:
-        failureThreshold: 3
-        httpGet:
-          path: /health
-          port: 5000
-          scheme: HTTP
-        initialDelaySeconds: 15
-        periodSeconds: 20
-        successThreshold: 1
-        timeoutSeconds: 1
-      name: auth-service
-      ports:
-      - containerPort: 5000
-        protocol: TCP
-      readinessProbe:
-        failureThreshold: 3
-        httpGet:
-          path: /health
-          port: 5000
-          scheme: HTTP
-        initialDelaySeconds: 5
-        periodSeconds: 10
-        successThreshold: 1
-        timeoutSeconds: 1
       resources:
         limits:
           cpu: 300m
@@ -232,213 +162,26 @@ items:
         requests:
           cpu: 100m
           memory: 128Mi
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-6trzq
-        readOnly: true
-    dnsPolicy: ClusterFirst
-    enableServiceLinks: true
-    nodeName: coniiti-control-plane
-    preemptionPolicy: PreemptLowerPriority
-    priority: 0
-    restartPolicy: Always
-    schedulerName: default-scheduler
-    securityContext: {}
-    serviceAccount: default
-    serviceAccountName: default
-    terminationGracePeriodSeconds: 30
-    tolerations:
-    - effect: NoExecute
-      key: node.kubernetes.io/not-ready
-      operator: Exists
-      tolerationSeconds: 300
-    - effect: NoExecute
-      key: node.kubernetes.io/unreachable
-      operator: Exists
-      tolerationSeconds: 300
-    volumes:
-    - name: kube-api-access-6trzq
-      projected:
-        defaultMode: 420
-        sources:
-        - serviceAccountToken:
-            expirationSeconds: 3607
-            path: token
-        - configMap:
-            items:
-            - key: ca.crt
-              path: ca.crt
-            name: kube-root-ca.crt
-        - downwardAPI:
-            items:
-            - fieldRef:
-                apiVersion: v1
-                fieldPath: metadata.namespace
-              path: namespace
-  status:
-    conditions:
-    - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:23:21Z"
-      status: "True"
-      type: PodReadyToStartContainers
-    - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:23:19Z"
-      status: "True"
-      type: Initialized
-    - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:23:30Z"
-      status: "True"
-      type: Ready
-    - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:23:30Z"
-      status: "True"
-      type: ContainersReady
-    - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:23:19Z"
-      status: "True"
-      type: PodScheduled
-    containerStatuses:
-    - containerID: containerd://7d12643ebfe7858542154e72eec2c240f9d0950e041d007502cba3cb14fdc2f8
-      image: docker.io/coniiti/auth-service:latest
-      imageID: docker.io/library/import-2026-05-12@sha256:56b2b57051b79ac5f2987c658b52b4f1d99974ba91ec402bc85671afbbf504af
-      lastState: {}
-      name: auth-service
-      ready: true
       restartCount: 0
       started: true
       state:
         running:
-          startedAt: "2026-05-12T18:23:20Z"
-    hostIP: 172.18.0.2
+          startedAt: "2026-05-12T18:11:41Z"
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-d59gw
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.49.2
     hostIPs:
-    - ip: 172.18.0.2
+    - ip: 192.168.49.2
+    observedGeneration: 1
     phase: Running
-    podIP: 10.244.0.11
+    podIP: 10.244.0.6
     podIPs:
-    - ip: 10.244.0.11
+    - ip: 10.244.0.6
     qosClass: Burstable
-    startTime: "2026-05-12T18:23:19Z"
-- apiVersion: v1
-  kind: Pod
-  metadata:
-    creationTimestamp: "2026-05-12T18:36:23Z"
-    generateName: web-service-5cb598647f-
-    labels:
-      app: web-service
-      pod-template-hash: 5cb598647f
-    name: web-service-5cb598647f-rgjj4
-    namespace: coniiti
-    ownerReferences:
-    - apiVersion: apps/v1
-      blockOwnerDeletion: true
-      controller: true
-      kind: ReplicaSet
-      name: web-service-5cb598647f
-      uid: 770959a1-109e-46a8-aac4-f9eb1649f44a
-    resourceVersion: "4374"
-    uid: 892fd98d-4ef4-4516-aad5-9a0afdb504b6
-  spec:
-    containers:
-    - env:
-      - name: AUTH_SERVICE_URL
-        value: http://auth-service:5000
-      image: coniiti/web-service:latest
-      imagePullPolicy: Never
-      name: web-service
-      ports:
-      - containerPort: 5000
-        protocol: TCP
-      resources: {}
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-access-vv5m2
-        readOnly: true
-    dnsPolicy: ClusterFirst
-    enableServiceLinks: true
-    nodeName: coniiti-control-plane
-    preemptionPolicy: PreemptLowerPriority
-    priority: 0
-    restartPolicy: Always
-    schedulerName: default-scheduler
-    securityContext: {}
-    serviceAccount: default
-    serviceAccountName: default
-    terminationGracePeriodSeconds: 30
-    tolerations:
-    - effect: NoExecute
-      key: node.kubernetes.io/not-ready
-      operator: Exists
-      tolerationSeconds: 300
-    - effect: NoExecute
-      key: node.kubernetes.io/unreachable
-      operator: Exists
-      tolerationSeconds: 300
-    volumes:
-    - name: kube-api-access-vv5m2
-      projected:
-        defaultMode: 420
-        sources:
-        - serviceAccountToken:
-            expirationSeconds: 3607
-            path: token
-        - configMap:
-            items:
-            - key: ca.crt
-              path: ca.crt
-            name: kube-root-ca.crt
-        - downwardAPI:
-            items:
-            - fieldRef:
-                apiVersion: v1
-                fieldPath: metadata.namespace
-              path: namespace
-  status:
-    conditions:
-    - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:36:24Z"
-      status: "True"
-      type: PodReadyToStartContainers
-    - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:36:23Z"
-      status: "True"
-      type: Initialized
-    - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:36:24Z"
-      status: "True"
-      type: Ready
-    - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:36:24Z"
-      status: "True"
-      type: ContainersReady
-    - lastProbeTime: null
-      lastTransitionTime: "2026-05-12T18:36:23Z"
-      status: "True"
-      type: PodScheduled
-    containerStatuses:
-    - containerID: containerd://6fb241d0b82567711c8e0118b8a1d9aa4acb7da26474101a7a0437f7ae6dfef6
-      image: docker.io/coniiti/web-service:latest
-      imageID: docker.io/library/import-2026-05-12@sha256:5383fc5f90eb4482787a91e058f7fed5a9130a14d923c7d3ac491595d814f500
-      lastState: {}
-      name: web-service
-      ready: true
-      restartCount: 0
-      started: true
-      state:
-        running:
-          startedAt: "2026-05-12T18:36:24Z"
-    hostIP: 172.18.0.2
-    hostIPs:
-    - ip: 172.18.0.2
-    phase: Running
-    podIP: 10.244.0.13
-    podIPs:
-    - ip: 10.244.0.13
-    qosClass: BestEffort
-    startTime: "2026-05-12T18:36:23Z"
+    startTime: "2026-05-12T18:11:40Z"
 kind: List
 metadata:
   resourceVersion: ""

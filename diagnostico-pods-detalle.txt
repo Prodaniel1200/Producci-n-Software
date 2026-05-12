@@ -1,26 +1,26 @@
-Name:             auth-service-87cd86dd4-kwtmg
-Namespace:        coniiti
+Name:             notifications-service-76bc9cc685-lgtwz
+Namespace:        web-platform
 Priority:         0
 Service Account:  default
-Node:             coniiti-control-plane/172.18.0.2
-Start Time:       Tue, 12 May 2026 18:23:20 +0000
-Labels:           app=auth-service
-                  pod-template-hash=87cd86dd4
-Annotations:      kubectl.kubernetes.io/restartedAt: 2026-05-12T18:23:18Z
+Node:             minikube/192.168.49.2
+Start Time:       Tue, 12 May 2026 18:11:40 +0000
+Labels:           app=notifications-service
+                  pod-template-hash=76bc9cc685
+Annotations:      kubectl.kubernetes.io/restartedAt: 2026-05-12T18:11:40Z
 Status:           Running
-IP:               10.244.0.12
+IP:               10.244.0.6
 IPs:
-  IP:           10.244.0.12
-Controlled By:  ReplicaSet/auth-service-87cd86dd4
+  IP:           10.244.0.6
+Controlled By:  ReplicaSet/notifications-service-76bc9cc685
 Containers:
-  auth-service:
-    Container ID:   containerd://89db04fcb38b6797ad074673927d2f02e3ebbe5dfec4a3e6f694fa505bbedb53
-    Image:          coniiti/auth-service:latest
-    Image ID:       docker.io/library/import-2026-05-12@sha256:56b2b57051b79ac5f2987c658b52b4f1d99974ba91ec402bc85671afbbf504af
+  notifications-service:
+    Container ID:   docker://e59a957cb39c57d33c9c2a9fa8e2e7d8e37b88414b50d3e8077d8b9bfe94dcd0
+    Image:          docker-microservices/notifications-service:latest
+    Image ID:       docker://sha256:ae11f5b1959cb8d92b0ba9595f210ed0dee6fee29eb21ce9478482b1f1b792f7
     Port:           5000/TCP
     Host Port:      0/TCP
     State:          Running
-      Started:      Tue, 12 May 2026 18:23:21 +0000
+      Started:      Tue, 12 May 2026 18:11:41 +0000
     Ready:          True
     Restart Count:  0
     Limits:
@@ -32,11 +32,11 @@ Containers:
     Liveness:   http-get http://:5000/health delay=15s timeout=1s period=20s #success=1 #failure=3
     Readiness:  http-get http://:5000/health delay=5s timeout=1s period=10s #success=1 #failure=3
     Environment:
-      USERS_CSV_PATH:  <set to the key 'USERS_CSV_PATH' of config map 'coniiti-config'>  Optional: false
-      FLASK_ENV:       <set to the key 'FLASK_ENV' of config map 'coniiti-config'>       Optional: false
-      SECRET_KEY:      <set to the key 'SECRET_KEY' in secret 'coniiti-secrets'>         Optional: false
+      GUNICORN_WORKERS:  <set to the key 'GUNICORN_WORKERS' of config map 'platform-config'>  Optional: false
+      GUNICORN_THREADS:  <set to the key 'GUNICORN_THREADS' of config map 'platform-config'>  Optional: false
+      GUNICORN_TIMEOUT:  <set to the key 'GUNICORN_TIMEOUT' of config map 'platform-config'>  Optional: false
     Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-wkn6m (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-d59gw (ro)
 Conditions:
   Type                        Status
   PodReadyToStartContainers   True 
@@ -45,7 +45,7 @@ Conditions:
   ContainersReady             True 
   PodScheduled                True 
 Volumes:
-  kube-api-access-wkn6m:
+  kube-api-access-d59gw:
     Type:                    Projected (a volume that contains injected data from multiple sources)
     TokenExpirationSeconds:  3607
     ConfigMapName:           kube-root-ca.crt
@@ -58,129 +58,7 @@ Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists fo
 Events:
   Type    Reason     Age   From               Message
   ----    ------     ----  ----               -------
-  Normal  Scheduled  16m   default-scheduler  Successfully assigned coniiti/auth-service-87cd86dd4-kwtmg to coniiti-control-plane
-  Normal  Pulled     16m   kubelet            spec.containers{auth-service}: Container image "coniiti/auth-service:latest" already present on machine
-  Normal  Created    16m   kubelet            spec.containers{auth-service}: Created container auth-service
-  Normal  Started    16m   kubelet            spec.containers{auth-service}: Started container auth-service
-
-
-Name:             auth-service-87cd86dd4-sdrq6
-Namespace:        coniiti
-Priority:         0
-Service Account:  default
-Node:             coniiti-control-plane/172.18.0.2
-Start Time:       Tue, 12 May 2026 18:23:19 +0000
-Labels:           app=auth-service
-                  pod-template-hash=87cd86dd4
-Annotations:      kubectl.kubernetes.io/restartedAt: 2026-05-12T18:23:18Z
-Status:           Running
-IP:               10.244.0.11
-IPs:
-  IP:           10.244.0.11
-Controlled By:  ReplicaSet/auth-service-87cd86dd4
-Containers:
-  auth-service:
-    Container ID:   containerd://7d12643ebfe7858542154e72eec2c240f9d0950e041d007502cba3cb14fdc2f8
-    Image:          coniiti/auth-service:latest
-    Image ID:       docker.io/library/import-2026-05-12@sha256:56b2b57051b79ac5f2987c658b52b4f1d99974ba91ec402bc85671afbbf504af
-    Port:           5000/TCP
-    Host Port:      0/TCP
-    State:          Running
-      Started:      Tue, 12 May 2026 18:23:20 +0000
-    Ready:          True
-    Restart Count:  0
-    Limits:
-      cpu:     300m
-      memory:  256Mi
-    Requests:
-      cpu:      100m
-      memory:   128Mi
-    Liveness:   http-get http://:5000/health delay=15s timeout=1s period=20s #success=1 #failure=3
-    Readiness:  http-get http://:5000/health delay=5s timeout=1s period=10s #success=1 #failure=3
-    Environment:
-      USERS_CSV_PATH:  <set to the key 'USERS_CSV_PATH' of config map 'coniiti-config'>  Optional: false
-      FLASK_ENV:       <set to the key 'FLASK_ENV' of config map 'coniiti-config'>       Optional: false
-      SECRET_KEY:      <set to the key 'SECRET_KEY' in secret 'coniiti-secrets'>         Optional: false
-    Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-6trzq (ro)
-Conditions:
-  Type                        Status
-  PodReadyToStartContainers   True 
-  Initialized                 True 
-  Ready                       True 
-  ContainersReady             True 
-  PodScheduled                True 
-Volumes:
-  kube-api-access-6trzq:
-    Type:                    Projected (a volume that contains injected data from multiple sources)
-    TokenExpirationSeconds:  3607
-    ConfigMapName:           kube-root-ca.crt
-    Optional:                false
-    DownwardAPI:             true
-QoS Class:                   Burstable
-Node-Selectors:              <none>
-Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
-Events:
-  Type    Reason     Age   From               Message
-  ----    ------     ----  ----               -------
-  Normal  Scheduled  16m   default-scheduler  Successfully assigned coniiti/auth-service-87cd86dd4-sdrq6 to coniiti-control-plane
-  Normal  Pulled     16m   kubelet            spec.containers{auth-service}: Container image "coniiti/auth-service:latest" already present on machine
-  Normal  Created    16m   kubelet            spec.containers{auth-service}: Created container auth-service
-  Normal  Started    16m   kubelet            spec.containers{auth-service}: Started container auth-service
-
-
-Name:             web-service-5cb598647f-rgjj4
-Namespace:        coniiti
-Priority:         0
-Service Account:  default
-Node:             coniiti-control-plane/172.18.0.2
-Start Time:       Tue, 12 May 2026 18:36:23 +0000
-Labels:           app=web-service
-                  pod-template-hash=5cb598647f
-Annotations:      <none>
-Status:           Running
-IP:               10.244.0.13
-IPs:
-  IP:           10.244.0.13
-Controlled By:  ReplicaSet/web-service-5cb598647f
-Containers:
-  web-service:
-    Container ID:   containerd://6fb241d0b82567711c8e0118b8a1d9aa4acb7da26474101a7a0437f7ae6dfef6
-    Image:          coniiti/web-service:latest
-    Image ID:       docker.io/library/import-2026-05-12@sha256:5383fc5f90eb4482787a91e058f7fed5a9130a14d923c7d3ac491595d814f500
-    Port:           5000/TCP
-    Host Port:      0/TCP
-    State:          Running
-      Started:      Tue, 12 May 2026 18:36:24 +0000
-    Ready:          True
-    Restart Count:  0
-    Environment:
-      AUTH_SERVICE_URL:  http://auth-service:5000
-    Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-vv5m2 (ro)
-Conditions:
-  Type                        Status
-  PodReadyToStartContainers   True 
-  Initialized                 True 
-  Ready                       True 
-  ContainersReady             True 
-  PodScheduled                True 
-Volumes:
-  kube-api-access-vv5m2:
-    Type:                    Projected (a volume that contains injected data from multiple sources)
-    TokenExpirationSeconds:  3607
-    ConfigMapName:           kube-root-ca.crt
-    Optional:                false
-    DownwardAPI:             true
-QoS Class:                   BestEffort
-Node-Selectors:              <none>
-Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
-Events:
-  Type    Reason     Age    From               Message
-  ----    ------     ----   ----               -------
-  Normal  Scheduled  3m37s  default-scheduler  Successfully assigned coniiti/web-service-5cb598647f-rgjj4 to coniiti-control-plane
-  Normal  Pulled     3m37s  kubelet            spec.containers{web-service}: Container image "coniiti/web-service:latest" already present on machine
-  Normal  Created    3m36s  kubelet            spec.containers{web-service}: Created container web-service
-  Normal  Started    3m36s  kubelet            spec.containers{web-service}: Started container web-service
+  Normal  Scheduled  118s  default-scheduler  Successfully assigned web-platform/notifications-service-76bc9cc685-lgtwz to minikube
+  Normal  Pulled     117s  kubelet            Container image "docker-microservices/notifications-service:latest" already present on machine
+  Normal  Created    117s  kubelet            Created container: notifications-service
+  Normal  Started    117s  kubelet            Started container notifications-service

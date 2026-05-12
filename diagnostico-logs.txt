@@ -1,16 +1,85 @@
-[pod/auth-service-87cd86dd4-kwtmg/auth-service] [2026-05-12 18:23:21 +0000] [12] [INFO] Starting gunicorn 26.0.0
-[pod/auth-service-87cd86dd4-kwtmg/auth-service] [2026-05-12 18:23:21 +0000] [12] [INFO] Listening at: http://0.0.0.0:5000 (12)
-[pod/auth-service-87cd86dd4-kwtmg/auth-service] [2026-05-12 18:23:21 +0000] [12] [INFO] Using worker: sync
-[pod/auth-service-87cd86dd4-kwtmg/auth-service] [2026-05-12 18:23:21 +0000] [13] [INFO] Booting worker with pid: 13
-[pod/auth-service-87cd86dd4-kwtmg/auth-service] [2026-05-12 18:23:21 +0000] [12] [INFO] Control socket listening at /root/.gunicorn/gunicorn.ctl
-[pod/auth-service-87cd86dd4-sdrq6/auth-service] [2026-05-12 18:23:21 +0000] [13] [INFO] Starting gunicorn 26.0.0
-[pod/auth-service-87cd86dd4-sdrq6/auth-service] [2026-05-12 18:23:21 +0000] [13] [INFO] Listening at: http://0.0.0.0:5000 (13)
-[pod/auth-service-87cd86dd4-sdrq6/auth-service] [2026-05-12 18:23:21 +0000] [13] [INFO] Using worker: sync
-[pod/auth-service-87cd86dd4-sdrq6/auth-service] [2026-05-12 18:23:21 +0000] [14] [INFO] Booting worker with pid: 14
-[pod/auth-service-87cd86dd4-sdrq6/auth-service] [2026-05-12 18:23:21 +0000] [13] [INFO] Control socket listening at /root/.gunicorn/gunicorn.ctl
-[pod/web-service-5cb598647f-rgjj4/web-service] [2026-05-12 18:36:25 +0000] [12] [INFO] Starting gunicorn 26.0.0
-[pod/web-service-5cb598647f-rgjj4/web-service] [2026-05-12 18:36:25 +0000] [12] [INFO] Listening at: http://0.0.0.0:5000 (12)
-[pod/web-service-5cb598647f-rgjj4/web-service] [2026-05-12 18:36:25 +0000] [12] [INFO] Using worker: gthread
-[pod/web-service-5cb598647f-rgjj4/web-service] [2026-05-12 18:36:25 +0000] [13] [INFO] Booting worker with pid: 13
-[pod/web-service-5cb598647f-rgjj4/web-service] [2026-05-12 18:36:25 +0000] [14] [INFO] Booting worker with pid: 14
-[pod/web-service-5cb598647f-rgjj4/web-service] [2026-05-12 18:36:25 +0000] [12] [INFO] Control socket listening at /root/.gunicorn/gunicorn.ctl
+Name:             notifications-service-76bc9cc685-lgtwz
+Namespace:        web-platform
+Priority:         0
+Service Account:  default
+Node:             minikube/192.168.49.2
+Start Time:       Tue, 12 May 2026 18:11:40 +0000
+Labels:           app=notifications-service
+                  pod-template-hash=76bc9cc685
+Annotations:      kubectl.kubernetes.io/restartedAt: 2026-05-12T18:11:40Z
+Status:           Running
+IP:               10.244.0.6
+IPs:
+  IP:           10.244.0.6
+Controlled By:  ReplicaSet/notifications-service-76bc9cc685
+Containers:
+  notifications-service:
+    Container ID:   docker://e59a957cb39c57d33c9c2a9fa8e2e7d8e37b88414b50d3e8077d8b9bfe94dcd0
+    Image:          docker-microservices/notifications-service:latest
+    Image ID:       docker://sha256:ae11f5b1959cb8d92b0ba9595f210ed0dee6fee29eb21ce9478482b1f1b792f7
+    Port:           5000/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Tue, 12 May 2026 18:11:41 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     300m
+      memory:  256Mi
+    Requests:
+      cpu:      100m
+      memory:   128Mi
+    Liveness:   http-get http://:5000/health delay=15s timeout=1s period=20s #success=1 #failure=3
+    Readiness:  http-get http://:5000/health delay=5s timeout=1s period=10s #success=1 #failure=3
+    Environment:
+      GUNICORN_WORKERS:  <set to the key 'GUNICORN_WORKERS' of config map 'platform-config'>  Optional: false
+      GUNICORN_THREADS:  <set to the key 'GUNICORN_THREADS' of config map 'platform-config'>  Optional: false
+      GUNICORN_TIMEOUT:  <set to the key 'GUNICORN_TIMEOUT' of config map 'platform-config'>  Optional: false
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-d59gw (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-d59gw:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  7m16s  default-scheduler  Successfully assigned web-platform/notifications-service-76bc9cc685-lgtwz to minikube
+  Normal  Pulled     7m15s  kubelet            Container image "docker-microservices/notifications-service:latest" already present on machine
+  Normal  Created    7m15s  kubelet            Created container: notifications-service
+  Normal  Started    7m15s  kubelet            Started container notifications-service
+LAST SEEN   TYPE      REASON              OBJECT                                        MESSAGE
+13m         Normal    Scheduled           pod/notifications-service-6458bfbf95-c4vdv    Successfully assigned web-platform/notifications-service-6458bfbf95-c4vdv to minikube
+10m         Normal    Pulling             pod/notifications-service-6458bfbf95-c4vdv    Pulling image "docker-microservices/notifications-service:latest"
+10m         Warning   Failed              pod/notifications-service-6458bfbf95-c4vdv    Failed to pull image "docker-microservices/notifications-service:latest": Error response from daemon: pull access denied for docker-microservices/notifications-service, repository does not exist or may require 'docker login': denied: requested access to the resource is denied
+10m         Warning   Failed              pod/notifications-service-6458bfbf95-c4vdv    Error: ErrImagePull
+9m39s       Normal    BackOff             pod/notifications-service-6458bfbf95-c4vdv    Back-off pulling image "docker-microservices/notifications-service:latest"
+9m39s       Warning   Failed              pod/notifications-service-6458bfbf95-c4vdv    Error: ImagePullBackOff
+9m24s       Normal    Pulled              pod/notifications-service-6458bfbf95-c4vdv    Container image "docker-microservices/notifications-service:latest" already present on machine
+9m24s       Normal    Created             pod/notifications-service-6458bfbf95-c4vdv    Created container: notifications-service
+9m24s       Normal    Started             pod/notifications-service-6458bfbf95-c4vdv    Started container notifications-service
+9m12s       Normal    Killing             pod/notifications-service-6458bfbf95-c4vdv    Stopping container notifications-service
+13m         Normal    SuccessfulCreate    replicaset/notifications-service-6458bfbf95   Created pod: notifications-service-6458bfbf95-c4vdv
+9m12s       Normal    SuccessfulDelete    replicaset/notifications-service-6458bfbf95   Deleted pod: notifications-service-6458bfbf95-c4vdv
+9m23s       Normal    Scheduled           pod/notifications-service-76bc9cc685-lgtwz    Successfully assigned web-platform/notifications-service-76bc9cc685-lgtwz to minikube
+9m23s       Normal    Pulled              pod/notifications-service-76bc9cc685-lgtwz    Container image "docker-microservices/notifications-service:latest" already present on machine
+9m23s       Normal    Created             pod/notifications-service-76bc9cc685-lgtwz    Created container: notifications-service
+9m23s       Normal    Started             pod/notifications-service-76bc9cc685-lgtwz    Started container notifications-service
+9m24s       Normal    SuccessfulCreate    replicaset/notifications-service-76bc9cc685   Created pod: notifications-service-76bc9cc685-lgtwz
+13m         Normal    ScalingReplicaSet   deployment/notifications-service              Scaled up replica set notifications-service-6458bfbf95 from 0 to 1
+9m24s       Normal    ScalingReplicaSet   deployment/notifications-service              Scaled up replica set notifications-service-76bc9cc685 from 0 to 1
+9m12s       Normal    ScalingReplicaSet   deployment/notifications-service              Scaled down replica set notifications-service-6458bfbf95 from 1 to 0
