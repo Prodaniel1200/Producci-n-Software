@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agenda-service
+  namespace: web-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agenda-service
+  template:
+    metadata:
+      labels:
+        app: agenda-service
+    spec:
+      containers:
+        - name: agenda-service
+          image: docker-microservices/agenda-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          env:
+            - name: NOTIFICATIONS_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: platform-config
+                  key: NOTIFICATIONS_SERVICE_URL
+            - name: REQUEST_TIMEOUT
+              valueFrom:
+                configMapKeyRef:
+                  name: platform-config
+                  key: AGENDA_REQUEST_TIMEOUT
+            - name: GUNICORN_WORKERS
+              valueFrom:
+                configMapKeyRef:
+                  name: platform-config
+                  key: GUNICORN_WORKERS
+            - name: GUNICORN_THREADS
+              valueFrom:
+                configMapKeyRef:
+                  name: platform-config
+                  key: GUNICORN_THREADS
+            - name: GUNICORN_TIMEOUT
+              valueFrom:
+                configMapKeyRef:
+                  name: platform-config
+                  key: GUNICORN_TIMEOUT
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agenda-service
+  namespace: web-platform
+spec:
+  selector:
+    app: agenda-service
+  ports:
+    - name: http
+      port: 5000
+      targetPort: 5000

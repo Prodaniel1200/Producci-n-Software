@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}CONIITI{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Información oficial de CONIITI</h2>
+
+    {% if datos.status == "ok" %}
+
+        <h4>Títulos principales</h4>
+        <ul class="list-group mb-4">
+            {% for titulo in datos.titulos %}
+                <li class="list-group-item">{{ titulo }}</li>
+            {% endfor %}
+        </ul>
+
+        <h4>Descripción</h4>
+        {% for parrafo in datos.parrafos %}
+            <p>{{ parrafo }}</p>
+        {% endfor %}
+
+    {% else %}
+        <div class="alert alert-danger">
+            No se pudo cargar la información.
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

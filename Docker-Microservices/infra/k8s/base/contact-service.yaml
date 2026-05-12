@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contact-service
+  namespace: web-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: contact-service
+  template:
+    metadata:
+      labels:
+        app: contact-service
+    spec:
+      containers:
+        - name: contact-service
+          image: docker-microservices/contact-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          env:
+            - name: CONTACT_CSV_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: platform-config
+                  key: CONTACT_CSV_PATH
+            - name: GUNICORN_WORKERS
+              valueFrom:
+                configMapKeyRef:
+                  name: platform-config
+                  key: GUNICORN_WORKERS
+            - name: GUNICORN_THREADS
+              valueFrom:
+                configMapKeyRef:
+                  name: platform-config
+                  key: GUNICORN_THREADS
+            - name: GUNICORN_TIMEOUT
+              valueFrom:
+                configMapKeyRef:
+                  name: platform-config
+                  key: GUNICORN_TIMEOUT
+          volumeMounts:
+            - name: contact-data
+              mountPath: /app/data
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi
+      volumes:
+        - name: contact-data
+          persistentVolumeClaim:
+            claimName: contact-data-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: contact-service
+  namespace: web-platform
+spec:
+  selector:
+    app: contact-service
+  ports:
+    - name: http
+      port: 5000
+      targetPort: 5000

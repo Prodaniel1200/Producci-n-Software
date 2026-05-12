@@ -1,0 +1,233 @@
+/* =======================
+   COLORES INSTITUCIONALES
+   ======================= */
+   :root {
+    --uc-blue: #002147;
+    --uc-yellow: #FFCC00;
+    --soft-bg: #eef2f7;
+    --card-bg: #ffffff;
+    --virtual-color: #28a745;
+    --presencial-color: #0d6efd;
+    --backgroun-color: #71a7f8;
+}
+
+/* =======================
+   BODY GENERAL
+   ======================= */
+body {
+    background-color: var(--soft-bg);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* =======================
+   INICIO - COLOR COMPLETO
+   ======================= */
+body.inicio-body {
+    background-color: var(--uc-blue);
+}
+
+.inicio-fullscreen {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--uc-blue);
+    display: flex;
+    align-items: center;
+}
+
+.inicio-content {
+    color: white;
+    padding: 60px 0;
+}
+
+/* Imagen inicio */
+.inicio-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* =======================
+   NAVBAR
+   ======================= */
+.custom-navbar {
+    background-color: var(--uc-yellow);
+    padding: 8px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar-logo,
+.navbar-title {
+    max-height: 45px !important;
+    width: auto !important;
+    margin-right: 10px;
+}
+
+.navbar-brand img {
+    max-height: 45px !important;
+    width: auto !important;
+}
+
+.nav-link {
+    color: var(--uc-blue) !important;
+    font-weight: 600;
+    margin-left: 20px;
+}
+
+.nav-link:hover {
+    color: white !important;
+}
+
+.btn-outline-dark {
+    border-color: var(--uc-blue);
+    color: var(--uc-blue);
+}
+
+.btn-outline-dark:hover {
+    background-color: var(--uc-blue);
+    color: white;
+}
+
+/* =======================
+   AGENDA - TARJETAS
+   ======================= */
+body.agenda-body {
+    background: linear-gradient(135deg, var(--uc-blue));
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    border: none;
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+.badge.bg-primary {
+    background-color: var(--presencial-color) !important;
+}
+
+.badge.bg-success {
+    background-color: var(--virtual-color) !important;
+}
+
+.card-body p strong {
+    color: var(--uc-blue);
+}
+
+/* =======================
+   LOGIN
+   ======================= */
+.login-body {
+    background: linear-gradient(135deg, var(--uc-blue), #001733);
+}
+
+.login-card {
+    width: 350px;
+    border-radius: 12px;
+}
+
+.login-header {
+    background-color: var(--uc-yellow);
+    color: var(--uc-blue);
+    font-weight: bold;
+}
+
+.login-btn {
+    background-color: var(--uc-blue);
+    color: var(--uc-yellow);
+    border: none;
+}
+
+.login-btn:hover {
+    background-color: var(--uc-yellow);
+    color: var(--uc-blue);
+}
+
+/* =======================
+   ACERCA DE
+   ======================= */
+body.acerca-body {
+    background-color: var(--uc-blue);
+}
+
+body.acerca-body p {
+    color: white;
+}
+
+.acerca-title {
+    font-size: 2.8rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.acerca-subtitle {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--soft-bg);
+}
+
+.acerca-section {
+    margin-bottom: 50px;
+}
+
+.acerca-card {
+    border-radius: 15px;
+    transition: 0.3s ease;
+}
+
+.acerca-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+body.acerca-body .acerca-card {
+    background-color: var(--uc-yellow);
+}
+
+.acerca-organiza {
+    background-color: var(--backgroun-color);
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-top: 40px;
+}
+
+/* =======================
+   TITULOS
+   ======================= */
+h1, h2, h3 {
+    color: var(--uc-yellow);
+}
+
+/* =======================
+   RESPONSIVE
+   ======================= */
+@media (min-width: 768px) {
+    .inicio-content .row {
+        align-items: center;
+    }
+
+    .inicio-content .col-md-6:first-child {
+        text-align: left;
+    }
+
+    .inicio-content .col-md-6:last-child {
+        text-align: center;
+    }
+}
