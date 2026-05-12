@@ -1,0 +1,16 @@
+[pod/auth-service-87cd86dd4-kwtmg/auth-service] [2026-05-12 18:23:21 +0000] [12] [INFO] Starting gunicorn 26.0.0
+[pod/auth-service-87cd86dd4-kwtmg/auth-service] [2026-05-12 18:23:21 +0000] [12] [INFO] Listening at: http://0.0.0.0:5000 (12)
+[pod/auth-service-87cd86dd4-kwtmg/auth-service] [2026-05-12 18:23:21 +0000] [12] [INFO] Using worker: sync
+[pod/auth-service-87cd86dd4-kwtmg/auth-service] [2026-05-12 18:23:21 +0000] [13] [INFO] Booting worker with pid: 13
+[pod/auth-service-87cd86dd4-kwtmg/auth-service] [2026-05-12 18:23:21 +0000] [12] [INFO] Control socket listening at /root/.gunicorn/gunicorn.ctl
+[pod/auth-service-87cd86dd4-sdrq6/auth-service] [2026-05-12 18:23:21 +0000] [13] [INFO] Starting gunicorn 26.0.0
+[pod/auth-service-87cd86dd4-sdrq6/auth-service] [2026-05-12 18:23:21 +0000] [13] [INFO] Listening at: http://0.0.0.0:5000 (13)
+[pod/auth-service-87cd86dd4-sdrq6/auth-service] [2026-05-12 18:23:21 +0000] [13] [INFO] Using worker: sync
+[pod/auth-service-87cd86dd4-sdrq6/auth-service] [2026-05-12 18:23:21 +0000] [14] [INFO] Booting worker with pid: 14
+[pod/auth-service-87cd86dd4-sdrq6/auth-service] [2026-05-12 18:23:21 +0000] [13] [INFO] Control socket listening at /root/.gunicorn/gunicorn.ctl
+[pod/web-service-5cb598647f-rgjj4/web-service] [2026-05-12 18:36:25 +0000] [12] [INFO] Starting gunicorn 26.0.0
+[pod/web-service-5cb598647f-rgjj4/web-service] [2026-05-12 18:36:25 +0000] [12] [INFO] Listening at: http://0.0.0.0:5000 (12)
+[pod/web-service-5cb598647f-rgjj4/web-service] [2026-05-12 18:36:25 +0000] [12] [INFO] Using worker: gthread
+[pod/web-service-5cb598647f-rgjj4/web-service] [2026-05-12 18:36:25 +0000] [13] [INFO] Booting worker with pid: 13
+[pod/web-service-5cb598647f-rgjj4/web-service] [2026-05-12 18:36:25 +0000] [14] [INFO] Booting worker with pid: 14
+[pod/web-service-5cb598647f-rgjj4/web-service] [2026-05-12 18:36:25 +0000] [12] [INFO] Control socket listening at /root/.gunicorn/gunicorn.ctl

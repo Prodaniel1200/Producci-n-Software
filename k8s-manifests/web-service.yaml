@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-service
+  namespace: coniiti
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-service
+  template:
+    metadata:
+      labels:
+        app: web-service
+    spec:
+      containers:
+      - name: web-service
+        image: coniiti/web-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
+        env:
+        - name: AUTH_SERVICE_URL
+          value: "http://auth-service:5000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  namespace: coniiti
+spec:
+  type: ClusterIP
+  selector:
+    app: web-service
+  ports:
+  - port: 5000
+    targetPort: 5000

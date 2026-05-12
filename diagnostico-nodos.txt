@@ -1,0 +1,96 @@
+Name:               coniiti-control-plane
+Roles:              control-plane
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=coniiti-control-plane
+                    kubernetes.io/os=linux
+                    node-role.kubernetes.io/control-plane=
+Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: unix:///run/containerd/containerd.sock
+                    node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Tue, 12 May 2026 17:51:46 +0000
+Taints:             <none>
+Unschedulable:      false
+Lease:
+  HolderIdentity:  coniiti-control-plane
+  AcquireTime:     <unset>
+  RenewTime:       Tue, 12 May 2026 18:40:00 +0000
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Tue, 12 May 2026 18:36:23 +0000   Tue, 12 May 2026 17:51:44 +0000   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Tue, 12 May 2026 18:36:23 +0000   Tue, 12 May 2026 17:51:44 +0000   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Tue, 12 May 2026 18:36:23 +0000   Tue, 12 May 2026 17:51:44 +0000   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            True    Tue, 12 May 2026 18:36:23 +0000   Tue, 12 May 2026 17:52:08 +0000   KubeletReady                 kubelet is posting ready status
+Addresses:
+  InternalIP:  172.18.0.2
+  Hostname:    coniiti-control-plane
+Capacity:
+  cpu:                2
+  ephemeral-storage:  32847680Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             8135228Ki
+  pods:               110
+Allocatable:
+  cpu:                2
+  ephemeral-storage:  32847680Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             8135228Ki
+  pods:               110
+System Info:
+  Machine ID:                 bb39959d42284d6e9058bfe26b818044
+  System UUID:                46ba1034-9bd5-445f-91b6-ebab38e965b3
+  Boot ID:                    0fbd83e7-879b-4264-8297-b58e55344bba
+  Kernel Version:             6.8.0-1044-azure
+  OS Image:                   Debian GNU/Linux 12 (bookworm)
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  containerd://1.7.15
+  Kubelet Version:            v1.30.0
+  Kube-Proxy Version:         v1.30.0
+PodCIDR:                      10.244.0.0/24
+PodCIDRs:                     10.244.0.0/24
+ProviderID:                   kind://docker/coniiti/coniiti-control-plane
+Non-terminated Pods:          (12 in total)
+  Namespace                   Name                                             CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                                             ------------  ----------  ---------------  -------------  ---
+  coniiti                     auth-service-87cd86dd4-kwtmg                     100m (5%)     300m (15%)  128Mi (1%)       256Mi (3%)     16m
+  coniiti                     auth-service-87cd86dd4-sdrq6                     100m (5%)     300m (15%)  128Mi (1%)       256Mi (3%)     16m
+  coniiti                     web-service-5cb598647f-rgjj4                     0 (0%)        0 (0%)      0 (0%)           0 (0%)         3m37s
+  kube-system                 coredns-7db6d8ff4d-55p55                         100m (5%)     0 (0%)      70Mi (0%)        170Mi (2%)     47m
+  kube-system                 coredns-7db6d8ff4d-zc8dl                         100m (5%)     0 (0%)      70Mi (0%)        170Mi (2%)     47m
+  kube-system                 etcd-coniiti-control-plane                       100m (5%)     0 (0%)      100Mi (1%)       0 (0%)         48m
+  kube-system                 kindnet-z45xc                                    100m (5%)     100m (5%)   50Mi (0%)        50Mi (0%)      47m
+  kube-system                 kube-apiserver-coniiti-control-plane             250m (12%)    0 (0%)      0 (0%)           0 (0%)         48m
+  kube-system                 kube-controller-manager-coniiti-control-plane    200m (10%)    0 (0%)      0 (0%)           0 (0%)         48m
+  kube-system                 kube-proxy-z4xcl                                 0 (0%)        0 (0%)      0 (0%)           0 (0%)         47m
+  kube-system                 kube-scheduler-coniiti-control-plane             100m (5%)     0 (0%)      0 (0%)           0 (0%)         48m
+  local-path-storage          local-path-provisioner-988d74bc-rtdqr            0 (0%)        0 (0%)      0 (0%)           0 (0%)         47m
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests     Limits
+  --------           --------     ------
+  cpu                1150m (57%)  700m (35%)
+  memory             546Mi (6%)   902Mi (11%)
+  ephemeral-storage  0 (0%)       0 (0%)
+  hugepages-1Gi      0 (0%)       0 (0%)
+  hugepages-2Mi      0 (0%)       0 (0%)
+Events:
+  Type    Reason                   Age                From             Message
+  ----    ------                   ----               ----             -------
+  Normal  Starting                 47m                kube-proxy       
+  Normal  Starting                 48m                kubelet          Starting kubelet.
+  Normal  NodeHasSufficientMemory  48m (x8 over 48m)  kubelet          Node coniiti-control-plane status is now: NodeHasSufficientMemory
+  Normal  NodeHasNoDiskPressure    48m (x8 over 48m)  kubelet          Node coniiti-control-plane status is now: NodeHasNoDiskPressure
+  Normal  NodeHasSufficientPID     48m (x7 over 48m)  kubelet          Node coniiti-control-plane status is now: NodeHasSufficientPID
+  Normal  NodeAllocatableEnforced  48m                kubelet          Updated Node Allocatable limit across pods
+  Normal  Starting                 48m                kubelet          Starting kubelet.
+  Normal  NodeHasSufficientMemory  48m                kubelet          Node coniiti-control-plane status is now: NodeHasSufficientMemory
+  Normal  NodeHasNoDiskPressure    48m                kubelet          Node coniiti-control-plane status is now: NodeHasNoDiskPressure
+  Normal  NodeHasSufficientPID     48m                kubelet          Node coniiti-control-plane status is now: NodeHasSufficientPID
+  Normal  NodeAllocatableEnforced  48m                kubelet          Updated Node Allocatable limit across pods
+  Normal  RegisteredNode           47m                node-controller  Node coniiti-control-plane event: Registered Node coniiti-control-plane in Controller
+  Normal  NodeReady                47m                kubelet          Node coniiti-control-plane status is now: NodeReady
