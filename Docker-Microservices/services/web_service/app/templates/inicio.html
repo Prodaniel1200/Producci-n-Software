@@ -52,5 +52,141 @@ inicio-body
             </div>
 
         </div>
+    </div>
+</div>
+
+<!-- Sección Noticia Institucional -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="text-uppercase fw-semibold small text-danger" style="letter-spacing: 0.1em;">
+          Noticias Institucionales
+        </span>
+        <h2 class="fw-bold mt-2 mb-3">
+          CONIITI 2026: Innovación y Tendencias en Ingeniería
+        </h2>
+        <p class="text-muted mb-4" style="line-height: 1.8;">
+          El Congreso Internacional de Innovación y Tendencias en Ingeniería reúne a los
+          principales líderes académicos e industriales para explorar los avances tecnológicos
+          que están transformando el mundo.
+        </p>
+        <a href="#" class="btn btn-outline-warning px-4 py-2 fw-semibold">
+          Conocer más
+        </a>
+      </div>
+      <div class="col-lg-6 text-center">
+        <img
+          src="{{ url_for('static', filename='images/placeholder-600x380.svg') }}"
+          alt="CONIITI 2026"
+          class="img-fluid rounded shadow"
+          style="max-height: 380px; object-fit: cover; width: 100%;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sección Portal de Contenido -->
+<section class="py-5 bg-light">
+  <div class="container">
+
+    <div class="mb-4">
+      <span class="text-uppercase fw-semibold small text-danger" style="letter-spacing: 0.1em;">
+        Portal de Contenido
+      </span>
+      <h2 class="fw-bold mt-1">Últimas Noticias y Recursos</h2>
+      <hr class="w-25 border-3">
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-lg-8">
+        <div class="row g-4">
+
+          <!-- Card 1 -->
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+              <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Ponencias Internacionales">
+              <div class="card-body d-flex flex-column">
+                <h6 class="card-title fw-bold">Ponencias Internacionales</h6>
+                <p class="card-text text-muted small flex-grow-1">
+                  Conoce los expertos confirmados para el congreso.
+                </p>
+                <a href="#" class="btn btn-sm btn-outline-primary mt-2">
+                  Leer más
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+              <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Convocatoria Abierta">
+              <div class="card-body d-flex flex-column">
+                <h6 class="card-title fw-bold">Convocatoria Abierta</h6>
+                <p class="card-text text-muted small flex-grow-1">
+                  Envía tu propuesta antes de julio.
+                </p>
+                <a href="#" class="btn btn-sm btn-outline-primary mt-2">
+                  Leer más
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+              <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Talleres Prácticos">
+              <div class="card-body d-flex flex-column">
+                <h6 class="card-title fw-bold">Talleres Prácticos</h6>
+                <p class="card-text text-muted small flex-grow-1">
+                  Inscríbete a talleres en IA y robótica.
+                </p>
+                <a href="#" class="btn btn-sm btn-outline-primary mt-2">
+                  Leer más
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-4">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="fw-bold mb-4">Recomendados</h5>
+
+            <div class="mb-3">
+              <strong>Guía del Participante</strong>
+              <p class="small text-muted mb-1">
+                Todo lo necesario para el evento.
+              </p>
+            </div>
+
+            <div class="mb-3">
+              <strong>Memorias 2025</strong>
+              <p class="small text-muted mb-1">
+                Resultados del congreso anterior.
+              </p>
+            </div>
+
+            <div>
+              <strong>Reglamento</strong>
+              <p class="small text-muted mb-1">
+                Normas de participación.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 {% endblock %}
