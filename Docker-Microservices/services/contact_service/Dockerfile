@@ -10,8 +10,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar el resto del proyecto
 COPY . .
 
-# Puerto que usa Azure App Service
-EXPOSE 80
+# Puerto que usa el stack interno de Docker Compose
+EXPOSE 5000
 
-# IMPORTANTE: asegúrate que tu archivo principal es app.py y tiene "app = Flask(__name__)"
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "app:app"]
+# Ejecutamos la aplicación con el objeto app exportado desde run.py
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "run:app"]

@@ -10,8 +10,8 @@ COPY . .
 # Instalamos las dependencias del archivo requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Exponemos el puerto 80, ya que es el puerto estándar para aplicaciones web en Azure
-EXPOSE 80
+# Puerto que usa el stack interno de Docker Compose
+EXPOSE 5000
 
-# Establecemos el comando para ejecutar la aplicación con Gunicorn (servidor WSGI)
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "app:app"]
+# Ejecutamos la aplicación con el objeto app exportado desde run.py
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "run:app"]
