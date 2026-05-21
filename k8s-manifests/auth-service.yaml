@@ -23,8 +23,8 @@ spec:
     spec:
       containers:
         - name: auth-service
-          image: coniiti/auth-service:latest
-          imagePullPolicy: Never
+          image: docker-microservices/auth-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000
           resources:

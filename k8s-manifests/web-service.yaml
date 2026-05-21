@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
       - name: web-service
-        image: coniiti/web-service:latest
-        imagePullPolicy: Never
+        image: docker-microservices/web-service:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
         env:

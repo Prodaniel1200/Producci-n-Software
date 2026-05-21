@@ -1,0 +1,842 @@
+Script started on 2026-05-21 03:28:52+00:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="96" LINES="13"]
+[?2004h[0;32m@afrocha94-maker [0m➜ [1;34m/workspaces/Producci-n-Software [0;36m([1;31mmain[0;36m) [0m$ [7mkubectl get nodes[27m
+[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ckubectl get nodes
+[A
+[?2004lNAME       STATUS   ROLES           AGE   VERSION
+minikube   Ready    control-plane   35m   v1.35.1
+[?2004h[0;32m@afrocha94-maker [0m➜ [1;34m/workspaces/Producci-n-Software [0;36m([1;31mmain[0;36m) [0m$ [7mkubectl get pods -n coniiti[27mkubectl get pods -n coniiti
+[?2004lNAME                            READY   STATUS    RESTARTS   AGE
+auth-service-596959bb97-7pwls   1/1     Running   0          11m
+auth-service-596959bb97-gxcg5   1/1     Running   0          11m
+web-service-64d698577-2lbwk     1/1     Running   0          11m
+[?2004h[0;32m@afrocha94-maker [0m➜ [1;34m/workspaces/Producci-n-Software [0;36m([1;31mmain[0;36m) [0m$ [7mkubectl get all -n coniiti[27m
+[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ckubectl get all -n coniiti
+[A
+[?2004lNAME                                READY   STATUS    RESTARTS   AGE
+pod/auth-service-596959bb97-7pwls   1/1     Running   0          12m
+pod/auth-service-596959bb97-gxcg5   1/1     Running   0          12m
+pod/web-service-64d698577-2lbwk     1/1     Running   0          12m
+
+NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/auth-service   ClusterIP   10.107.252.251   <none>        5000/TCP   24m
+service/web-service    ClusterIP   10.105.87.34     <none>        5000/TCP   25m
+
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/auth-service   2/2     2            2           24m
+deployment.apps/web-service    1/1     1            1           25m
+
+NAME                                      DESIRED   CURRENT   READY   AGE
+replicaset.apps/auth-service-596959bb97   2         2         2       17m
+replicaset.apps/auth-service-6c7dd6c6cb   0         0         0       24m
+replicaset.apps/web-service-6479486488    0         0         0       25m
+replicaset.apps/web-service-64d698577     1         1         1       17m
+[?2004h[0;32m@afrocha94-maker [0m➜ [1;34m/workspaces/Producci-n-Software [0;36m([1;31mmain[0;36m) [0m$ [7mkubectl describe nodes[27m
+[7m``[27m[A[0;32m@afrocha94-maker [0m➜ [1;34m/workspaces/Producci-n-Software [0;36m([1;31mmain[0;36m) [0m$ kubectl describe nodes
+``
+[?2004lName:               minikube
+Roles:              control-plane
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=minikube
+                    kubernetes.io/os=linux
+                    minikube.k8s.io/commit=c93a4cb9311efc66b90d33ea03f75f2c4120e9b0
+                    minikube.k8s.io/name=minikube
+                    minikube.k8s.io/primary=true
+                    minikube.k8s.io/updated_at=2026_05_21T02_55_43_0700
+                    minikube.k8s.io/version=v1.38.1
+                    node-role.kubernetes.io/control-plane=
+                    node.kubernetes.io/exclude-from-external-load-balancers=
+Annotations:        node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Thu, 21 May 2026 02:55:39 +0000
+Taints:             <none>
+Unschedulable:      false
+Lease:
+  HolderIdentity:  minikube
+  AcquireTime:     <unset>
+  RenewTime:       Thu, 21 May 2026 03:31:04 +0000
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Thu, 21 May 2026 03:27:09 +0000   Thu, 21 May 2026 02:55:37 +0000   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Thu, 21 May 2026 03:27:09 +0000   Thu, 21 May 2026 02:55:37 +0000   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Thu, 21 May 2026 03:27:09 +0000   Thu, 21 May 2026 02:55:37 +0000   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            True    Thu, 21 May 2026 03:27:09 +0000   Thu, 21 May 2026 02:55:43 +0000   KubeletReady                 kubelet is posting ready status
+Addresses:
+  InternalIP:  192.168.49.2
+  Hostname:    minikube
+Capacity:
+  cpu:                2
+  ephemeral-storage:  32847680Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             8135228Ki
+  pods:               110
+Allocatable:
+  cpu:                2
+  ephemeral-storage:  32847680Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             8135228Ki
+  pods:               110
+System Info:
+  Machine ID:                 86e0bfeb3f77427722393c2969964edb
+  System UUID:                1825cfff-97ea-45b4-a705-d3f14bd75329
+  Boot ID:                    17375ee0-319c-46ff-9534-3980322019be
+  Kernel Version:             6.8.0-1044-azure
+  OS Image:                   Debian GNU/Linux 12 (bookworm)
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  docker://29.2.1
+  Kubelet Version:            v1.35.1
+  Kube-Proxy Version:         
+PodCIDR:                      10.244.0.0/24
+PodCIDRs:                     10.244.0.0/24
+Non-terminated Pods:          (10 in total)
+  Namespace                   Name                                CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                                ------------  ----------  ---------------  -------------  ---
+  coniiti                     auth-service-596959bb97-7pwls       100m (5%)     300m (15%)  128Mi (1%)       256Mi (3%)     12m
+  coniiti                     auth-service-596959bb97-gxcg5       100m (5%)     300m (15%)  128Mi (1%)       256Mi (3%)     12m
+  coniiti                     web-service-64d698577-2lbwk         0 (0%)        0 (0%)      0 (0%)           0 (0%)         12m
+  kube-system                 coredns-7d764666f9-hl5mj            100m (5%)     0 (0%)      70Mi (0%)        170Mi (2%)     35m
+  kube-system                 etcd-minikube                       100m (5%)     0 (0%)      100Mi (1%)       0 (0%)         35m
+  kube-system                 kube-apiserver-minikube             250m (12%)    0 (0%)      0 (0%)           0 (0%)         35m
+  kube-system                 kube-controller-manager-minikube    200m (10%)    0 (0%)      0 (0%)           0 (0%)         35m
+  kube-system                 kube-proxy-6zv2k                    0 (0%)        0 (0%)      0 (0%)           0 (0%)         35m
+  kube-system                 kube-scheduler-minikube             100m (5%)     0 (0%)      0 (0%)           0 (0%)         35m
+  kube-system                 storage-provisioner                 0 (0%)        0 (0%)      0 (0%)           0 (0%)         35m
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests    Limits
+  --------           --------    ------
+  cpu                950m (47%)  600m (30%)
+  memory             426Mi (5%)  682Mi (8%)
+  ephemeral-storage  0 (0%)      0 (0%)
+  hugepages-1Gi      0 (0%)      0 (0%)
+  hugepages-2Mi      0 (0%)      0 (0%)
+Events:
+  Type    Reason          Age   From             Message
+  ----    ------          ----  ----             -------
+  Normal  RegisteredNode  35m   node-controller  Node minikube event: Registered Node minikube in Controller
+[?2004h[0;32m@afrocha94-maker [0m➜ [1;34m/workspaces/Producci-n-Software [0;36m([1;31mmain[0;36m) [0m$ [7mkubectl describe pods -n coniiti[27m
+[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ckubectl describe pods -n coniiti
+[A
+[?2004lName:             auth-service-596959bb97-7pwls
+Namespace:        coniiti
+Priority:         0
+Service Account:  default
+Node:             minikube/192.168.49.2
+Start Time:       Thu, 21 May 2026 03:18:55 +0000
+Labels:           app=auth-service
+                  pod-template-hash=596959bb97
+Annotations:      <none>
+Status:           Running
+IP:               10.244.0.10
+IPs:
+  IP:           10.244.0.10
+Controlled By:  ReplicaSet/auth-service-596959bb97
+Containers:
+  auth-service:
+    Container ID:   docker://8c4b3d7bd35e7836fbc3044b5736a79b266249bd56d3498386a458730baf217b
+    Image:          docker-microservices/auth-service:latest
+    Image ID:       docker://sha256:bfbb0e7db459a5dcaefbfb5c7b382d9ebccdf2b14a9ee1058f2cb9994b61e6e1
+    Port:           5000/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Thu, 21 May 2026 03:18:56 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     300m
+      memory:  256Mi
+    Requests:
+      cpu:      100m
+      memory:   128Mi
+    Liveness:   http-get http://:5000/health delay=15s timeout=1s period=20s #success=1 #failure=3
+    Readiness:  http-get http://:5000/health delay=5s timeout=1s period=10s #success=1 #failure=3
+    Environment:
+      USERS_CSV_PATH:  <set to the key 'USERS_CSV_PATH' of config map 'coniiti-config'>  Optional: false
+      FLASK_ENV:       <set to the key 'FLASK_ENV' of config map 'coniiti-config'>       Optional: false
+      SECRET_KEY:      <set to the key 'SECRET_KEY' in secret 'coniiti-secrets'>         Optional: false
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jmpvx (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-jmpvx:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  12m   default-scheduler  Successfully assigned coniiti/auth-service-596959bb97-7pwls to minikube
+  Normal  Pulled     12m   kubelet            spec.containers{auth-service}: Container image "docker-microservices/auth-service:latest" already present on machine and can be accessed by the pod
+  Normal  Created    12m   kubelet            spec.containers{auth-service}: Container created
+  Normal  Started    12m   kubelet            spec.containers{auth-service}: Container started
+
+
+Name:             auth-service-596959bb97-gxcg5
+Namespace:        coniiti
+Priority:         0
+Service Account:  default
+Node:             minikube/192.168.49.2
+Start Time:       Thu, 21 May 2026 03:18:55 +0000
+Labels:           app=auth-service
+                  pod-template-hash=596959bb97
+Annotations:      <none>
+Status:           Running
+IP:               10.244.0.9
+IPs:
+  IP:           10.244.0.9
+Controlled By:  ReplicaSet/auth-service-596959bb97
+Containers:
+  auth-service:
+    Container ID:   docker://a0f9eab8ddd7e62dcbd64356c2c03aef54ed93d9863f0e5178c9548628903c2b
+    Image:          docker-microservices/auth-service:latest
+    Image ID:       docker://sha256:bfbb0e7db459a5dcaefbfb5c7b382d9ebccdf2b14a9ee1058f2cb9994b61e6e1
+    Port:           5000/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Thu, 21 May 2026 03:18:56 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     300m
+      memory:  256Mi
+    Requests:
+      cpu:      100m
+      memory:   128Mi
+    Liveness:   http-get http://:5000/health delay=15s timeout=1s period=20s #success=1 #failure=3
+    Readiness:  http-get http://:5000/health delay=5s timeout=1s period=10s #success=1 #failure=3
+    Environment:
+      USERS_CSV_PATH:  <set to the key 'USERS_CSV_PATH' of config map 'coniiti-config'>  Optional: false
+      FLASK_ENV:       <set to the key 'FLASK_ENV' of config map 'coniiti-config'>       Optional: false
+      SECRET_KEY:      <set to the key 'SECRET_KEY' in secret 'coniiti-secrets'>         Optional: false
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-5pzqz (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-5pzqz:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  12m   default-scheduler  Successfully assigned coniiti/auth-service-596959bb97-gxcg5 to minikube
+  Normal  Pulled     12m   kubelet            spec.containers{auth-service}: Container image "docker-microservices/auth-service:latest" already present on machine and can be accessed by the pod
+  Normal  Created    12m   kubelet            spec.containers{auth-service}: Container created
+  Normal  Started    12m   kubelet            spec.containers{auth-service}: Container started
+
+
+Name:             web-service-64d698577-2lbwk
+Namespace:        coniiti
+Priority:         0
+Service Account:  default
+Node:             minikube/192.168.49.2
+Start Time:       Thu, 21 May 2026 03:18:55 +0000
+Labels:           app=web-service
+                  pod-template-hash=64d698577
+Annotations:      <none>
+Status:           Running
+IP:               10.244.0.11
+IPs:
+  IP:           10.244.0.11
+Controlled By:  ReplicaSet/web-service-64d698577
+Containers:
+  web-service:
+    Container ID:   docker://45b279064d2ccd6406fccd3c4273d55dcd99d1d1dac95ce1208464e36e87c475
+    Image:          docker-microservices/web-service:latest
+    Image ID:       docker://sha256:52ec6eeb0a28f0f10d31875ad11ff253d581b50b55b0f2920b31cdf7d492b80a
+    Port:           5000/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Thu, 21 May 2026 03:18:56 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      AUTH_SERVICE_URL:  http://auth-service:5000
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-kg9kb (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-kg9kb:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  12m   default-scheduler  Successfully assigned coniiti/web-service-64d698577-2lbwk to minikube
+  Normal  Pulled     12m   kubelet            spec.containers{web-service}: Container image "docker-microservices/web-service:latest" already present on machine and can be accessed by the pod
+  Normal  Created    12m   kubelet            spec.containers{web-service}: Container created
+  Normal  Started    12m   kubelet            spec.containers{web-service}: Container started
+[?2004h[0;32m@afrocha94-maker [0m➜ [1;34m/workspaces/Producci-n-Software [0;36m([1;31mmain[0;36m) [0m$ [7mkubectl get pods -o yaml -n coniiti[27m
+[7m``[27m[A[0;32m@afrocha94-maker [0m➜ [1;34m/workspaces/Producci-n-Software [0;36m([1;31mmain[0;36m) [0m$ kubectl get pods -o yaml -n coniiti
+``
+[?2004lapiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-05-21T03:18:55Z"
+    generateName: auth-service-596959bb97-
+    generation: 1
+    labels:
+      app: auth-service
+      pod-template-hash: 596959bb97
+    name: auth-service-596959bb97-7pwls
+    namespace: coniiti
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: auth-service-596959bb97
+      uid: da8d6986-5234-4313-adbe-a7d3db850601
+    resourceVersion: "1817"
+    uid: be23e22c-fc64-4c0f-adda-14821b891bb3
+  spec:
+    containers:
+    - env:
+      - name: USERS_CSV_PATH
+        valueFrom:
+          configMapKeyRef:
+            key: USERS_CSV_PATH
+            name: coniiti-config
+      - name: FLASK_ENV
+        valueFrom:
+          configMapKeyRef:
+            key: FLASK_ENV
+            name: coniiti-config
+      - name: SECRET_KEY
+        valueFrom:
+          secretKeyRef:
+            key: SECRET_KEY
+            name: coniiti-secrets
+      image: docker-microservices/auth-service:latest
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /health
+          port: 5000
+          scheme: HTTP
+        initialDelaySeconds: 15
+        periodSeconds: 20
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: auth-service
+      ports:
+      - containerPort: 5000
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /health
+          port: 5000
+          scheme: HTTP
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 300m
+          memory: 256Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-jmpvx
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: minikube
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-jmpvx
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:18:57Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:18:55Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:19:08Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:19:08Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:18:55Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 128Mi
+      containerID: docker://8c4b3d7bd35e7836fbc3044b5736a79b266249bd56d3498386a458730baf217b
+      image: docker-microservices/auth-service:latest
+      imageID: docker://sha256:bfbb0e7db459a5dcaefbfb5c7b382d9ebccdf2b14a9ee1058f2cb9994b61e6e1
+      lastState: {}
+      name: auth-service
+      ready: true
+      resources:
+        limits:
+          cpu: 300m
+          memory: 256Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-05-21T03:18:56Z"
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-jmpvx
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.49.2
+    hostIPs:
+    - ip: 192.168.49.2
+    observedGeneration: 1
+    phase: Running
+    podIP: 10.244.0.10
+    podIPs:
+    - ip: 10.244.0.10
+    qosClass: Burstable
+    startTime: "2026-05-21T03:18:55Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-05-21T03:18:55Z"
+    generateName: auth-service-596959bb97-
+    generation: 1
+    labels:
+      app: auth-service
+      pod-template-hash: 596959bb97
+    name: auth-service-596959bb97-gxcg5
+    namespace: coniiti
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: auth-service-596959bb97
+      uid: da8d6986-5234-4313-adbe-a7d3db850601
+    resourceVersion: "1811"
+    uid: 92713fbc-bfb3-42e9-9093-defef608e7ba
+  spec:
+    containers:
+    - env:
+      - name: USERS_CSV_PATH
+        valueFrom:
+          configMapKeyRef:
+            key: USERS_CSV_PATH
+            name: coniiti-config
+      - name: FLASK_ENV
+        valueFrom:
+          configMapKeyRef:
+            key: FLASK_ENV
+            name: coniiti-config
+      - name: SECRET_KEY
+        valueFrom:
+          secretKeyRef:
+            key: SECRET_KEY
+            name: coniiti-secrets
+      image: docker-microservices/auth-service:latest
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /health
+          port: 5000
+          scheme: HTTP
+        initialDelaySeconds: 15
+        periodSeconds: 20
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: auth-service
+      ports:
+      - containerPort: 5000
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /health
+          port: 5000
+          scheme: HTTP
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 300m
+          memory: 256Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-5pzqz
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: minikube
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-5pzqz
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:18:56Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:18:55Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:19:07Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:19:07Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:18:55Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - allocatedResources:
+        cpu: 100m
+        memory: 128Mi
+      containerID: docker://a0f9eab8ddd7e62dcbd64356c2c03aef54ed93d9863f0e5178c9548628903c2b
+      image: docker-microservices/auth-service:latest
+      imageID: docker://sha256:bfbb0e7db459a5dcaefbfb5c7b382d9ebccdf2b14a9ee1058f2cb9994b61e6e1
+      lastState: {}
+      name: auth-service
+      ready: true
+      resources:
+        limits:
+          cpu: 300m
+          memory: 256Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-05-21T03:18:56Z"
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-5pzqz
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.49.2
+    hostIPs:
+    - ip: 192.168.49.2
+    observedGeneration: 1
+    phase: Running
+    podIP: 10.244.0.9
+    podIPs:
+    - ip: 10.244.0.9
+    qosClass: Burstable
+    startTime: "2026-05-21T03:18:55Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-05-21T03:18:55Z"
+    generateName: web-service-64d698577-
+    generation: 1
+    labels:
+      app: web-service
+      pod-template-hash: 64d698577
+    name: web-service-64d698577-2lbwk
+    namespace: coniiti
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: web-service-64d698577
+      uid: 75cbf6de-6117-4f16-8415-a65261c78fce
+    resourceVersion: "1795"
+    uid: cf0c1405-db8f-44ef-ab0e-ef561aaa9220
+  spec:
+    containers:
+    - env:
+      - name: AUTH_SERVICE_URL
+        value: http://auth-service:5000
+      image: docker-microservices/web-service:latest
+      imagePullPolicy: IfNotPresent
+      name: web-service
+      ports:
+      - containerPort: 5000
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-kg9kb
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: minikube
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-kg9kb
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:18:57Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:18:55Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:18:57Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:18:57Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-05-21T03:18:55Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://45b279064d2ccd6406fccd3c4273d55dcd99d1d1dac95ce1208464e36e87c475
+      image: docker-microservices/web-service:latest
+      imageID: docker://sha256:52ec6eeb0a28f0f10d31875ad11ff253d581b50b55b0f2920b31cdf7d492b80a
+      lastState: {}
+      name: web-service
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-05-21T03:18:56Z"
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-kg9kb
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.49.2
+    hostIPs:
+    - ip: 192.168.49.2
+    observedGeneration: 1
+    phase: Running
+    podIP: 10.244.0.11
+    podIPs:
+    - ip: 10.244.0.11
+    qosClass: BestEffort
+    startTime: "2026-05-21T03:18:55Z"
+kind: List
+metadata:
+  resourceVersion: ""
+[?2004h[0;32m@afrocha94-maker [0m➜ [1;34m/workspaces/Producci-n-Software [0;36m([1;31mmain[0;36m) [0m$ [7mfor pod in $(kubectl get pods -n con[27m[7mi[27m[7miti -o jsonpath='{.items[*].metadata.name}'); do [27m
+[7m  echo "=== POD: $pod ==="[27m
+[7m  kubectl logs --all-containers -n coniiti "$pod"[27m
+[7mdone[27m
+[7m``[27m[A[A[A[A[A[0;32m@afrocha94-maker [0m➜ [1;34m/workspaces/Producci-n-Software [0;36m([1;31mmain[0;36m) [0m$ for pod in $(kubectl get pods -n coniiti -o jsonpath='{.items[*].metadata.name}'); do
+  echo "=== POD: $pod ==="
+  kubectl logs --all-containers -n coniiti "$pod"
+done
+``
+[?2004l=== POD: auth-service-596959bb97-7pwls ===
+[2026-05-21 03:18:57 +0000] [7] [INFO] Starting gunicorn 26.0.0
+[2026-05-21 03:18:57 +0000] [7] [INFO] Listening at: http://0.0.0.0:5000 (7)
+[2026-05-21 03:18:57 +0000] [7] [INFO] Using worker: sync
+[2026-05-21 03:18:57 +0000] [8] [INFO] Booting worker with pid: 8
+[2026-05-21 03:18:57 +0000] [7] [INFO] Control socket listening at /root/.gunicorn/gunicorn.ctl
+=== POD: auth-service-596959bb97-gxcg5 ===
+[2026-05-21 03:18:56 +0000] [7] [INFO] Starting gunicorn 26.0.0
+[2026-05-21 03:18:56 +0000] [7] [INFO] Listening at: http://0.0.0.0:5000 (7)
+[2026-05-21 03:18:56 +0000] [7] [INFO] Using worker: sync
+[2026-05-21 03:18:56 +0000] [8] [INFO] Booting worker with pid: 8
+[2026-05-21 03:18:57 +0000] [7] [INFO] Control socket listening at /root/.gunicorn/gunicorn.ctl
+=== POD: web-service-64d698577-2lbwk ===
+[2026-05-21 03:18:57 +0000] [6] [INFO] Starting gunicorn 26.0.0
+[2026-05-21 03:18:57 +0000] [6] [INFO] Listening at: http://0.0.0.0:5000 (6)
+[2026-05-21 03:18:57 +0000] [6] [INFO] Using worker: gthread
+[2026-05-21 03:18:57 +0000] [7] [INFO] Booting worker with pid: 7
+[2026-05-21 03:18:57 +0000] [8] [INFO] Booting worker with pid: 8
+[2026-05-21 03:18:58 +0000] [6] [INFO] Control socket listening at /root/.gunicorn/gunicorn.ctl
+[?2004h[0;32m@afrocha94-maker [0m➜ [1;34m/workspaces/Producci-n-Software [0;36m([1;31mmain[0;36m) [0m$ [7mexit[27mexit
+[?2004lexit
+
+Script done on 2026-05-21 03:32:07+00:00 [COMMAND_EXIT_CODE="0"]

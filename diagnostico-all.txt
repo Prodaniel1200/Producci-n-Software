@@ -1,0 +1,18 @@
+NAME                                READY   STATUS    RESTARTS   AGE
+pod/auth-service-596959bb97-8g8lk   1/1     Running   0          58s
+pod/auth-service-596959bb97-z9tk2   1/1     Running   0          58s
+pod/web-service-64d698577-k9zkj     1/1     Running   0          57s
+
+NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/auth-service   ClusterIP   10.107.252.251   <none>        5000/TCP   8m7s
+service/web-service    ClusterIP   10.105.87.34     <none>        5000/TCP   9m28s
+
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/auth-service   2/2     2            2           8m7s
+deployment.apps/web-service    1/1     1            1           9m28s
+
+NAME                                      DESIRED   CURRENT   READY   AGE
+replicaset.apps/auth-service-596959bb97   2         2         2       58s
+replicaset.apps/auth-service-6c7dd6c6cb   0         0         0       8m7s
+replicaset.apps/web-service-6479486488    0         0         0       9m28s
+replicaset.apps/web-service-64d698577     1         1         1       57s

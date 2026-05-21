@@ -56,6 +56,7 @@ Con Minikube:
 
 ```bash
 minikube image load docker-microservices/auth-service:latest
+minikube image load docker-microservices/web-service:latest
 ```
 
 ## Notas importantes

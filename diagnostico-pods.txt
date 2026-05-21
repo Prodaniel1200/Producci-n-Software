@@ -1,0 +1,4 @@
+NAME                            READY   STATUS    RESTARTS   AGE
+auth-service-596959bb97-8g8lk   1/1     Running   0          58s
+auth-service-596959bb97-z9tk2   1/1     Running   0          58s
+web-service-64d698577-k9zkj     1/1     Running   0          57s
