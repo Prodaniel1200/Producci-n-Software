@@ -27,7 +27,7 @@
 
             <!-- LOGOS -->
             <a class="navbar-brand d-flex align-items-center"
-               href="{{ url_for('inicio') }}">
+               href="{{ url_for('public.inicio') }}">
 
                 <img src="{{ url_for('static', filename='logos/ucat.png') }}"
                      alt="Universidad Católica"
@@ -56,28 +56,28 @@
 
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ url_for('inicio') }}">
+                           href="{{ url_for('public.inicio') }}">
                             INICIO
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ url_for('agenda') }}">
+                           href="{{ url_for('agenda.view_agenda') }}">
                             AGENDA
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ url_for('acerca') }}">
+                           href="{{ url_for('public.acerca') }}">
                             ACERCA DE
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ url_for('contacto') }}">
+                           href="{{ url_for('public.contacto') }}">
                             CONTACTO
                         </a>
                     </li>
@@ -90,7 +90,7 @@
                         {{ current_user.id }}
                     </span>
 
-                    <a href="{{ url_for('logout') }}"
+                    <a href="{{ url_for('auth.logout') }}"
                        class="btn btn-outline-light ms-2">
 
                         Cerrar sesión
@@ -99,7 +99,7 @@
 
                 {% else %}
 
-                    <a href="{{ url_for('login') }}"
+                    <a href="{{ url_for('auth.login') }}"
                        class="btn btn-outline-light ms-2">
 
                         Iniciar sesión
