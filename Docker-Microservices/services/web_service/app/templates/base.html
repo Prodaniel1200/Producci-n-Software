@@ -6,92 +6,73 @@
 
     <title>{% block title %}CONIITI 2026{% endblock %}</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- CSS -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}?v=20">
 </head>
 
 <body class="{% block body_class %}{% endblock %}">
 
-    <!-- OVERLAY -->
     <div class="background-overlay"></div>
 
-    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg custom-navbar fixed-top">
 
         <div class="container">
 
-            <!-- LOGOS -->
-            <a class="navbar-brand d-flex align-items-center"
+            <!-- LOGO -->
+            <a class="navbar-brand"
                href="{{ url_for('public.inicio') }}">
 
                 <img src="{{ url_for('static', filename='logos/ucat.png') }}"
-                     alt="Universidad Católica"
                      class="navbar-logo">
 
                 <img src="{{ url_for('static', filename='logos/coniiti.png') }}"
-                     alt="Coniiti"
                      class="navbar-title">
 
             </a>
 
-            <!-- BOTÓN RESPONSIVE -->
             <button class="navbar-toggler"
-                    type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#navbarNav">
-
                 <span class="navbar-toggler-icon"></span>
-
             </button>
 
-            <!-- MENÚ -->
             <div class="collapse navbar-collapse" id="navbarNav">
 
                 <ul class="navbar-nav ms-auto">
 
-                    <!-- INICIO -->
                     <li class="nav-item">
-                        <a class="nav-link"
-                           href="{{ url_for('public.inicio') }}">
+                        <a class="nav-link" href="{{ url_for('public.inicio') }}">
                             INICIO
                         </a>
                     </li>
 
-                    <!-- AGENDA -->
                     <li class="nav-item">
-                        <a class="nav-link"
-                           href="{{ url_for('agenda.view_agenda') }}">
+                        <a class="nav-link" href="{{ url_for('agenda.view_agenda') }}">
                             AGENDA
                         </a>
                     </li>
 
-                    <!-- ACERCA -->
+                    <!-- 🔥 EVITAMOS ERROR SI NO EXISTE -->
                     <li class="nav-item">
-                        <a class="nav-link"
-                           href="{{ url_for('public.acerca') if 'public.acerca' in globals() else '#' }}">
+                        <a class="nav-link" href="#">
                             ACERCA DE
                         </a>
                     </li>
 
-                    <!-- CONTACTO (evita crash si no existe) -->
                     <li class="nav-item">
-                        <a class="nav-link"
-                           href="{{ url_for('public.contacto') if 'public.contacto' in globals() else '#' }}">
+                        <a class="nav-link" href="#">
                             CONTACTO
                         </a>
                     </li>
 
                 </ul>
 
-                <!-- AUTH -->
                 {% if current_user.is_authenticated %}
 
-                    <span class="navbar-text ms-3 fw-bold text-white">
+                    <span class="text-white ms-3">
                         {{ current_user.id }}
                     </span>
 
@@ -115,15 +96,9 @@
 
     </nav>
 
-    <!-- CONTENIDO -->
     <main class="contenido-principal">
-
         {% block content %}{% endblock %}
-
     </main>
-
-    <!-- JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
