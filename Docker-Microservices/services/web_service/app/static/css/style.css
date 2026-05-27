@@ -1,233 +1,325 @@
-/* =======================
-   COLORES INSTITUCIONALES
-   ======================= */
-   :root {
-    --uc-blue: #002147;
-    --uc-yellow: #FFCC00;
-    --soft-bg: #eef2f7;
-    --card-bg: #ffffff;
-    --virtual-color: #28a745;
-    --presencial-color: #0d6efd;
-    --backgroun-color: #71a7f8;
+/* =========================================
+   RESET
+========================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* =======================
-   BODY GENERAL
-   ======================= */
-body {
-    background-color: var(--soft-bg);
+/* =========================================
+   VARIABLES
+========================================= */
+
+:root{
+    --amarillo:#FFD227;
+    --blanco:#ffffff;
+    --negro:#000000;
+    --azul:#2461b1;
+    --gris:#a3a3a3;
+}
+
+/* =========================================
+   BODY
+========================================= */
+
+body{
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
 }
 
-/* =======================
-   INICIO - COLOR COMPLETO
-   ======================= */
-body.inicio-body {
-    background-color: var(--uc-blue);
+/* =========================================
+   FONDO GLOBAL
+========================================= */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background-image:url("/static/logos/uni.png");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    z-index:-2;
 }
 
-.inicio-fullscreen {
-    width: 100%;
-    min-height: 100vh;
-    background-color: var(--uc-blue);
-    display: flex;
-    align-items: center;
+/* =========================================
+   OVERLAY OSCURO
+========================================= */
+
+.background-overlay{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,0.55);
+
+    z-index:-1;
 }
 
-.inicio-content {
-    color: white;
-    padding: 60px 0;
-}
-
-/* Imagen inicio */
-.inicio-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* =======================
+/* =========================================
    NAVBAR
-   ======================= */
-.custom-navbar {
-    background-color: var(--uc-yellow);
-    padding: 8px 0;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+========================================= */
+
+.custom-navbar{
+
+    background:rgba(0,0,0,0.55);
+
+    backdrop-filter:blur(8px);
+
+    padding:12px 0;
 }
 
 .navbar-logo,
-.navbar-title {
-    max-height: 45px !important;
-    width: auto !important;
-    margin-right: 10px;
+.navbar-title{
+
+    max-height:45px;
+    width:auto;
+    margin-right:10px;
 }
 
-.navbar-brand img {
-    max-height: 45px !important;
-    width: auto !important;
+.nav-link{
+
+    color:white !important;
+
+    font-weight:600;
+
+    margin-left:20px;
+
+    transition:0.3s;
 }
 
-.nav-link {
-    color: var(--uc-blue) !important;
-    font-weight: 600;
-    margin-left: 20px;
+.nav-link:hover{
+
+    color:var(--amarillo) !important;
 }
 
-.nav-link:hover {
-    color: white !important;
+/* =========================================
+   CONTENIDO
+========================================= */
+
+.contenido-principal{
+
+    position:relative;  
+
+    z-index:10;
+
+    padding-top:90px;
 }
 
-.btn-outline-dark {
-    border-color: var(--uc-blue);
-    color: var(--uc-blue);
+.inicio-fullscreen{
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:40px;
+
+    color:white;
 }
 
-.btn-outline-dark:hover {
-    background-color: var(--uc-blue);
-    color: white;
+/* =========================================
+   CAJA DEL TEXTO
+========================================= */
+
+.inicio-content{
+
+    background:rgba(0,0,0,0.55);
+
+    backdrop-filter:blur(10px);
+
+    -webkit-backdrop-filter:blur(10px);
+
+    padding:50px;
+
+    border-radius:25px;
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    box-shadow:0 8px 32px rgba(0,0,0,0.35);
+
+    max-width:950px;
+
+    color:white;
+}
+/* =========================================
+   TITULO
+========================================= */
+
+.inicio-content h1{
+
+    color:white;
+
+    font-size:4rem;
+
+    font-weight:bold;
+
+    text-shadow:2px 2px 12px rgba(0,0,0,0.9);
 }
 
-/* =======================
-   AGENDA - TARJETAS
-   ======================= */
-body.agenda-body {
-    background: linear-gradient(135deg, var(--uc-blue));
+/* =========================================
+   SUBTITULO Y PARRAFOS
+========================================= */
+
+.inicio-content p{
+
+    color:rgba(255,255,255,0.95);
+
+    font-size:1.1rem;
+
+    line-height:1.8;
+
+    text-shadow:2px 2px 8px rgba(0,0,0,0.8);
 }
 
-.card {
-    background-color: var(--card-bg);
-    border-radius: 15px;
-    border: none;
-    transition: 0.3s ease;
+/* =========================================
+   LEAD
+========================================= */
+
+.inicio-content .lead{
+
+    color:#FFD227;
+
+    font-weight:600;
+
+    font-size:1.3rem;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+/* =========================================
+   IMAGEN
+========================================= */
+
+.inicio-img{
+
+    max-width:80%;
+
+    filter:drop-shadow(0px 0px 20px rgba(255,255,255,0.4));
+}
+/* =========================================
+   BOTONES
+========================================= */
+
+.btn-warning{
+
+    background:var(--amarillo);
+
+    border:none;
+
+    color:black;
+
+    font-weight:bold;
 }
 
-.card-header {
-    background-color: #f8f9fa;
-    font-weight: bold;
-    border-bottom: 1px solid #ddd;
+.btn-warning:hover{
+
+    background:white;
+
+    color:black;
 }
 
-.badge.bg-primary {
-    background-color: var(--presencial-color) !important;
+.btn-outline-light:hover{
+
+    background:var(--amarillo);
+
+    color:black;
 }
 
-.badge.bg-success {
-    background-color: var(--virtual-color) !important;
+/* =========================================
+   SECCIONES
+========================================= */
+
+section{
+
+    position:relative;
+
+    z-index:5;
 }
 
-.card-body p strong {
-    color: var(--uc-blue);
+/* =========================================
+   CARDS
+========================================= */
+
+.card{
+
+    border:none;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    transition:0.3s;
 }
 
-/* =======================
-   LOGIN
-   ======================= */
-.login-body {
-    background: linear-gradient(135deg, var(--uc-blue), #001733);
+.card:hover{
+
+    transform:translateY(-5px);
 }
 
-.login-card {
-    width: 350px;
-    border-radius: 12px;
-}
-
-.login-header {
-    background-color: var(--uc-yellow);
-    color: var(--uc-blue);
-    font-weight: bold;
-}
-
-.login-btn {
-    background-color: var(--uc-blue);
-    color: var(--uc-yellow);
-    border: none;
-}
-
-.login-btn:hover {
-    background-color: var(--uc-yellow);
-    color: var(--uc-blue);
-}
-
-/* =======================
-   ACERCA DE
-   ======================= */
-body.acerca-body {
-    background-color: var(--uc-blue);
-}
-
-body.acerca-body p {
-    color: white;
-}
-
-.acerca-title {
-    font-size: 2.8rem;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.acerca-subtitle {
-    font-size: 1.2rem;
-    text-align: center;
-    margin-bottom: 40px;
-    color: var(--soft-bg);
-}
-
-.acerca-section {
-    margin-bottom: 50px;
-}
-
-.acerca-card {
-    border-radius: 15px;
-    transition: 0.3s ease;
-}
-
-.acerca-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-
-body.acerca-body .acerca-card {
-    background-color: var(--uc-yellow);
-}
-
-.acerca-organiza {
-    background-color: var(--backgroun-color);
-    color: white;
-    padding: 25px;
-    border-radius: 12px;
-    margin-top: 40px;
-}
-
-/* =======================
-   TITULOS
-   ======================= */
-h1, h2, h3 {
-    color: var(--uc-yellow);
-}
-
-/* =======================
+/* =========================================
    RESPONSIVE
-   ======================= */
-@media (min-width: 768px) {
-    .inicio-content .row {
-        align-items: center;
+========================================= */
+
+@media(max-width:768px){
+
+    .inicio-content{
+
+        text-align:center;
     }
 
-    .inicio-content .col-md-6:first-child {
-        text-align: left;
+    .inicio-content h1{
+
+        font-size:2.8rem;
     }
 
-    .inicio-content .col-md-6:last-child {
-        text-align: center;
+    .inicio-img{
+
+        margin-top:30px;
     }
+
+    .nav-link{
+
+        margin-left:0;
+        margin-top:10px;
+    }
+}
+/* =========================================
+   BOTÓN NAVBAR (CORREGIDO)
+========================================= */
+
+.btn.btn-outline-dark{
+    border:2px solid var(--amarillo) !important;
+    color:var(--amarillo) !important;
+    background:transparent !important;
+    font-weight:bold;
+    border-radius:20px;
+    padding:6px 14px;
+    transition:0.3s;
+}
+
+.btn.btn-outline-dark:hover{
+    background:var(--amarillo) !important;
+    color:black !important;
+    border-color:var(--amarillo) !important;
 }
